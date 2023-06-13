@@ -9,3 +9,6 @@ Thumbs.db
 
 # Modules
 /node_modules
+
+# Cache
+.eslintcache

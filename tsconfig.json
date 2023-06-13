@@ -5,7 +5,11 @@
     "jsx": "react",
     "outDir": "./public",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["src/components/*"],
+    }
   },
   "include": ["./src/**/*", "./src/*"]
 }
