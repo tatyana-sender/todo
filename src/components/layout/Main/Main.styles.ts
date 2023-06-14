@@ -4,7 +4,7 @@ export const MainWrapper = styled.div(({ theme }) => ({
   width: 'calc(100% - 31.8rem)',
   minHeight: '100%',
   marginLeft: '31.8rem',
-  padding: '32px 16px',
+  padding: '3.2rem 1.6rem',
   background: theme.darkGray,
 }));
 
@@ -40,10 +40,33 @@ export const View = styled.div(({ theme }) => ({
   }
 }));
 
+export const ColumnWrapper = styled.div(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+}));
+
 export const Column = styled.div(({ theme }) => ({
-  width: '30%',
+  width: 'calc((100% - 2.8rem) / 3)',
   padding: '1.6rem',
   borderRadius: '1.2rem',
   background: theme.black,
-  color: theme.white
+  color: theme.white,
+
+  '&.full': {
+    display: 'flex',
+    flexWrap: 'wrap',
+    width: '100%',
+
+    '& > div': {
+      marginRight: '1.4rem',
+
+      '&:first-child': {
+        width: '100%',
+      },
+
+      '&:nth-of-type(3n+1)': {
+        marginRight: 0,
+      }
+    }
+  },
 }));
