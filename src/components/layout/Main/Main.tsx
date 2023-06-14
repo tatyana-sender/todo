@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { TaskProps } from '@/types/types';
 import {MainWrapper, Box, View, Column, ColumnWrapper} from '@/components/layout/Main/Main.styles';
 import BoardIcon from '@/components/icons/BoardIcon';
 import Button from '@/components/core/Button';
@@ -10,17 +11,7 @@ interface MainProps {
   filters: string[]
 }
 
-interface TaskProps {
-  id: string,
-  name: string,
-  status: string,
-}
-
 const Main:FC<MainProps> = ({tasks, filter, filters}) => {
-
-  //console.log(tasks.filter(() => true), 'filter')
-
-
   return (
     <MainWrapper>
       <Box>
@@ -45,7 +36,15 @@ const Main:FC<MainProps> = ({tasks, filter, filters}) => {
                     .filter(task => task.status === filter)
                     .map(task => {
                     return (
-                      <Task key={task.id} id={task.id} name={task.name} status={task.status} />
+                      <Task
+                        key={task.id}
+                        id={task.id}
+                        name={task.name}
+                        description={task.description}
+                        createDate={task.createDate}
+                        deadline={task.deadline}
+                        status={task.status}
+                      />
                     )
                   })
                 }
@@ -57,7 +56,15 @@ const Main:FC<MainProps> = ({tasks, filter, filters}) => {
           <Column className="full">
             <div>{filter} ({tasks.length})</div>
             {tasks && tasks.map(task => (
-              <Task key={task.id} id={task.id} name={task.name} status={task.status} />
+              <Task
+                key={task.id}
+                id={task.id}
+                name={task.name}
+                description={task.description}
+                createDate={task.createDate}
+                deadline={task.deadline}
+                status={task.status}
+              />
             ))}
           </Column>
         }
