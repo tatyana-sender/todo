@@ -5,7 +5,7 @@ export interface IconProps {
 }
 
 export interface TaskProps {
-  name: string,
+  title: string,
   status: string,
   id: string,
   description: string,

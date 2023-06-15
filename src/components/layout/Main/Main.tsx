@@ -27,10 +27,10 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setIsOpen}) => {
         </div>
       </Box>
       <ColumnWrapper>
-        {filter === 'All' && filters?.map(filter => {
+        {filter === 'All' && filters?.map((filter, index)  => {
           if (filter !== 'All') {
             return (
-              <Column>
+              <Column key={index}>
                 <div>{filter} ({tasks.filter(task => task.status === filter).length})</div>
                 {
                   tasks
@@ -40,7 +40,7 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setIsOpen}) => {
                       <Task
                         key={task.id}
                         id={task.id}
-                        name={task.name}
+                        title={task.title}
                         description={task.description}
                         createDate={task.createDate}
                         deadline={task.deadline}
@@ -60,7 +60,7 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setIsOpen}) => {
               <Task
                 key={task.id}
                 id={task.id}
-                name={task.name}
+                title={task.title}
                 description={task.description}
                 createDate={task.createDate}
                 deadline={task.deadline}

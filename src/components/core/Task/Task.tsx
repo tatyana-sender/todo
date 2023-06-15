@@ -4,14 +4,14 @@ import { Box, Wrapper, Title, CreateDate } from '@/components/core/Task/Task.sty
 import Button from '@/components/core/Button';
 import DotsIcon from '@/components/icons/DotsIcon';
 
-const Task:FC<TaskProps> = ({name, status, id, description, createDate, deadline}) => {
+const Task:FC<TaskProps> = ({title, status, id, description, createDate, deadline}) => {
   const [isActive, setActive] = useState(false);
 
   return (
     <Wrapper>
       <Box>
         <div>
-          <Title>{name}</Title>
+          <Title>{title}</Title>
           <div>{description}</div>
         </div>
         <Button variant="outlined">
