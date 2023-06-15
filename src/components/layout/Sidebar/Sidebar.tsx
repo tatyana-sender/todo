@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, {Dispatch, FC, SetStateAction} from 'react';
 import PlusIcon from "@/components/icons/PlusIcon";
 import Button from '@/components/core/Button';
 import Accordion from '@/components/core/Accordion';
@@ -6,10 +6,11 @@ import { SidebarWrapper, Box, Title } from '@/components/layout/Sidebar/Sidebar.
 
 interface SidebarProps {
   filters: string[],
-  setFilter: (name: string) => void
+  setFilter: (name: string) => void,
+  setIsOpen: Dispatch<SetStateAction<boolean>>
 };
 
-const Sidebar:FC<SidebarProps> = ({filters, setFilter}) => {
+const Sidebar:FC<SidebarProps> = ({filters, setFilter, setIsOpen}) => {
   const items = [
     // {
     //   title: 'Projects',
@@ -40,7 +41,7 @@ const Sidebar:FC<SidebarProps> = ({filters, setFilter}) => {
     <SidebarWrapper>
       <Box>
         <Title>Tasks</Title>
-        <Button variant='circle'>
+        <Button variant='circle' onClick={() => setIsOpen(true)}>
           <PlusIcon />
         </Button>
       </Box>

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, {Dispatch, FC, SetStateAction, useState} from 'react';
 import { TaskProps } from '@/types/types';
 import {MainWrapper, Box, View, Column, ColumnWrapper} from '@/components/layout/Main/Main.styles';
 import BoardIcon from '@/components/icons/BoardIcon';
@@ -8,10 +8,11 @@ import Task from '@/components/core/Task';
 interface MainProps {
   tasks: Array<TaskProps>,
   filter: string,
-  filters: string[]
+  filters: string[],
+  setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const Main:FC<MainProps> = ({tasks, filter, filters}) => {
+const Main:FC<MainProps> = ({tasks, filter, filters, setIsOpen}) => {
   return (
     <MainWrapper>
       <Box>
@@ -22,7 +23,7 @@ const Main:FC<MainProps> = ({tasks, filter, filters}) => {
         <div>
           <Button variant="text">Filter</Button>
           <Button variant="text">Sort</Button>
-          <Button variant="contained">Add Task</Button>
+          <Button variant="contained" onClick={() => setIsOpen(true)}>Add Task</Button>
         </div>
       </Box>
       <ColumnWrapper>

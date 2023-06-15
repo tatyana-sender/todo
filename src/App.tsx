@@ -3,6 +3,7 @@ import React, {FC, useState} from 'react';
 import { TaskProps } from '@/types/types';
 import Main from '@/components/layout/Main';
 import Sidebar from '@/components/layout/Sidebar';
+import Modal from '@/components/core/Modal';
 
 const tasks = [
   { id: "task-0", name: "Add", description: 'some task', status: 'To do', createDate: '14.06.2023', deadline: '25.06.2023' },
@@ -26,13 +27,13 @@ interface AppProps {
 
 const App:FC<AppProps> = () => {
   const [filter, setFilter] = useState("All");
-  console.log(filter, 'filter')
-
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="wrapper">
-      <Sidebar filters={filterNames} setFilter={setFilter} />
-      <Main tasks={tasks.filter(filters[filter])} filter={filter} filters={filterNames} />
+    <div className={`wrapper ${isOpen ? 'openModal' : ''}`}>
+      <Sidebar filters={filterNames} setFilter={setFilter} setIsOpen={setIsOpen} />
+      <Main tasks={tasks.filter(filters[filter])} filter={filter} filters={filterNames} setIsOpen={setIsOpen} />
+      {isOpen && <Modal setIsOpen={setIsOpen} />}
     </div>
   );
 };

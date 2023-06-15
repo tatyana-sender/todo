@@ -3,7 +3,8 @@ import { StyledButton } from '@/components/core/Button/Button.styles';
 
 interface ButtonProps {
   children: any,
-  variant?: string
+  variant?: string,
+  onClick?: () => void
 };
 
 const Button:FC<ButtonProps> = ({ children, variant, ...rest }) => (
