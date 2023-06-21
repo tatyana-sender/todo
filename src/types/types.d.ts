@@ -16,4 +16,5 @@ export interface TaskProps {
   editTask?: (id: string, title: string, description: string, deadline: string, status: string) => void,
   setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
   setCurrentTask: Dispatch<SetStateAction<string>>,
+  deleteTask: (id: string) => void,
 };

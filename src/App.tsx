@@ -49,10 +49,22 @@ const App:FC<AppProps> = () => {
     setTasks(editedTask);
   }
 
+  function deleteTask(id: string) {
+    const remainingTasks = taskList.filter((task) => id !== task.id);
+    setTasks(remainingTasks);
+  }
+
   return (
     <div className={`wrapper ${modal.isOpen ? 'openModal' : ''}`}>
       <Sidebar filters={filterNames} setFilter={setFilter} setModal={setModal} />
-      <Main tasks={taskList.filter(filters[filter])} filter={filter} filters={filterNames} setModal={setModal} setCurrentTask={setCurrentTask}/>
+      <Main
+        tasks={taskList.filter(filters[filter])}
+        filter={filter}
+        filters={filterNames}
+        setModal={setModal}
+        setCurrentTask={setCurrentTask}
+        deleteTask={deleteTask}
+      />
       {modal.isOpen &&
         <Modal setModal={setModal} isOpen={modal.isOpen}>
           {modal.isEdit ? (

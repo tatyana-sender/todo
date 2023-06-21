@@ -7,7 +7,7 @@ import Popover from '@/components/core/Popover';
 import EditIcon from '@/components/icons/EditIcon';
 import DeleteIcon from '@/components/icons/DeleteIcon';
 
-const Task:FC<TaskProps> = ({id, title, description, createDate, deadline, status, editTask, setModal, setCurrentTask }) => {
+const Task:FC<TaskProps> = ({id, title, description, createDate, deadline, status, editTask, setModal, setCurrentTask, deleteTask }) => {
   const [isActive, setActive] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
@@ -30,7 +30,7 @@ const Task:FC<TaskProps> = ({id, title, description, createDate, deadline, statu
           <Button onClick={()=>handleClick(id)}>
             <EditIcon />
           </Button>
-          <Button onClick={()=>alert(56)}>
+          <Button onClick={()=>deleteTask(id)}>
             <DeleteIcon />
           </Button>
         </Popover>}

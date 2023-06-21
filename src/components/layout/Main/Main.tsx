@@ -11,10 +11,11 @@ interface MainProps {
   filters: string[],
   setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
   editTask?: (id: string, title: string, description: string, deadline: string, status: string) => void,
-  setCurrentTask: Dispatch<SetStateAction<string>>
+  setCurrentTask: Dispatch<SetStateAction<string>>,
+  deleteTask: any
 }
 
-const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurrentTask}) => {
+const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurrentTask, deleteTask}) => {
   return (
     <MainWrapper>
       <Box>
@@ -50,6 +51,7 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurr
                         editTask={task.editTask}
                         setModal={setModal}
                         setCurrentTask={setCurrentTask}
+                        deleteTask={deleteTask}
                       />
                     )
                   })
@@ -72,6 +74,7 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurr
                 status={task.status}
                 setModal={setModal}
                 setCurrentTask={setCurrentTask}
+                deleteTask={deleteTask}
               />
             ))}
           </Column>
