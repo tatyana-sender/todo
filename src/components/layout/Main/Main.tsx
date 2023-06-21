@@ -9,10 +9,12 @@ interface MainProps {
   tasks: Array<TaskProps>,
   filter: string,
   filters: string[],
-  setIsOpen: Dispatch<SetStateAction<boolean>>
+  setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
+  editTask?: (id: string, title: string, description: string, deadline: string, status: string) => void,
+  setCurrentTask: Dispatch<SetStateAction<string>>
 }
 
-const Main:FC<MainProps> = ({tasks, filter, filters, setIsOpen}) => {
+const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurrentTask}) => {
   return (
     <MainWrapper>
       <Box>
@@ -23,7 +25,7 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setIsOpen}) => {
         <div>
           <Button variant="text">Filter</Button>
           <Button variant="text">Sort</Button>
-          <Button variant="contained" onClick={() => setIsOpen(true)}>Add Task</Button>
+          <Button variant="contained" onClick={() => setModal({isOpen: true, isEdit: false})}>Add Task</Button>
         </div>
       </Box>
       <ColumnWrapper>
@@ -45,6 +47,9 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setIsOpen}) => {
                         createDate={task.createDate}
                         deadline={task.deadline}
                         status={task.status}
+                        editTask={task.editTask}
+                        setModal={setModal}
+                        setCurrentTask={setCurrentTask}
                       />
                     )
                   })
@@ -65,6 +70,8 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setIsOpen}) => {
                 createDate={task.createDate}
                 deadline={task.deadline}
                 status={task.status}
+                setModal={setModal}
+                setCurrentTask={setCurrentTask}
               />
             ))}
           </Column>

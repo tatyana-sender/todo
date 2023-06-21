@@ -2,21 +2,27 @@ import React, {Dispatch, FC, SetStateAction, useState} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Button from '@/components/core/Button';
+import { TaskProps } from '@/types/types';
 
-interface AddTaskProps {
-  addTask: (title: string, description: string, deadline: string) => void,
+interface EditTaskProps {
+  statuses: string[],
+  editTask: (id: string, title: string, description: string, deadline: string, status: string) => void,
+  currentTask: string,
   setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
+  tasks: any[]
 }
 
-const AddTask:FC<AddTaskProps> = ({addTask, setModal}) => {
+const EditTask:FC<EditTaskProps> = ({statuses, editTask, currentTask, setModal, tasks}) => {
+  const currentTaskData = tasks.filter(task => currentTask === task.id)[0];
 
-  const [taskData, setTaskData] = useState({
-    title: '',
-    description: '',
-    deadline: ''
+  const [newTaskData, setNewTaskData] = useState({
+    title: currentTaskData?.title ?? '',
+    description: currentTaskData?.description ?? '',
+    deadline: currentTaskData?.deadline ?? '',
+    status: currentTaskData?.status ?? 'To do'
   });
 
-  const { title, description } = taskData;
+  const { title, description, status } = newTaskData;
   const today = new Date()
   const defaultDeadlineDate = new Date()
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7)
@@ -28,17 +34,12 @@ const AddTask:FC<AddTaskProps> = ({addTask, setModal}) => {
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
-    setTaskData({ ...taskData, [name]: value });
+    setNewTaskData({ ...newTaskData, [name]: value });
   };
 
   const handleSubmit = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
-    addTask(title, description, deadline.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }));
-    setTaskData({
-      title: '',
-      description: '',
-      deadline: '',
-    });
+    editTask(currentTask, title, description, deadline.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }), status);
     setModal({isOpen: false, isEdit: false});
   }
 
@@ -60,6 +61,11 @@ const AddTask:FC<AddTaskProps> = ({addTask, setModal}) => {
         onChange={handleChange}
         value={description}
       />
+      <select name="status" >
+        {statuses.map(status => (
+          (status !== 'All') && <option value={status}>{status}</option>
+        ))}
+      </select>
       <DatePicker
         name="deadline"
         dateFormat="dd.MM.yyyy"
@@ -68,10 +74,10 @@ const AddTask:FC<AddTaskProps> = ({addTask, setModal}) => {
         minDate={today}
       />
       <Button variant="contained">
-        Add
+        Edit
       </Button>
     </form>
   );
 }
 
-export default AddTask;
+export default EditTask;

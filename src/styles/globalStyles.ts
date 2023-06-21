@@ -36,4 +36,28 @@ export default createGlobalStyle`
     }
   }
   
+  input {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border: none;
+    border-bottom: 1px solid gray;
+    background: transparent;
+    color: gray;
+  }
+
+  select {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border: none;
+    border-bottom: 1px solid gray;
+    background: transparent;
+    color: gray;
+  }
+  
+  .react-datepicker-wrapper {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
 `;

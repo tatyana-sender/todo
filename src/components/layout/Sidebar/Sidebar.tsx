@@ -7,10 +7,10 @@ import { SidebarWrapper, Box, Title } from '@/components/layout/Sidebar/Sidebar.
 interface SidebarProps {
   filters: string[],
   setFilter: (name: string) => void,
-  setIsOpen: Dispatch<SetStateAction<boolean>>
+  setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>
 };
 
-const Sidebar:FC<SidebarProps> = ({filters, setFilter, setIsOpen}) => {
+const Sidebar:FC<SidebarProps> = ({filters, setFilter, setModal}) => {
   const items = [
     // {
     //   title: 'Projects',
@@ -41,7 +41,7 @@ const Sidebar:FC<SidebarProps> = ({filters, setFilter, setIsOpen}) => {
     <SidebarWrapper>
       <Box>
         <Title>Tasks</Title>
-        <Button variant='circle' onClick={() => setIsOpen(true)}>
+        <Button variant='circle' onClick={() => setModal({isOpen: true, isEdit: false})}>
           <PlusIcon />
         </Button>
       </Box>

@@ -9,11 +9,12 @@ export const ModalWrapper = styled.div(({ theme }) => ({
   width: '30vw',
   minWidth: '31rem',
   height: '30vh',
-  minHeight: '31rem',
-  padding: '1.8rem',
+  minHeight: '35rem',
+  padding: '2.8rem 8rem 2.8rem 2.8rem',
   borderRadius: '1.2rem',
   background: theme.black,
-  transform: 'translate(-50%, -50%)'
+  transform: 'translate(-50%, -50%)',
+  color: theme.lightGray
 }));
 
 export const CloseButton = styled(Button)(({ theme }) => ({

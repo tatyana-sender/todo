@@ -4,24 +4,22 @@ import { ModalWrapper, CloseButton } from '@/components/core/Modal/Modal.styles'
 
 interface ModalProps {
   isOpen?: boolean,
-  Component: JSX.ElementType,
-  setIsOpen: Dispatch<SetStateAction<boolean>>,
-  addTask?: any
+  children: string | JSX.Element | JSX.Element[],
+  setModal:  Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
 }
 
 const Modal:FC<ModalProps> = (
   {
     isOpen,
-    Component,
-    setIsOpen,
-    addTask
+    children,
+    setModal
   }) => {
   return (
     <ModalWrapper>
-      <CloseButton onClick={() => setIsOpen(false)}>
+      <CloseButton onClick={() => setModal({isOpen: false, isEdit: false})}>
         <PlusIcon />
       </CloseButton>
-      <Component addTask={addTask} />
+      {children}
     </ModalWrapper>
   )
 }

@@ -16,6 +16,7 @@ export const Wrapper = styled.div(({ theme }) => ({
 }));
 
 export const Box = styled.div<BoxProps>(({theme, alignCenter, marginTop}) => ({
+  position: 'relative',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: alignCenter ? 'center' : '',

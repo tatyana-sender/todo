@@ -6,6 +6,7 @@ import Main from '@/components/layout/Main';
 import Sidebar from '@/components/layout/Sidebar';
 import Modal from '@/components/core/Modal';
 import AddTask from '@/components/core/AddTask';
+import EditTask from '@/components/core/EditTask';
 
 const tasks = [
   { id: "task-0", title: "Add", description: 'some task', status: 'To do', createDate: '14.06.2023', deadline: '25.06.2023' },
@@ -29,21 +30,40 @@ interface AppProps {
 
 const App:FC<AppProps> = () => {
   const [filter, setFilter] = useState("All");
-  const [isOpen, setIsOpen] = useState(false);
+  const [modal, setModal] = useState({isOpen: false, isEdit: false});
   const [taskList, setTasks] = useState(tasks || []);
   const today = new Date().toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' });
+  const [currentTask, setCurrentTask] = useState('');
   function addTask(title: string, description: string, deadline: string) {
     const newTask = { title, description, deadline, id: `task-${nanoid()}`, status: 'To do', createDate: today };
     setTasks([...taskList, newTask]);
   }
 
+  function editTask(id: string, title: string, description: string, deadline: string, status: string) {
+    const editedTask = taskList.map(task => {
+      if (id === task.id) {
+        return {...task, title, description, deadline, status};
+      }
+      return task;
+    })
+    setTasks(editedTask);
+  }
+
   return (
-    <div className={`wrapper ${isOpen ? 'openModal' : ''}`}>
-      <Sidebar filters={filterNames} setFilter={setFilter} setIsOpen={setIsOpen} />
-      <Main tasks={taskList.filter(filters[filter])} filter={filter} filters={filterNames} setIsOpen={setIsOpen} />
-      {isOpen && <Modal setIsOpen={setIsOpen} Component={AddTask} addTask={addTask} />}
+    <div className={`wrapper ${modal.isOpen ? 'openModal' : ''}`}>
+      <Sidebar filters={filterNames} setFilter={setFilter} setModal={setModal} />
+      <Main tasks={taskList.filter(filters[filter])} filter={filter} filters={filterNames} setModal={setModal} setCurrentTask={setCurrentTask}/>
+      {modal.isOpen &&
+        <Modal setModal={setModal} isOpen={modal.isOpen}>
+          {modal.isEdit ? (
+            <EditTask editTask={editTask} statuses={filterNames} currentTask={currentTask} setModal={setModal} tasks={taskList} />
+          ) : (
+            <AddTask addTask={addTask} setModal={setModal} />
+          )}
+        </Modal>
+      }
     </div>
   );
-};
+}
 
 export default App;
