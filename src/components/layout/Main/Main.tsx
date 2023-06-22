@@ -4,6 +4,7 @@ import {MainWrapper, Box, View, Column, ColumnWrapper} from '@/components/layout
 import BoardIcon from '@/components/icons/BoardIcon';
 import Button from '@/components/core/Button';
 import Task from '@/components/core/Task';
+import Popover from '@/components/core/Popover';
 
 interface MainProps {
   tasks: Array<TaskProps>,
@@ -12,10 +13,35 @@ interface MainProps {
   setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
   editTask?: (id: string, title: string, description: string, deadline: string, status: string) => void,
   setCurrentTask: Dispatch<SetStateAction<string>>,
-  deleteTask: any
+  deleteTask: (id: string) => void,
+}
+
+function descendingComparator(a: any, b: any, orderBy: string) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order: string, orderBy: string) {
+  return order === 'desc'
+    ? (a: any, b: any) => descendingComparator(a, b, orderBy)
+    : (a: any, b: any) => -descendingComparator(a, b, orderBy);
 }
 
 const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurrentTask, deleteTask}) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('title');
+
+  function handleClick(order: string, orderBy: string) {
+    setOrder(order);
+    setOrderBy(orderBy)
+  }
+
   return (
     <MainWrapper>
       <Box>
@@ -24,8 +50,17 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurr
           <span>Board View</span>
         </View>
         <div>
-          <Button variant="text">Filter</Button>
-          <Button variant="text">Sort</Button>
+          <Button variant="text" onClick={()=>setIsPopoverOpen(!isPopoverOpen)}>Sort</Button>
+          {isPopoverOpen &&
+            <Popover>
+              <Button variant="text" onClick={()=>handleClick('desc', 'title')}>
+                Title down
+              </Button>
+              <Button variant="text" onClick={()=>handleClick('asc', 'title')}>
+                Title Up
+              </Button>
+            </Popover>
+          }
           <Button variant="contained" onClick={() => setModal({isOpen: true, isEdit: false})}>Add Task</Button>
         </div>
       </Box>
@@ -38,6 +73,7 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurr
                 {
                   tasks
                     .filter(task => task.status === filter)
+                    .sort(getComparator(order, orderBy))
                     .map(task => {
                     return (
                       <Task
