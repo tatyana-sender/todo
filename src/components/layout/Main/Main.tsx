@@ -65,7 +65,7 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurr
         </div>
       </Box>
       <ColumnWrapper>
-        {filter === 'All' && filters?.map((filter, index)  => {
+        {filters?.map((filter, index)  => {
           if (filter !== 'All') {
             return (
               <Column key={index}>
@@ -96,25 +96,6 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurr
             )
           }
         })}
-        {filter !== 'All' &&
-          <Column className="full">
-            <div>{filter} ({tasks.length})</div>
-            {tasks && tasks.map(task => (
-              <Task
-                key={task.id}
-                id={task.id}
-                title={task.title}
-                description={task.description}
-                createDate={task.createDate}
-                deadline={task.deadline}
-                status={task.status}
-                setModal={setModal}
-                setCurrentTask={setCurrentTask}
-                deleteTask={deleteTask}
-              />
-            ))}
-          </Column>
-        }
       </ColumnWrapper>
     </MainWrapper>
   );
