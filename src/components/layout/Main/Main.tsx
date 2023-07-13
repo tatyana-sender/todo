@@ -1,19 +1,21 @@
-import React, {Dispatch, FC, SetStateAction, useState} from 'react';
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { TaskProps } from '@/types/types';
-import {MainWrapper, Box, View, Column, ColumnWrapper} from '@/components/layout/Main/Main.styles';
+import { useTypedSelector } from '../../../hooks/useTypedSelector';
+import { fetchTasks } from '../../../store/actions/taskAction';
+import { MainWrapper, Box, View, Column, ColumnWrapper } from '@/components/layout/Main/Main.styles';
 import BoardIcon from '@/components/icons/BoardIcon';
 import Button from '@/components/core/Button';
 import Task from '@/components/core/Task';
 import Popover from '@/components/core/Popover';
 
 interface MainProps {
-  tasks: Array<TaskProps>,
   filter: string,
   filters: string[],
-  setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
+  setModal: Dispatch<SetStateAction<{ isOpen: boolean, isEdit: boolean }>>,
   editTask?: (id: string, title: string, description: string, deadline: string, status: string) => void,
   setCurrentTask: Dispatch<SetStateAction<string>>,
-  deleteTask: (id: string) => void,
+  deleteTask: (id: string) => void
 }
 
 function descendingComparator(a: any, b: any, orderBy: string) {
@@ -32,7 +34,12 @@ function getComparator(order: string, orderBy: string) {
     : (a: any, b: any) => -descendingComparator(a, b, orderBy);
 }
 
-const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurrentTask, deleteTask}) => {
+const Main: FC<MainProps> = ({ filter, filters, setModal, editTask, setCurrentTask, deleteTask }) => {
+  const { tasks, loading, error } = useTypedSelector(state => state.task);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchTasks())
+  }, [])
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
@@ -40,6 +47,14 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurr
   function handleClick(order: string, orderBy: string) {
     setOrder(order);
     setOrderBy(orderBy)
+  }
+
+  if (loading) {
+    return <div>Data loading</div>
+  }
+
+  if (error) {
+    return <div>{error}</div>
   }
 
   return (
@@ -50,22 +65,22 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurr
           <span>Board View</span>
         </View>
         <div>
-          <Button variant="text" onClick={()=>setIsPopoverOpen(!isPopoverOpen)}>Sort</Button>
+          <Button variant="text" onClick={() => setIsPopoverOpen(!isPopoverOpen)}>Sort</Button>
           {isPopoverOpen &&
             <Popover>
-              <Button variant="text" onClick={()=>handleClick('desc', 'title')}>
+              <Button variant="text" onClick={() => handleClick('desc', 'title')}>
                 Title down
               </Button>
-              <Button variant="text" onClick={()=>handleClick('asc', 'title')}>
+              <Button variant="text" onClick={() => handleClick('asc', 'title')}>
                 Title Up
               </Button>
             </Popover>
           }
-          <Button variant="contained" onClick={() => setModal({isOpen: true, isEdit: false})}>Add Task</Button>
+          <Button variant="contained" onClick={() => setModal({ isOpen: true, isEdit: false })}>Add Task</Button>
         </div>
       </Box>
       <ColumnWrapper>
-        {filters?.map((filter, index)  => {
+        {filters?.map((filter, index) => {
           if (filter !== 'All') {
             return (
               <Column key={index}>
@@ -75,22 +90,22 @@ const Main:FC<MainProps> = ({tasks, filter, filters, setModal, editTask, setCurr
                     .filter(task => task.status === filter)
                     .sort(getComparator(order, orderBy))
                     .map(task => {
-                    return (
-                      <Task
-                        key={task.id}
-                        id={task.id}
-                        title={task.title}
-                        description={task.description}
-                        createDate={task.createDate}
-                        deadline={task.deadline}
-                        status={task.status}
-                        editTask={task.editTask}
-                        setModal={setModal}
-                        setCurrentTask={setCurrentTask}
-                        deleteTask={deleteTask}
-                      />
-                    )
-                  })
+                      return (
+                        <Task
+                          key={task.id}
+                          id={task.id}
+                          title={task.title}
+                          description={task.description}
+                          createDate={task.createDate}
+                          deadline={task.deadline}
+                          status={task.status}
+                          editTask={task.editTask}
+                          setModal={setModal}
+                          setCurrentTask={setCurrentTask}
+                          deleteTask={deleteTask}
+                        />
+                      )
+                    })
                 }
               </Column>
             )

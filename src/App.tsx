@@ -58,7 +58,6 @@ const App:FC<AppProps> = () => {
     <div className={`wrapper ${modal.isOpen ? 'openModal' : ''}`}>
       <Sidebar filters={filterNames} setFilter={setFilter} setModal={setModal} />
       <Main
-        tasks={taskList.filter(filters[filter])}
         filter={filter}
         filters={filterNames}
         setModal={setModal}
