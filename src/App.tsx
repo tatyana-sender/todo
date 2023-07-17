@@ -1,5 +1,4 @@
 import React, {FC, useState, useEffect} from 'react';
-import { nanoid } from 'nanoid';
 
 import { TaskProps } from '@/types/types';
 import Main from '@/components/layout/Main';
@@ -38,13 +37,8 @@ const App:FC<AppProps> = () => {
   }, [])
   const [filter, setFilter] = useState("All");
   const [modal, setModal] = useState({isOpen: false, isEdit: false});
-  const [taskList, setTasks] = useState(tasks || tasks1);
-  const today = new Date().toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' });
+  const [taskList, setTasks] = useState(tasks || []);
   const [currentTask, setCurrentTask] = useState('');
-  function addTask(title: string, description: string, deadline: string) {
-    const newTask = { title, description, deadline, id: `task-${nanoid()}`, status: 'To do', createDate: today };
-    setTasks([...taskList, newTask]);
-  }
 
   function editTask(id: string, title: string, description: string, deadline: string, status: string) {
     const editedTask = taskList.map(task => {
@@ -64,7 +58,7 @@ const App:FC<AppProps> = () => {
   return (
     <div className={`wrapper ${modal.isOpen ? 'openModal' : ''}`}>
       <Sidebar filters={filterNames} setFilter={setFilter} setModal={setModal} />
-      <Main
+      {tasks.length > 0 && <Main
         tasks={tasks}
         loading={loading}
         error={error}
@@ -72,14 +66,13 @@ const App:FC<AppProps> = () => {
         filters={filterNames}
         setModal={setModal}
         setCurrentTask={setCurrentTask}
-        deleteTask={deleteTask}
-      />
+      />}
       {modal.isOpen &&
         <Modal setModal={setModal} isOpen={modal.isOpen}>
           {modal.isEdit ? (
             <EditTask editTask={editTask} statuses={filterNames} currentTask={currentTask} setModal={setModal} tasks={taskList} />
           ) : (
-            <AddTask addTask={addTask} setModal={setModal} />
+            <AddTask setModal={setModal} />
           )}
         </Modal>
       }

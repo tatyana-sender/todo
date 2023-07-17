@@ -18,8 +18,7 @@ interface MainProps {
   filters: string[],
   setModal: Dispatch<SetStateAction<{ isOpen: boolean, isEdit: boolean }>>,
   editTask?: (id: string, title: string, description: string, deadline: string, status: string) => void,
-  setCurrentTask: Dispatch<SetStateAction<string>>,
-  deleteTask: (id: string) => void
+  setCurrentTask: Dispatch<SetStateAction<string>>
 }
 
 function descendingComparator(a: any, b: any, orderBy: string) {
@@ -38,18 +37,15 @@ function getComparator(order: string, orderBy: string) {
     : (a: any, b: any) => -descendingComparator(a, b, orderBy);
 }
 
-const Main: FC<MainProps> = ({ tasks, loading, error, filter, filters, setModal, editTask, setCurrentTask, deleteTask }) => {
+const Main: FC<MainProps> = ({ tasks, loading, error, filter, filters, setModal, editTask, setCurrentTask }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
+  console.log(tasks, 'tasks');
 
   function handleClick(order: string, orderBy: string) {
     setOrder(order);
     setOrderBy(orderBy)
-  }
-
-  if (loading) {
-    return <div>Data loading</div>
   }
 
   if (error) {
@@ -102,7 +98,6 @@ const Main: FC<MainProps> = ({ tasks, loading, error, filter, filters, setModal,
                             editTask={task.editTask}
                             setModal={setModal}
                             setCurrentTask={setCurrentTask}
-                            deleteTask={deleteTask}
                           />
                         )
                       })
