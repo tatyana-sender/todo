@@ -3,26 +3,29 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Button from '@/components/core/Button';
 import { TaskProps } from '@/types/types';
+import { useActions } from '../../../hooks/useActions';
 
 interface EditTaskProps {
   statuses: string[],
-  editTask: (id: string, title: string, description: string, deadline: string, status: string) => void,
   currentTask: string,
   setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
   tasks: any[]
 }
 
-const EditTask:FC<EditTaskProps> = ({statuses, editTask, currentTask, setModal, tasks}) => {
+const EditTask:FC<EditTaskProps> = ({statuses, currentTask, setModal, tasks}) => {
+  const {editTask} = useActions();
   const currentTaskData = tasks.filter(task => currentTask === task.id)[0];
 
   const [newTaskData, setNewTaskData] = useState({
+    id: currentTask,
     title: currentTaskData?.title ?? '',
     description: currentTaskData?.description ?? '',
     deadline: currentTaskData?.deadline ?? '',
     status: currentTaskData?.status ?? 'To do'
   });
 
-  const { title, description, status } = newTaskData;
+  const { title, description } = newTaskData;
+  const [status, setStatus] = useState(newTaskData.status);
   const today = new Date()
   const defaultDeadlineDate = new Date()
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7)
@@ -37,9 +40,14 @@ const EditTask:FC<EditTaskProps> = ({statuses, editTask, currentTask, setModal, 
     setNewTaskData({ ...newTaskData, [name]: value });
   };
 
+  const handleSelectChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setStatus(event.target.value);
+    setNewTaskData({ ...newTaskData, status: event.target.value });
+  };
+
   const handleSubmit = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
-    editTask(currentTask, title, description, deadline.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }), status);
+    editTask(newTaskData);
     setModal({isOpen: false, isEdit: false});
   }
 
@@ -61,9 +69,9 @@ const EditTask:FC<EditTaskProps> = ({statuses, editTask, currentTask, setModal, 
         onChange={handleChange}
         value={description}
       />
-      <select name="status" >
+      <select name="status" value={status} onChange={event => handleSelectChange(event)}>
         {statuses.map(status => (
-          (status !== 'All') && <option value={status}>{status}</option>
+          (status !== 'All') && <option key={status} value={status}>{status}</option>
         ))}
       </select>
       <DatePicker

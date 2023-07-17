@@ -9,14 +9,6 @@ import EditTask from '@/components/core/EditTask';
 import { useTypedSelector } from './hooks/useTypedSelector';
 import { useActions } from './hooks/useActions';
 
-const tasks1 = [
-  { id: "task-0", title: "Add", description: 'some task', status: 'To do', createDate: '14.06.2023', deadline: '25.06.2023' },
-  { id: "task-1", title: "Edit", description: 'some task 1', status: 'In Progress', createDate: '14.06.2023', deadline: '25.06.2023' },
-  { id: "task-2", title: "Delete", description: 'some task 2', status: 'Done', createDate: '14.06.2023', deadline: '25.06.2023' },
-  { id: "task-3", title: "Add 2", description: 'some task 3', status: 'To do', createDate: '14.06.2023', deadline: '25.06.2023' },
-  { id: "task-4", title: "Add 3", description: 'some task 4', status: 'To do', createDate: '14.06.2023', deadline: '25.06.2023' },
-];
-
 const filters: {[key: string]: any} = {
   'All': () => true,
   'To do': (task: TaskProps) => task.status === 'To do',
@@ -50,11 +42,6 @@ const App:FC<AppProps> = () => {
     setTasks(editedTask);
   }
 
-  function deleteTask(id: string) {
-    const remainingTasks = taskList.filter((task) => id !== task.id);
-    setTasks(remainingTasks);
-  }
-
   return (
     <div className={`wrapper ${modal.isOpen ? 'openModal' : ''}`}>
       <Sidebar filters={filterNames} setFilter={setFilter} setModal={setModal} />
@@ -70,7 +57,7 @@ const App:FC<AppProps> = () => {
       {modal.isOpen &&
         <Modal setModal={setModal} isOpen={modal.isOpen}>
           {modal.isEdit ? (
-            <EditTask editTask={editTask} statuses={filterNames} currentTask={currentTask} setModal={setModal} tasks={taskList} />
+            <EditTask statuses={filterNames} currentTask={currentTask} setModal={setModal} tasks={taskList} />
           ) : (
             <AddTask setModal={setModal} />
           )}

@@ -56,3 +56,22 @@ export const deleteTask: any = (id: string) => {
 		}
 	}
 }
+
+export const editTask: any = (taskData: any) => {
+	console.log(taskData, 'taskData');
+	return async (dispatch: Dispatch<TaskAction>) => {
+		try {
+			dispatch({ type: TaskActionTypes.FETCH_TASKS })
+			const response = await axios.put(`http://localhost:3000/tasks/${taskData.id}`, taskData)
+			dispatch({
+				type: TaskActionTypes.FETCH_TASKS_SUCCESS,
+				payload: response.data
+			})
+		} catch (e) {
+			dispatch({
+				type: TaskActionTypes.FETCH_TASKS_ERROR,
+				payload: 'Task wasn`t edited'
+			})
+		}
+	}
+}

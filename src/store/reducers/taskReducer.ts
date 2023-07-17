@@ -14,7 +14,7 @@ export const taskReducer = (state = initialState, action: TaskAction): TaskState
     case TaskActionTypes.FETCH_TASKS_SUCCESS:
       return { ...state, tasks: action.payload, loading: false }
     case TaskActionTypes.FETCH_TASKS_ERROR:
-      return { ...state, error: action.payload }
+      return { ...state, loading: false, error: action.payload }
     default:
       return state;
   }
@@ -39,6 +39,19 @@ export const deleteTaskReducer = (state = initialState, action: TaskAction): Tas
       return { ...state, loading: true, error: null }
     case TaskActionTypes.FETCH_TASKS_SUCCESS:
       return { ...state, tasks: [...state.tasks, action.payload], loading: false }
+    case TaskActionTypes.FETCH_TASKS_ERROR:
+      return { ...state, loading: false, error: action.payload }
+    default:
+      return state;
+  }
+}
+
+export const editTaskReducer = (state = initialState, action: TaskAction): TaskState => {
+  switch (action.type) {
+    case TaskActionTypes.FETCH_TASKS:
+      return { ...state, loading: true, error: null }
+    case TaskActionTypes.FETCH_TASKS_SUCCESS:
+      return { ...state, tasks: [action.payload], loading: false }
     case TaskActionTypes.FETCH_TASKS_ERROR:
       return { ...state, loading: false, error: action.payload }
     default:
