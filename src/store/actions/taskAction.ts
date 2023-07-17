@@ -19,3 +19,21 @@ export const fetchTasks: any = () => {
 		}
 	}
 }
+
+export const addTask: any = () => {
+	return async (dispatch: Dispatch<TaskAction>) => {
+		try {
+			dispatch({ type: TaskActionTypes.FETCH_TASKS })
+			const response = await axios.post('http://localhost:3000/tasks')
+			dispatch({
+				type: TaskActionTypes.FETCH_TASKS_SUCCESS,
+				payload: response.data
+			})
+		} catch (e) {
+			dispatch({
+				type: TaskActionTypes.FETCH_TASKS_ERROR,
+				payload: 'New task wasn`t added'
+			})
+		}
+	}
+}

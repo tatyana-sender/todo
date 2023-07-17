@@ -1,14 +1,21 @@
-import React, {Dispatch, FC, SetStateAction, useState} from 'react';
+import React, {Dispatch, FC, SetStateAction, useEffect, useState} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Button from '@/components/core/Button';
+import { useTypedSelector } from '../../../hooks/useTypedSelector';
+import { useActions } from '../../../hooks/useActions';
 
 interface AddTaskProps {
-  addTask: (title: string, description: string, deadline: string) => void,
+  addTask?: (title: string, description: string, deadline: string) => void,
   setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
 }
 
-const AddTask:FC<AddTaskProps> = ({addTask, setModal}) => {
+const AddTask:FC<AddTaskProps> = ({setModal}) => {
+  const { tasks, loading, error } = useTypedSelector(state => state.task);
+  const {addTask} = useActions();
+  useEffect(() => {
+    addTask()
+  }, [])
 
   const [taskData, setTaskData] = useState({
     title: '',
@@ -33,7 +40,7 @@ const AddTask:FC<AddTaskProps> = ({addTask, setModal}) => {
 
   const handleSubmit = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
-    addTask(title, description, deadline.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }));
+    //addTask(title, description, deadline.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }));
     setTaskData({
       title: '',
       description: '',

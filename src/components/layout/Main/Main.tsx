@@ -2,6 +2,7 @@ import React, { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { TaskProps } from '@/types/types';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
+import { useActions } from '../../../hooks/useActions';
 import { fetchTasks } from '../../../store/actions/taskAction';
 import { MainWrapper, Box, View, Column, ColumnWrapper } from '@/components/layout/Main/Main.styles';
 import BoardIcon from '@/components/icons/BoardIcon';
@@ -36,9 +37,9 @@ function getComparator(order: string, orderBy: string) {
 
 const Main: FC<MainProps> = ({ filter, filters, setModal, editTask, setCurrentTask, deleteTask }) => {
   const { tasks, loading, error } = useTypedSelector(state => state.task);
-  const dispatch = useDispatch();
+  const {fetchTasks} = useActions();
   useEffect(() => {
-    dispatch(fetchTasks())
+    fetchTasks();
   }, [])
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [order, setOrder] = React.useState('asc');
