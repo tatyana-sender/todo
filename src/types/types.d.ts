@@ -7,12 +7,14 @@ export interface IconProps {
 }
 
 export interface TaskProps {
-  title: string,
-  status: string,
-  id: string,
-  description: string,
-  createDate: string,
-  deadline: string,
+  task: {
+    title: string,
+    status: string,
+    id: string,
+    description: string,
+    createDate: string,
+    deadline: string,
+  },
   setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
   setCurrentTask: Dispatch<SetStateAction<string>>
 }

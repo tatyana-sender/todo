@@ -12,8 +12,6 @@ import Popover from '@/components/core/Popover';
 
 interface MainProps {
   tasks: Array<TaskProps>,
-  loading: boolean,
-  error: null | string,
   filter: string,
   filters: string[],
   setModal: Dispatch<SetStateAction<{ isOpen: boolean, isEdit: boolean }>>,
@@ -36,7 +34,7 @@ function getComparator(order: string, orderBy: string) {
     : (a: any, b: any) => -descendingComparator(a, b, orderBy);
 }
 
-const Main: FC<MainProps> = ({ tasks, loading, error, filter, filters, setModal, setCurrentTask }) => {
+const Main: FC<MainProps> = ({ tasks, filter, filters, setModal, setCurrentTask }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
@@ -44,10 +42,6 @@ const Main: FC<MainProps> = ({ tasks, loading, error, filter, filters, setModal,
   function handleClick(order: string, orderBy: string) {
     setOrder(order);
     setOrderBy(orderBy)
-  }
-
-  if (error) {
-    return <div>{error}</div>
   }
 
   return (
@@ -73,26 +67,20 @@ const Main: FC<MainProps> = ({ tasks, loading, error, filter, filters, setModal,
         </div>
       </Box>
       <ColumnWrapper>
-        {loading ? (<div>Data loading</div>) : (
-          filters?.map((filter, index) => {
+          {filters?.map((filter, index) => {
             if (filter !== 'All') {
               return (
                 <Column key={index}>
-                  <div>{filter} ({tasks.filter(task => task.status === filter).length})</div>
+                  <div>{filter} ({tasks.filter((task: any) => task.status === filter).length})</div>
                   {
                     tasks
-                      .filter(task => task.status === filter)
+                      .filter((task: any) => task.status === filter)
                       .sort(getComparator(order, orderBy))
-                      .map(task => {
+                      .map((task: any) => {
                         return (
                           <Task
                             key={task.id}
-                            id={task.id}
-                            title={task.title}
-                            description={task.description}
-                            createDate={task.createDate}
-                            deadline={task.deadline}
-                            status={task.status}
+                            task={task}
                             setModal={setModal}
                             setCurrentTask={setCurrentTask}
                           />
@@ -103,7 +91,7 @@ const Main: FC<MainProps> = ({ tasks, loading, error, filter, filters, setModal,
               )
             }
           })
-        )}
+        }
       </ColumnWrapper>
     </MainWrapper>
   );

@@ -11,9 +11,9 @@ import { useActions } from './hooks/useActions';
 
 const filters: {[key: string]: any} = {
   'All': () => true,
-  'To do': (task: TaskProps) => task.status === 'To do',
-  'In Progress': (task: TaskProps) => task.status === 'In Progress',
-  'Done': (task: TaskProps) => task.status === 'Done',
+  'To do': (task: TaskProps) => task.task.status === 'To do',
+  'In Progress': (task: TaskProps) => task.task.status === 'In Progress',
+  'Done': (task: TaskProps) => task.task.status === 'Done',
 };
 
 const filterNames = Object.keys(filters);
@@ -32,28 +32,22 @@ const App:FC<AppProps> = () => {
   const [taskList, setTasks] = useState(tasks || []);
   const [currentTask, setCurrentTask] = useState('');
 
-  function editTask(id: string, title: string, description: string, deadline: string, status: string) {
-    const editedTask = taskList.map(task => {
-      if (id === task.id) {
-        return {...task, title, description, deadline, status};
-      }
-      return task;
-    })
-    setTasks(editedTask);
+  if (error) {
+    return <div>{error}</div>
   }
 
   return (
     <div className={`wrapper ${modal.isOpen ? 'openModal' : ''}`}>
       <Sidebar filters={filterNames} setFilter={setFilter} setModal={setModal} />
-      {tasks.length > 0 && <Main
+      {loading ? (<div>Data loading</div>) : (
+      tasks.length > 0 && <Main
         tasks={tasks}
-        loading={loading}
-        error={error}
         filter={filter}
         filters={filterNames}
         setModal={setModal}
         setCurrentTask={setCurrentTask}
-      />}
+      />
+      )}
       {modal.isOpen &&
         <Modal setModal={setModal} isOpen={modal.isOpen}>
           {modal.isEdit ? (

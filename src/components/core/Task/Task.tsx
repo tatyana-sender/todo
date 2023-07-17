@@ -8,8 +8,9 @@ import EditIcon from '@/components/icons/EditIcon';
 import DeleteIcon from '@/components/icons/DeleteIcon';
 import { useActions } from '../../../hooks/useActions';
 
-const Task:FC<TaskProps> = ({id, title, description, createDate, deadline, status, setModal, setCurrentTask }) => {
+const Task:FC<TaskProps> = ({task, setModal, setCurrentTask }) => {
   const {deleteTask} = useActions();
+  const {id, title, description, createDate, deadline, status} = task;
   const [isActive, setActive] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
