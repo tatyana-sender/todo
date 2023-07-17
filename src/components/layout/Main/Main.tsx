@@ -11,6 +11,9 @@ import Task from '@/components/core/Task';
 import Popover from '@/components/core/Popover';
 
 interface MainProps {
+  tasks: Array<TaskProps>,
+  loading: boolean,
+  error: null | string,
   filter: string,
   filters: string[],
   setModal: Dispatch<SetStateAction<{ isOpen: boolean, isEdit: boolean }>>,
@@ -35,12 +38,7 @@ function getComparator(order: string, orderBy: string) {
     : (a: any, b: any) => -descendingComparator(a, b, orderBy);
 }
 
-const Main: FC<MainProps> = ({ filter, filters, setModal, editTask, setCurrentTask, deleteTask }) => {
-  const { tasks, loading, error } = useTypedSelector(state => state.task);
-  const {fetchTasks} = useActions();
-  useEffect(() => {
-    fetchTasks();
-  }, [])
+const Main: FC<MainProps> = ({ tasks, loading, error, filter, filters, setModal, editTask, setCurrentTask, deleteTask }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
@@ -81,37 +79,39 @@ const Main: FC<MainProps> = ({ filter, filters, setModal, editTask, setCurrentTa
         </div>
       </Box>
       <ColumnWrapper>
-        {filters?.map((filter, index) => {
-          if (filter !== 'All') {
-            return (
-              <Column key={index}>
-                <div>{filter} ({tasks.filter(task => task.status === filter).length})</div>
-                {
-                  tasks
-                    .filter(task => task.status === filter)
-                    .sort(getComparator(order, orderBy))
-                    .map(task => {
-                      return (
-                        <Task
-                          key={task.id}
-                          id={task.id}
-                          title={task.title}
-                          description={task.description}
-                          createDate={task.createDate}
-                          deadline={task.deadline}
-                          status={task.status}
-                          editTask={task.editTask}
-                          setModal={setModal}
-                          setCurrentTask={setCurrentTask}
-                          deleteTask={deleteTask}
-                        />
-                      )
-                    })
-                }
-              </Column>
-            )
-          }
-        })}
+        {loading ? (<div>Data loading</div>) : (
+          filters?.map((filter, index) => {
+            if (filter !== 'All') {
+              return (
+                <Column key={index}>
+                  <div>{filter} ({tasks.filter(task => task.status === filter).length})</div>
+                  {
+                    tasks
+                      .filter(task => task.status === filter)
+                      .sort(getComparator(order, orderBy))
+                      .map(task => {
+                        return (
+                          <Task
+                            key={task.id}
+                            id={task.id}
+                            title={task.title}
+                            description={task.description}
+                            createDate={task.createDate}
+                            deadline={task.deadline}
+                            status={task.status}
+                            editTask={task.editTask}
+                            setModal={setModal}
+                            setCurrentTask={setCurrentTask}
+                            deleteTask={deleteTask}
+                          />
+                        )
+                      })
+                  }
+                </Column>
+              )
+            }
+          })
+        )}
       </ColumnWrapper>
     </MainWrapper>
   );

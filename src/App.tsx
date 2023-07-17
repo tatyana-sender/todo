@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useState, useEffect} from 'react';
 import { nanoid } from 'nanoid';
 
 import { TaskProps } from '@/types/types';
@@ -7,8 +7,10 @@ import Sidebar from '@/components/layout/Sidebar';
 import Modal from '@/components/core/Modal';
 import AddTask from '@/components/core/AddTask';
 import EditTask from '@/components/core/EditTask';
+import { useTypedSelector } from './hooks/useTypedSelector';
+import { useActions } from './hooks/useActions';
 
-const tasks = [
+const tasks1 = [
   { id: "task-0", title: "Add", description: 'some task', status: 'To do', createDate: '14.06.2023', deadline: '25.06.2023' },
   { id: "task-1", title: "Edit", description: 'some task 1', status: 'In Progress', createDate: '14.06.2023', deadline: '25.06.2023' },
   { id: "task-2", title: "Delete", description: 'some task 2', status: 'Done', createDate: '14.06.2023', deadline: '25.06.2023' },
@@ -29,9 +31,14 @@ interface AppProps {
 };
 
 const App:FC<AppProps> = () => {
+  const { tasks, loading, error } = useTypedSelector(state => state.task);
+  const {fetchTasks} = useActions();
+  useEffect(() => {
+    fetchTasks();
+  }, [])
   const [filter, setFilter] = useState("All");
   const [modal, setModal] = useState({isOpen: false, isEdit: false});
-  const [taskList, setTasks] = useState(tasks || []);
+  const [taskList, setTasks] = useState(tasks || tasks1);
   const today = new Date().toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' });
   const [currentTask, setCurrentTask] = useState('');
   function addTask(title: string, description: string, deadline: string) {
@@ -58,6 +65,9 @@ const App:FC<AppProps> = () => {
     <div className={`wrapper ${modal.isOpen ? 'openModal' : ''}`}>
       <Sidebar filters={filterNames} setFilter={setFilter} setModal={setModal} />
       <Main
+        tasks={tasks}
+        loading={loading}
+        error={error}
         filter={filter}
         filters={filterNames}
         setModal={setModal}
