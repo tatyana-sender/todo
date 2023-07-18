@@ -9,6 +9,7 @@ import BoardIcon from '@/components/icons/BoardIcon';
 import Button from '@/components/core/Button';
 import Task from '@/components/core/Task';
 import Popover from '@/components/core/Popover';
+import { getComparator } from '../../../helpers/getComparator';
 
 interface MainProps {
   tasks: Array<TaskProps>,
@@ -16,22 +17,6 @@ interface MainProps {
   filters: string[],
   setModal: Dispatch<SetStateAction<{ isOpen: boolean, isEdit: boolean }>>,
   setCurrentTask: Dispatch<SetStateAction<string>>
-}
-
-function descendingComparator(a: any, b: any, orderBy: string) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order: string, orderBy: string) {
-  return order === 'desc'
-    ? (a: any, b: any) => descendingComparator(a, b, orderBy)
-    : (a: any, b: any) => -descendingComparator(a, b, orderBy);
 }
 
 const Main: FC<MainProps> = ({ tasks, filter, filters, setModal, setCurrentTask }) => {

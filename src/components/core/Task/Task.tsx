@@ -10,13 +10,13 @@ import { useActions } from '../../../hooks/useActions';
 
 const Task:FC<TaskProps> = ({task, setModal, setCurrentTask }) => {
   const {deleteTask} = useActions();
-  const {id, title, description, createDate, deadline, status} = task;
-  const [isActive, setActive] = useState(false);
+  const {id, title, description, createDate, deadline} = task;
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   function handleClick(id: string) {
     setModal({isOpen: true, isEdit: true})
     setCurrentTask(id)
+    setIsPopoverOpen(false)
   }
 
   return (
@@ -27,7 +27,7 @@ const Task:FC<TaskProps> = ({task, setModal, setCurrentTask }) => {
           <div>{description}</div>
         </div>
         <Button variant="outlined" onClick={()=>setIsPopoverOpen(!isPopoverOpen)}>
-          <DotsIcon color={isActive ? 'white' : 'rgba(255,255,255,0.5)'}/>
+          <DotsIcon color={isPopoverOpen ? 'rgba(255,255,255,0.5)' : 'white'}/>
         </Button>
         {isPopoverOpen && <Popover>
           <Button onClick={()=>handleClick(id)}>

@@ -9,7 +9,7 @@ export interface IconProps {
 export interface TaskProps {
   task: {
     title: string,
-    status: string,
+    status?: string,
     id: string,
     description: string,
     createDate: string,
