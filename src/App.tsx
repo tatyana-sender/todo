@@ -23,13 +23,13 @@ interface AppProps {
 
 const App:FC<AppProps> = () => {
   const { tasks, loading, error } = useTypedSelector(state => state.task);
+  const [filter, setFilter] = useState("All");
   const {fetchTasks} = useActions();
   useEffect(() => {
     fetchTasks();
   }, [])
-  const [filter, setFilter] = useState("All");
+
   const [modal, setModal] = useState({isOpen: false, isEdit: false});
-  const [taskList, setTasks] = useState(tasks || []);
   const [currentTask, setCurrentTask] = useState('');
 
   if (error) {
@@ -42,7 +42,7 @@ const App:FC<AppProps> = () => {
       {loading ? (<div>Data loading</div>) : (
       tasks.length > 0 && <Main
         tasks={tasks}
-        filter={filter}
+        currentFilter={filter}
         filters={filterNames}
         setModal={setModal}
         setCurrentTask={setCurrentTask}
@@ -51,7 +51,7 @@ const App:FC<AppProps> = () => {
       {modal.isOpen &&
         <Modal setModal={setModal} isOpen={modal.isOpen}>
           {modal.isEdit ? (
-            <EditTask statuses={filterNames} currentTask={currentTask} setModal={setModal} tasks={taskList} />
+            <EditTask statuses={filterNames} currentTask={currentTask} setModal={setModal} tasks={tasks} />
           ) : (
             <AddTask setModal={setModal} />
           )}

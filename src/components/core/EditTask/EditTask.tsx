@@ -2,7 +2,6 @@ import React, {Dispatch, FC, SetStateAction, useState} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Button from '@/components/core/Button';
-import { TaskProps } from '@/types/types';
 import { useActions } from '../../../hooks/useActions';
 
 interface EditTaskProps {

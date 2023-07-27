@@ -3,8 +3,8 @@ import { nanoid } from 'nanoid';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Button from '@/components/core/Button';
-import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { useActions } from '../../../hooks/useActions';
+import {addTask} from '../../../store/actions/taskAction';
 
 interface AddTaskProps {
   setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
@@ -14,8 +14,6 @@ const AddTask:FC<AddTaskProps> = ({setModal}) => {
   const today = new Date();
   const defaultDeadlineDate = new Date();
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
-
-  const { tasks, loading, error } = useTypedSelector(state => state.task);
   const {addTask} = useActions();
 
   const [taskData, setTaskData] = useState({
@@ -39,7 +37,6 @@ const AddTask:FC<AddTaskProps> = ({setModal}) => {
     const { value, name } = event.target;
     setTaskData({ ...taskData, [name]: value });
   };
-
 
   const handleSubmit = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();

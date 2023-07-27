@@ -1,9 +1,5 @@
-import React, { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { TaskProps } from '@/types/types';
-import { useTypedSelector } from '../../../hooks/useTypedSelector';
-import { useActions } from '../../../hooks/useActions';
-import { fetchTasks } from '../../../store/actions/taskAction';
 import { MainWrapper, Box, View, Column, ColumnWrapper } from '@/components/layout/Main/Main.styles';
 import BoardIcon from '@/components/icons/BoardIcon';
 import Button from '@/components/core/Button';
@@ -13,13 +9,13 @@ import { getComparator } from '../../../helpers/getComparator';
 
 interface MainProps {
   tasks: Array<TaskProps>,
-  filter: string,
+  currentFilter: string,
   filters: string[],
   setModal: Dispatch<SetStateAction<{ isOpen: boolean, isEdit: boolean }>>,
   setCurrentTask: Dispatch<SetStateAction<string>>
 }
 
-const Main: FC<MainProps> = ({ tasks, filter, filters, setModal, setCurrentTask }) => {
+const Main: FC<MainProps> = ({ tasks, currentFilter, filters, setModal, setCurrentTask }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
@@ -52,31 +48,30 @@ const Main: FC<MainProps> = ({ tasks, filter, filters, setModal, setCurrentTask 
         </div>
       </Box>
       <ColumnWrapper>
-          {filters?.map((filter, index) => {
-            if (filter !== 'All') {
-              return (
-                <Column key={index}>
-                  <div>{filter} ({tasks.filter((task: any) => task.status === filter).length})</div>
-                  {
-                    tasks
-                      .filter((task: any) => task.status === filter)
-                      .sort(getComparator(order, orderBy))
-                      .map((task: any) => {
-                        return (
-                          <Task
-                            key={task.id}
-                            task={task}
-                            setModal={setModal}
-                            setCurrentTask={setCurrentTask}
-                          />
-                        )
-                      })
-                  }
-                </Column>
-              )
-            }
-          })
-        }
+        {filters?.map((filter, index) => {
+          if (filter !== 'All') {
+            return (
+              <Column key={index}>
+                <div>{filter} ({filter === currentFilter ? (tasks.filter((task: any) => task.status === filter).length) : '0'})</div>
+                {tasks
+                  .filter((task: any) => {if (currentFilter !== 'All') {return task.status === currentFilter} else {return task}})
+                  .filter((task: any) => task.status === filter)
+                  .sort(getComparator(order, orderBy))
+                  .map((task: any) => {
+                    return (
+                      <Task
+                        key={task.id}
+                        task={task}
+                        setModal={setModal}
+                        setCurrentTask={setCurrentTask}
+                      />
+                    )
+                  })
+                }
+              </Column>
+            )
+          }
+        })}
       </ColumnWrapper>
     </MainWrapper>
   );
