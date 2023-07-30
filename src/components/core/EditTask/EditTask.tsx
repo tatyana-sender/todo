@@ -13,25 +13,24 @@ interface EditTaskProps {
 
 const EditTask:FC<EditTaskProps> = ({statuses, currentTask, setModal, tasks}) => {
   const {editTask} = useActions();
+  const today = new Date()
+  const defaultDeadlineDate = new Date()
+  defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7)
   const currentTaskData = tasks.filter(task => currentTask === task.id)[0];
 
   const [newTaskData, setNewTaskData] = useState({
     id: currentTask,
     title: currentTaskData?.title ?? '',
     description: currentTaskData?.description ?? '',
-    deadline: currentTaskData?.deadline ?? '',
+    deadline: new Date(currentTaskData?.deadline) ?? defaultDeadlineDate,
     status: currentTaskData?.status ?? 'To do'
   });
 
-  const { title, description } = newTaskData;
+  const { title, description, deadline } = newTaskData;
   const [status, setStatus] = useState(newTaskData.status);
-  const today = new Date()
-  const defaultDeadlineDate = new Date()
-  defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7)
-  const [deadline, setDeadline] = useState(defaultDeadlineDate);
 
   const selectDateHandler = (d: Date) => {
-    setDeadline(d)
+    setNewTaskData({ ...newTaskData, deadline: d });
   }
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {

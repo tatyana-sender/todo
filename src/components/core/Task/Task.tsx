@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import { TaskProps } from '@/types/types';
 import { Box, Wrapper, Title, CreateDate } from '@/components/core/Task/Task.styles';
 import Button from '@/components/core/Button';
@@ -40,7 +40,7 @@ const Task:FC<TaskProps> = ({task, setModal, setCurrentTask }) => {
       </Box>
       <Box alignCenter={true} marginTop='2rem'>
         <CreateDate>{createDate}</CreateDate>
-        <Button>{deadline}</Button>
+        <Button>{new Date(deadline).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}</Button>
       </Box>
     </Wrapper>
   )

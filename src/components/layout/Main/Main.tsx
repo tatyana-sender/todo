@@ -42,6 +42,12 @@ const Main: FC<MainProps> = ({ tasks, currentFilter, filters, setModal, setCurre
               <Button variant="text" onClick={() => handleClick('asc', 'title')}>
                 Title Up
               </Button>
+              <Button variant="text" onClick={() => handleClick('desc', 'deadline')}>
+                Deadline down
+              </Button>
+              <Button variant="text" onClick={() => handleClick('asc', 'deadline')}>
+                Deadline Up
+              </Button>
             </Popover>
           }
           <Button variant="contained" onClick={() => setModal({ isOpen: true, isEdit: false })}>Add Task</Button>

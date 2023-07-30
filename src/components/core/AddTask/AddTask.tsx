@@ -16,21 +16,21 @@ const AddTask:FC<AddTaskProps> = ({setModal}) => {
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
   const {addTask} = useActions();
 
+  console.log(typeof defaultDeadlineDate, 'def')
+
   const [taskData, setTaskData] = useState({
     id: `task-${nanoid()}`,
     status: 'To do',
     createDate: today.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }),
     title: '',
     description: '',
-    deadline: defaultDeadlineDate.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }),
+    deadline: defaultDeadlineDate
   });
 
-  const { title, description } = taskData;
-  const [deadline, setDeadline] = useState(defaultDeadlineDate);
+  const { title, description, deadline } = taskData;
 
   const selectDateHandler = (d: Date) => {
-    setDeadline(d);
-    setTaskData({ ...taskData, deadline: deadline.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }) });
+    setTaskData({ ...taskData, deadline: d});
   }
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
