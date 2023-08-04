@@ -1,5 +1,5 @@
 import React, {FC, useState, useEffect} from 'react';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { TaskProps } from '@/types/types';
 import Main from '@/components/layout/Main';
 import Sidebar from '@/components/layout/Sidebar';
@@ -8,6 +8,7 @@ import AddTask from '@/components/core/AddTask';
 import EditTask from '@/components/core/EditTask';
 import { useTypedSelector } from './hooks/useTypedSelector';
 import { useActions } from './hooks/useActions';
+import Projects from '@/components/layout/Projects';
 
 const filters: {[key: string]: any} = {
   'All': () => true,
@@ -38,16 +39,17 @@ const App:FC<AppProps> = () => {
 
   return (
     <div className={`wrapper ${modal.isOpen ? 'openModal' : ''}`}>
-      <Sidebar filters={filterNames} setFilter={setFilter} setModal={setModal} />
-      {loading ? (<div>Data loading</div>) : (
-      tasks.length > 0 && <Main
-        tasks={tasks}
-        currentFilter={filter}
-        filters={filterNames}
-        setModal={setModal}
-        setCurrentTask={setCurrentTask}
-      />
-      )}
+      <Router>
+        <Sidebar filters={filterNames} setFilter={setFilter} setModal={setModal} />
+        {loading ? (<div>Data loading</div>) : (
+          <Routes>
+            <Route path="/" element={<Main
+              tasks={tasks} currentFilter={filter} filters={filterNames} setModal={setModal} setCurrentTask={setCurrentTask}
+            />} />
+            <Route path="/projects" element={<Projects setModal={setModal} />} />
+          </Routes>
+        )}
+      </Router>
       {modal.isOpen &&
         <Modal setModal={setModal} isOpen={modal.isOpen}>
           {modal.isEdit ? (

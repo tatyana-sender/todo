@@ -1,4 +1,5 @@
-import React, {Dispatch, FC, SetStateAction} from 'react';
+import React, {Dispatch, FC, SetStateAction, useMemo} from 'react';
+import { Link } from 'react-router-dom';
 import PlusIcon from "@/components/icons/PlusIcon";
 import Button from '@/components/core/Button';
 import Accordion from '@/components/core/Accordion';
@@ -12,25 +13,27 @@ interface SidebarProps {
 
 const Sidebar:FC<SidebarProps> = ({filters, setFilter, setModal}) => {
   const items = [
-    // {
-    //   title: 'Projects',
-    //   children: [
-    //     {
-    //       name: 'All Projects'
-    //     },
-    //     {
-    //       name: 'Satellite'
-    //     },
-    //     {
-    //       name: 'CPS'
-    //     },
-    //     {
-    //       name: 'To Do'
-    //     }
-    //   ]
-    // },
+    {
+      title: 'Projects',
+      path: '/projects',
+      children: [
+        {
+          name: 'All Projects'
+        },
+        {
+          name: 'Satellite'
+        },
+        {
+          name: 'CPS'
+        },
+        {
+          name: 'To Do'
+        }
+      ]
+    },
     {
       title: 'Tasks',
+      path: '/',
       children: filters.map(item => (
         {name: item}
       ))
@@ -47,7 +50,7 @@ const Sidebar:FC<SidebarProps> = ({filters, setFilter, setModal}) => {
       </Box>
       <div>
         {items?.map((item, index) => (
-          <Accordion key={index} title={item.title}>
+          <Accordion key={index} title={item.title} link={item.path}>
             {item?.children.map((child, idx) => (
               <li key={idx} onClick={() => setFilter(child.name)}>{child.name}</li>
             ))}

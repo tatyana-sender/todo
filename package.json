@@ -47,6 +47,7 @@
     "@types/node": "^20.3.1",
     "@types/react-datepicker": "^4.11.2",
     "@types/react-redux": "^7.1.25",
+    "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
     "axios": "^1.4.0",
     "css-loader": "^6.8.1",
@@ -54,8 +55,10 @@
     "react-datepicker": "^4.14.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.1",
+    "react-router-dom": "^6.14.2",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
+    "source-map-loader": "^4.0.1",
     "style-loader": "^3.3.3",
     "styled-normalize": "^8.0.7"
   },

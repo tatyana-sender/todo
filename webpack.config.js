@@ -11,6 +11,7 @@ module.exports = {
   target: 'web',
   devServer: {
     port: '3002',
+    historyApiFallback: true,
     static: {
       directory: path.join(__dirname, 'public'),
     },
@@ -36,7 +37,12 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
-      }
+      },
+      {
+        test: /\.(cjs|js)$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
+      },
     ],
   },
   plugins: [
