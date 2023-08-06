@@ -26,6 +26,8 @@ module.exports = {
       '@/types': path.resolve(__dirname, 'src/types'),
       '@/hooks': path.resolve(__dirname, 'src/hooks'),
       '@/helpers': path.resolve(__dirname, 'src/helpers'),
+      '@/store': path.resolve(__dirname, 'src/store'),
+      '@/constants': path.resolve(__dirname, 'src/constants'),
     },
   },
   module: {

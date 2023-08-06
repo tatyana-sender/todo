@@ -3,20 +3,25 @@ import { TaskProps } from '@/types/types';
 import { MainWrapper, Box, View, Column, ColumnWrapper } from '@/components/layout/Main/Main.styles';
 import Button from '@/components/core/Button';
 import Popover from '@/components/core/Popover';
+import {useActions} from '@/hooks/useActions';
+import AddTask from '@/components/core/AddTask';
 
 interface ProjectsProps {
   tasks?: Array<TaskProps>,
   currentFilter?: string,
-  filters?: string[],
-  setModal: Dispatch<SetStateAction<{ isOpen: boolean, isEdit: boolean }>>,
   setCurrentTask?: Dispatch<SetStateAction<string>>
 }
 
-const Projects: FC<ProjectsProps> = ({ setModal }) => {
+const Projects: FC<ProjectsProps> = () => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
 
+  const {showModal} = useActions();
+  const openModal = () => {
+    const modalContent = <AddTask />
+    showModal(modalContent);
+  };
   function handleClick(order: string, orderBy: string) {
     setOrder(order);
     setOrderBy(orderBy)
@@ -44,7 +49,7 @@ const Projects: FC<ProjectsProps> = ({ setModal }) => {
               </Button>
             </Popover>
           }
-          <Button variant="contained" onClick={() => setModal({ isOpen: true, isEdit: false })}>Add Project</Button>
+          <Button variant="contained" onClick={openModal}>Add Project</Button>
         </div>
       </Box>
       <ColumnWrapper>

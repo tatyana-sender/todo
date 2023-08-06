@@ -1,27 +1,31 @@
-import React, {Dispatch, FC, SetStateAction} from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useActions } from '@/hooks/useActions';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 import PlusIcon from '@/components/icons/PlusIcon';
 import { ModalWrapper, CloseButton } from '@/components/core/Modal/Modal.styles';
 
-interface ModalProps {
-  isOpen?: boolean,
-  children: string | JSX.Element | JSX.Element[],
-  setModal:  Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
-}
+const Modal = () => {
+  const { hideModal} = useActions();
+  const { showModal, modalContent } = useTypedSelector(state => state.modal);
+  const dispatch = useDispatch();
 
-const Modal:FC<ModalProps> = (
-  {
-    isOpen,
-    children,
-    setModal
-  }) => {
+  const closeModal = () => {
+    dispatch(hideModal());
+  };
+
+  if (!showModal) {
+    return null;
+  }
+
   return (
     <ModalWrapper>
-      <CloseButton onClick={() => setModal({isOpen: false, isEdit: false})}>
+      <CloseButton onClick={closeModal}>
         <PlusIcon />
       </CloseButton>
-      {children}
+      {modalContent}
     </ModalWrapper>
-  )
-}
+  );
+};
 
 export default Modal;

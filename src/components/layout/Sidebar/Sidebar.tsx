@@ -1,17 +1,17 @@
-import React, {Dispatch, FC, SetStateAction, useMemo} from 'react';
-import { Link } from 'react-router-dom';
-import PlusIcon from "@/components/icons/PlusIcon";
+import React, { FC } from 'react';
+import { useActions } from '@/hooks/useActions';
+import { FILTER_NAMES } from '@/constants/filters';
+import PlusIcon from '@/components/icons/PlusIcon';
 import Button from '@/components/core/Button';
 import Accordion from '@/components/core/Accordion';
+import AddTask from '@/components/core/AddTask';
 import { SidebarWrapper, Box, Title } from '@/components/layout/Sidebar/Sidebar.styles';
 
 interface SidebarProps {
-  filters: string[],
-  setFilter: (name: string) => void,
-  setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>
-};
+  setFilter: (name: string) => void
+}
 
-const Sidebar:FC<SidebarProps> = ({filters, setFilter, setModal}) => {
+const Sidebar:FC<SidebarProps> = ({setFilter}) => {
   const items = [
     {
       title: 'Projects',
@@ -34,17 +34,23 @@ const Sidebar:FC<SidebarProps> = ({filters, setFilter, setModal}) => {
     {
       title: 'Tasks',
       path: '/',
-      children: filters.map(item => (
+      children: FILTER_NAMES.map(item => (
         {name: item}
       ))
     }
   ];
 
+  const {showModal} = useActions();
+  const openModal = () => {
+    const modalContent = <AddTask />
+    showModal(modalContent);
+  };
+
   return (
     <SidebarWrapper>
       <Box>
         <Title>Tasks</Title>
-        <Button variant='circle' onClick={() => setModal({isOpen: true, isEdit: false})}>
+        <Button variant='circle' onClick={openModal}>
           <PlusIcon />
         </Button>
       </Box>

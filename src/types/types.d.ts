@@ -14,7 +14,5 @@ export interface TaskProps {
     description: string,
     createDate: string,
     deadline: Date,
-  },
-  setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
-  setCurrentTask: Dispatch<SetStateAction<string>>
+  }
 }

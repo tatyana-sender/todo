@@ -1,21 +1,23 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, { FC, useState } from 'react';
 import { TaskProps } from '@/types/types';
-import { Box, Wrapper, Title, CreateDate } from '@/components/core/Task/Task.styles';
+import { useActions } from '@/hooks/useActions';
 import Button from '@/components/core/Button';
 import DotsIcon from '@/components/icons/DotsIcon';
 import Popover from '@/components/core/Popover';
 import EditIcon from '@/components/icons/EditIcon';
 import DeleteIcon from '@/components/icons/DeleteIcon';
-import { useActions } from '../../../hooks/useActions';
+import EditTask from '@/components/core/EditTask';
+import { Box, Wrapper, Title, CreateDate } from '@/components/core/Task/Task.styles';
 
-const Task:FC<TaskProps> = ({task, setModal, setCurrentTask }) => {
+const Task:FC<TaskProps> = ({task }) => {
   const {deleteTask} = useActions();
   const {id, title, description, createDate, deadline} = task;
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+  const {showModal} = useActions();
   function handleClick(id: string) {
-    setModal({isOpen: true, isEdit: true})
-    setCurrentTask(id)
+    const modalContent = <EditTask currentTask={id} />
+    showModal(modalContent);
     setIsPopoverOpen(false)
   }
 

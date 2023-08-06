@@ -1,24 +1,30 @@
 import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { TaskProps } from '@/types/types';
-import { MainWrapper, Box, View, Column, ColumnWrapper } from '@/components/layout/Main/Main.styles';
+import { getComparator } from '@/helpers/getComparator';
+import {useActions} from '@/hooks/useActions';
+import { FILTER_NAMES } from '@/constants/filters';
 import BoardIcon from '@/components/icons/BoardIcon';
 import Button from '@/components/core/Button';
 import Task from '@/components/core/Task';
 import Popover from '@/components/core/Popover';
-import { getComparator } from '../../../helpers/getComparator';
+import AddTask from '@/components/core/AddTask';
+import { MainWrapper, Box, View, Column, ColumnWrapper } from '@/components/layout/Main/Main.styles';
 
 interface MainProps {
   tasks: Array<TaskProps>,
-  currentFilter: string,
-  filters: string[],
-  setModal: Dispatch<SetStateAction<{ isOpen: boolean, isEdit: boolean }>>,
-  setCurrentTask: Dispatch<SetStateAction<string>>
+  currentFilter: string
 }
 
-const Main: FC<MainProps> = ({ tasks, currentFilter, filters, setModal, setCurrentTask }) => {
+const Main: FC<MainProps> = ({ tasks, currentFilter }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
+
+  const {showModal} = useActions();
+  const openModal = () => {
+    const modalContent = <AddTask />
+    showModal(modalContent);
+  };
 
   function handleClick(order: string, orderBy: string) {
     setOrder(order);
@@ -50,11 +56,11 @@ const Main: FC<MainProps> = ({ tasks, currentFilter, filters, setModal, setCurre
               </Button>
             </Popover>
           }
-          <Button variant="contained" onClick={() => setModal({ isOpen: true, isEdit: false })}>Add Task</Button>
+          <Button variant="contained" onClick={openModal}>Add Task</Button>
         </div>
       </Box>
       <ColumnWrapper>
-        {filters?.map((filter, index) => {
+        {FILTER_NAMES?.map((filter, index) => {
           if (filter !== 'All') {
             return (
               <Column key={index}>
@@ -68,8 +74,6 @@ const Main: FC<MainProps> = ({ tasks, currentFilter, filters, setModal, setCurre
                       <Task
                         key={task.id}
                         task={task}
-                        setModal={setModal}
-                        setCurrentTask={setCurrentTask}
                       />
                     )
                   })

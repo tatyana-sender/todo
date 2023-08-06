@@ -1,18 +1,18 @@
-import React, {Dispatch, FC, SetStateAction, useState} from 'react';
+import React, { FC, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useActions } from '@/hooks/useActions';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { FILTER_NAMES } from '@/constants/filters';
 import Button from '@/components/core/Button';
-import { useActions } from '../../../hooks/useActions';
 
 interface EditTaskProps {
-  statuses: string[],
-  currentTask: string,
-  setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
-  tasks: any[]
+  currentTask: string
 }
 
-const EditTask:FC<EditTaskProps> = ({statuses, currentTask, setModal, tasks}) => {
-  const {editTask} = useActions();
+const EditTask:FC<EditTaskProps> = ({currentTask}) => {
+  const { tasks } = useTypedSelector(state => state.task);
+  const {editTask, hideModal} = useActions();
   const today = new Date()
   const defaultDeadlineDate = new Date()
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7)
@@ -46,7 +46,7 @@ const EditTask:FC<EditTaskProps> = ({statuses, currentTask, setModal, tasks}) =>
   const handleSubmit = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
     editTask(newTaskData);
-    setModal({isOpen: false, isEdit: false});
+    hideModal();
   }
 
   return (
@@ -68,7 +68,7 @@ const EditTask:FC<EditTaskProps> = ({statuses, currentTask, setModal, tasks}) =>
         value={description}
       />
       <select name="status" value={status} onChange={event => handleSelectChange(event)}>
-        {statuses.map(status => (
+        {FILTER_NAMES.map(status => (
           (status !== 'All') && <option key={status} value={status}>{status}</option>
         ))}
       </select>

@@ -1,22 +1,16 @@
-import React, {Dispatch, FC, SetStateAction, useState} from 'react';
+import React, { FC, useState } from 'react';
 import { nanoid } from 'nanoid';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useActions } from '@/hooks/useActions';
+import { addTask } from '@/store/actions/taskAction';
 import Button from '@/components/core/Button';
-import { useActions } from '../../../hooks/useActions';
-import {addTask} from '../../../store/actions/taskAction';
 
-interface AddTaskProps {
-  setModal: Dispatch<SetStateAction<{isOpen:boolean, isEdit: boolean}>>,
-}
-
-const AddTask:FC<AddTaskProps> = ({setModal}) => {
+const AddTask:FC = () => {
   const today = new Date();
   const defaultDeadlineDate = new Date();
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
-  const {addTask} = useActions();
-
-  console.log(typeof defaultDeadlineDate, 'def')
+  const {addTask, hideModal} = useActions();
 
   const [taskData, setTaskData] = useState({
     id: `task-${nanoid()}`,
@@ -41,7 +35,7 @@ const AddTask:FC<AddTaskProps> = ({setModal}) => {
   const handleSubmit = async (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
     addTask(taskData);
-    setModal({isOpen: false, isEdit: false});
+    hideModal();
   }
 
   return (
