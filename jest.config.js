@@ -1,7 +1,7 @@
 module.exports = {
-    // collectCoverage: true,
-    // collectCoverageFrom: ['src/**/*.{ts,tsx}'],
-    // coverageDirectory: 'coverage',
+    collectCoverage: true,
+    collectCoverageFrom: ['src/**/*.{ts,tsx}'],
+    coverageDirectory: 'coverage',
     testEnvironment: 'jsdom',
     // The root of your source code, typically /src
     // `<rootDir>` is a token Jest substitutes

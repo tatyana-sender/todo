@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 export const Box = styled.div(({ theme }) => ({
   display: 'flex',
@@ -9,13 +8,20 @@ export const Box = styled.div(({ theme }) => ({
   margin: '1.6rem 0',
 }));
 
-export const ListTitle = styled(Link)(({ theme }) => ({
+export const ListTitle = styled.div(({ theme }) => ({
   fontWeight: 700,
   color: theme.gray,
-  textDecoration: 'none',
   '&.active': {
     color: theme.white,
+
+    a: {
+      color: theme.white,
+    }
   },
+  a: {
+    color: theme.gray,
+    textDecoration: 'none',
+  }
 }));
 
 export const List = styled.ul(({ theme }) => ({
