@@ -1,7 +1,7 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react';
-import { TaskProps } from '@/types/types';
+import React, { FC, useState } from 'react';
 import { getComparator } from '@/helpers/getComparator';
-import {useActions} from '@/hooks/useActions';
+import { useActions } from '@/hooks/useActions';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { FILTER_NAMES } from '@/constants/filters';
 import BoardIcon from '@/components/icons/BoardIcon';
 import Button from '@/components/core/Button';
@@ -10,12 +10,9 @@ import Popover from '@/components/core/Popover';
 import AddTask from '@/components/core/AddTask';
 import { MainWrapper, Box, View, Column, ColumnWrapper } from '@/components/layout/Main/Main.styles';
 
-interface MainProps {
-  tasks: Array<TaskProps>,
-  currentFilter: string
-}
-
-const Main: FC<MainProps> = ({ tasks, currentFilter }) => {
+const Main: FC = () => {
+  const { tasks } = useTypedSelector(state => state.task);
+  const { currentFilter } = useTypedSelector(state => state.currentFilter);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');

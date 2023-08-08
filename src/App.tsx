@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useActions } from '@/hooks/useActions';
@@ -8,8 +8,7 @@ import Modal from '@/components/core/Modal';
 import Projects from '@/components/layout/Projects';
 
 const App:FC = () => {
-  const { tasks, loading, error } = useTypedSelector(state => state.task);
-  const [filter, setFilter] = useState("All");
+  const { loading, error } = useTypedSelector(state => state.task);
   const {fetchTasks} = useActions();
   useEffect(() => {
     fetchTasks();
@@ -22,10 +21,10 @@ const App:FC = () => {
   return (
     <div >
       <Router>
-        <Sidebar setFilter={setFilter}  />
+        <Sidebar />
         {loading ? (<div>Data loading</div>) : (
           <Routes>
-            <Route path="/" element={<Main tasks={tasks} currentFilter={filter} />} />
+            <Route path="/" element={<Main />} />
             <Route path="/projects" element={<Projects />} />
           </Routes>
         )}

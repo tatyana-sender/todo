@@ -7,11 +7,7 @@ import Accordion from '@/components/core/Accordion';
 import AddTask from '@/components/core/AddTask';
 import { SidebarWrapper, Box, Title } from '@/components/layout/Sidebar/Sidebar.styles';
 
-interface SidebarProps {
-  setFilter: (name: string) => void
-}
-
-const Sidebar:FC<SidebarProps> = ({setFilter}) => {
+const Sidebar:FC = () => {
   const items = [
     {
       title: 'Projects',
@@ -40,7 +36,7 @@ const Sidebar:FC<SidebarProps> = ({setFilter}) => {
     }
   ];
 
-  const {showModal} = useActions();
+  const {showModal, setFilter} = useActions();
   const openModal = () => {
     const modalContent = <AddTask />
     showModal(modalContent);
@@ -50,7 +46,7 @@ const Sidebar:FC<SidebarProps> = ({setFilter}) => {
     <SidebarWrapper>
       <Box>
         <Title>Tasks</Title>
-        <Button variant='circle' onClick={openModal}>
+        <Button  variant='circle' onClick={openModal} data-testid="add-task" >
           <PlusIcon />
         </Button>
       </Box>
