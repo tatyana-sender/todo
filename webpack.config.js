@@ -29,6 +29,12 @@ module.exports = {
       '@/store': path.resolve(__dirname, 'src/store'),
       '@/constants': path.resolve(__dirname, 'src/constants'),
     },
+    modules: [
+      'node_modules',
+      'bower_components',
+      'shared',
+      '/shared/vendor/modules',
+    ],
   },
   module: {
     rules: [

@@ -1,3 +1,5 @@
+const esModules = ['lodash-es', 'nanoid'].join('|');
+
 module.exports = {
     collectCoverage: true,
     collectCoverageFrom: ['src/**/*.{ts,tsx}'],
@@ -10,8 +12,10 @@ module.exports = {
     // Jest transformations -- this adds support for TypeScript
     // using ts-jest
     transform: {
-        '^.+\\.tsx?$': 'ts-jest'
+        '^.+\\.tsx?$': 'ts-jest',
+        '^.+\\.(css|styl|less|sass|scss)$': '<rootDir>/node_modules/jest-css-modules-transform',
     },
+    transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
 
     // Runs special logic, such as cleaning up components
     // when using React Testing Library and adds special
@@ -27,13 +31,16 @@ module.exports = {
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
 
     // Module file extensions for importing
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node', 'css', 'scss'],
     moduleNameMapper: {
+        '^lodash-es(/(.*)|$)': 'lodash$1',
+        '^nanoid(/(.*)|$)': 'nanoid$1',
         '^@/components(.*)$': '<rootDir>/src/components$1',
         '^@/types(.*)$': '<rootDir>/src/types$1',
         '^@/hooks(.*)$': '<rootDir>/src/hooks$1',
         '^@/helpers(.*)$': '<rootDir>/src/helpers$1',
         '^@/store(.*)$': '<rootDir>/src/store$1',
-        '^@/constants(.*)$': '<rootDir>/src/constants$1'
+        '^@/constants(.*)$': '<rootDir>/src/constants$1',
+        '\\.(css|less)$': '<rootDir>/assets/css/__mocks__/styleMock.js'
     },
 };
