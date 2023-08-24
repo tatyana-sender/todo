@@ -1,8 +1,7 @@
 import React, { FC, useState } from 'react';
-import { nanoid } from 'nanoid';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import { useActions } from '@/hooks/useActions';
+import {getRandomInt} from '@/helpers/getRandomInt';
 import { addTask } from '@/store/actions/taskAction';
 import Button from '@/components/core/Button';
 
@@ -11,9 +10,10 @@ const AddTask:FC = () => {
   const defaultDeadlineDate = new Date();
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
   const {addTask, hideModal} = useActions();
+  const id = getRandomInt(1000, 10000);
 
   const [taskData, setTaskData] = useState({
-    id: `task-${nanoid()}`,
+    id: `task-${id}`,
     status: 'To do',
     createDate: today.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }),
     title: '',

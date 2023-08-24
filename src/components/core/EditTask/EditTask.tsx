@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { FILTER_NAMES } from '@/constants/filters';
