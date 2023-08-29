@@ -61,7 +61,7 @@ const Main: FC = () => {
           if (filter !== 'All') {
             return (
               <Column key={index}>
-                <div>{filter} ({filter === currentFilter ? (tasks.filter((task: any) => task.status === filter).length) : '0'})</div>
+                <div>{filter} ({tasks.filter((task: any) => task.status === filter).length})</div>
                 {tasks
                   .filter((task: any) => {if (currentFilter !== 'All') {return task.status === currentFilter} else {return task}})
                   .filter((task: any) => task.status === filter)
@@ -84,4 +84,4 @@ const Main: FC = () => {
   );
 };
 
-export default Main;
+export default Main
