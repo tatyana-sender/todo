@@ -20,7 +20,7 @@ const Modal = () => {
 
   return (
     <ModalWrapper>
-      <CloseButton onClick={closeModal}>
+      <CloseButton onClick={closeModal} data-testid="close-modal">
         <PlusIcon />
       </CloseButton>
       {modalContent}
