@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const SidebarWrapper = styled.div(({ theme }) => ({
+export const SidebarWrapper = styled.aside(({ theme }) => ({
   position: 'fixed',
   width: '31.8rem',
   height: '100%',

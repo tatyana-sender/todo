@@ -10,6 +10,7 @@ Thumbs.db
 
 # Modules
 /node_modules
+/coverage
 
 # Cache
 .eslintcache

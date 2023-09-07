@@ -28,14 +28,14 @@ const Task:FC<TaskProps> = ({task }) => {
           <Title>{title}</Title>
           <div>{description}</div>
         </div>
-        <Button variant="outlined" onClick={()=>setIsPopoverOpen(!isPopoverOpen)}>
+        <Button data-testid="task-actions" variant="outlined" onClick={()=>setIsPopoverOpen(!isPopoverOpen)}>
           <DotsIcon color={isPopoverOpen ? 'rgba(255,255,255,0.5)' : 'white'}/>
         </Button>
         {isPopoverOpen && <Popover>
-          <Button onClick={()=>handleClick(id)}>
+          <Button onClick={()=>handleClick(id)} data-testid="task-edit">
             <EditIcon />
           </Button>
-          <Button onClick={()=>deleteTask(id)}>
+          <Button onClick={()=>deleteTask(id)} data-testid="task-delete">
             <DeleteIcon />
           </Button>
         </Popover>}
