@@ -18,5 +18,6 @@ export const Box = styled.div(({ theme }) => ({
 
 export const ColumnWrapper = styled.div(({ theme }) => ({
   display: 'flex',
+  flexWrap: 'wrap',
   justifyContent: 'space-between',
 }));

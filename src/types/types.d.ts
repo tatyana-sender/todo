@@ -14,5 +14,17 @@ export interface TaskProps {
     description: string,
     createDate: string,
     deadline: Date,
+    project: string
+  }
+}
+
+export interface ProjectProps {
+  project: {
+    title: string,
+    tasks?: string[],
+    id: string,
+    description: string,
+    createDate: string,
+    deadline: Date,
   }
 }

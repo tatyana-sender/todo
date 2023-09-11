@@ -9,9 +9,10 @@ import Projects from '@/components/layout/Projects';
 
 const App:FC = () => {
   const { loading, error } = useTypedSelector(state => state.task);
-  const {fetchTasks} = useActions();
+  const { fetchTasks, fetchProjects } = useActions();
   useEffect(() => {
     fetchTasks();
+    fetchProjects();
   }, [])
 
   if (error) {

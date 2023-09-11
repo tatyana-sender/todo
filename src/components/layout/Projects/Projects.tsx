@@ -1,17 +1,27 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react';
-import { TaskProps } from '@/types/types';
+import React, { FC, useState } from 'react';
+import { ProjectProps } from '@/types/types';
+import { useActions } from '@/hooks/useActions';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 import Button from '@/components/core/Button';
 import Popover from '@/components/core/Popover';
+import Project from '@/components/core/Project';
+import AddProject from '@/components/core/AddProject';
 import { MainWrapper, Box, ColumnWrapper } from '@/components/layout/Projects/Projects.styles';
 
 interface ProjectsProps {
-  tasks?: Array<TaskProps>,
-  currentFilter?: string,
-  setCurrentTask?: Dispatch<SetStateAction<string>>
+  projects?: Array<ProjectProps>,
+  currentFilter?: string
 }
 
 const Projects: FC<ProjectsProps> = () => {
+  const { projects } = useTypedSelector(state => state.project);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const { showModal } = useActions();
+  const openModal = () => {
+    const modalContent = <AddProject />
+    showModal(modalContent);
+  };
 
   return (
     <MainWrapper>
@@ -24,11 +34,15 @@ const Projects: FC<ProjectsProps> = () => {
               Sorting will be later
             </Popover>
           }
-          <Button variant="contained" onClick={()=>{alert('In develop')}}>Add Project</Button>
+          <Button variant="contained" onClick={openModal}>Add Project</Button>
         </div>
       </Box>
       <ColumnWrapper>
-        Projects
+        {projects?.map((project: any, index) => {
+          return (
+            <Project key={index} project={project} />
+          )
+        })}
       </ColumnWrapper>
     </MainWrapper>
   );

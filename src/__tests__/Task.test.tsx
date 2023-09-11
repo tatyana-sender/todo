@@ -11,10 +11,11 @@ const task = {
   id: 'id-1',
   description: 'req.body.description',
   createDate: '25.06.2023',
-  deadline: new Date()
+  deadline: new Date(),
+  project: 'project-1'
 }
 
-describe('Task Component', () => {
+describe('Project Component', () => {
   it('adding task', async () => {
     const { getByText, getByTestId, getByPlaceholderText, getAllByText } = render(
       <Provider store={store}>

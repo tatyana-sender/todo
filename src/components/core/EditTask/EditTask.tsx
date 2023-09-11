@@ -11,7 +11,8 @@ interface EditTaskProps {
 
 const EditTask:FC<EditTaskProps> = ({currentTask}) => {
   const { tasks } = useTypedSelector(state => state.task);
-  const {editTask, hideModal} = useActions();
+  const { projects } = useTypedSelector(state => state.project);
+  const { editTask, hideModal } = useActions();
   const today = new Date()
   const defaultDeadlineDate = new Date()
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7)
@@ -22,11 +23,13 @@ const EditTask:FC<EditTaskProps> = ({currentTask}) => {
     title: currentTaskData?.title ?? '',
     description: currentTaskData?.description ?? '',
     deadline: new Date(currentTaskData?.deadline) ?? defaultDeadlineDate,
-    status: currentTaskData?.status ?? 'To do'
+    status: currentTaskData?.status ?? 'To do',
+    project: currentTaskData?.project ?? ''
   });
 
   const { title, description, deadline } = newTaskData;
   const [status, setStatus] = useState(newTaskData.status);
+  const [project, setProject] = useState(newTaskData.project);
 
   const selectDateHandler = (d: Date) => {
     setNewTaskData({ ...newTaskData, deadline: d });
@@ -40,6 +43,11 @@ const EditTask:FC<EditTaskProps> = ({currentTask}) => {
   const handleSelectChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     setStatus(event.target.value);
     setNewTaskData({ ...newTaskData, status: event.target.value });
+  };
+
+  const handleProjectChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setProject(event.target.value);
+    setNewTaskData({ ...newTaskData, project: event.target.value });
   };
 
   const handleSubmit = async (event: React.FormEvent<EventTarget>) => {
@@ -69,6 +77,11 @@ const EditTask:FC<EditTaskProps> = ({currentTask}) => {
       <select name="status" value={status} onChange={event => handleSelectChange(event)}>
         {FILTER_NAMES.map(status => (
           (status !== 'All') && <option key={status} value={status}>{status}</option>
+        ))}
+      </select>
+      <select name="project" value={project} onChange={event => handleProjectChange(event)}>
+        {projects.map(project => (
+          <option key={project.id} value={project.id}>{project.title}</option>
         ))}
       </select>
       <DatePicker
