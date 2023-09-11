@@ -5,6 +5,9 @@ const colors = {
   lightGray: 'rgba(255, 255, 255, 0.1)',
   white: '#FFF',
   blue: '#4B69FF',
+  green: '#78D700',
+  orange: '#FFA048',
+  red: '#FF7979'
 };
 
 
@@ -15,4 +18,7 @@ export default {
   lightGray: colors.lightGray,
   white: colors.white,
   blue: colors.blue,
+  red: colors.red,
+  orange: colors.orange,
+  green: colors.green
 };

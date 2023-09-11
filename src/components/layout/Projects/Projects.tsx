@@ -6,7 +6,7 @@ import Button from '@/components/core/Button';
 import Popover from '@/components/core/Popover';
 import Project from '@/components/core/Project';
 import AddProject from '@/components/core/AddProject';
-import { MainWrapper, Box, ColumnWrapper } from '@/components/layout/Projects/Projects.styles';
+import { MainWrapper, Box, ColumnWrapper, Title } from '@/components/layout/Projects/Projects.styles';
 
 interface ProjectsProps {
   projects?: Array<ProjectProps>,
@@ -26,7 +26,7 @@ const Projects: FC<ProjectsProps> = () => {
   return (
     <MainWrapper>
       <Box>
-        <div></div>
+        <Title>Projects</Title>
         <div>
           <Button variant="text" onClick={() => setIsPopoverOpen(!isPopoverOpen)}>Sort</Button>
           {isPopoverOpen &&

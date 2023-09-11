@@ -5,6 +5,10 @@ interface BoxProps {
   marginTop?: string
 }
 
+interface ProgressbarProps {
+  $width: any
+}
+
 export const Wrapper = styled.div(({ theme }) => ({
   // width: '100%',
   // maxWidth: 'calc((100vw - 41rem) / 3)',
@@ -57,6 +61,25 @@ export const Box = styled.div<BoxProps>(({theme, alignCenter, marginTop}) => ({
 export const Title = styled.div(({ theme }) => ({
   color: theme.white,
   fontWeight: 700
+}));
+
+export const Progressbar = styled.div<ProgressbarProps>(({ theme, $width }) => ({
+  position: 'relative',
+  height: '0.5rem',
+  width: '100%',
+  background: theme.lightGray,
+  borderRadius: '0.5rem',
+  marginTop: '2rem',
+
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    display: 'block',
+    width: `${$width * 100}%`,
+    height: '0.5rem',
+    borderRadius: '0.5rem',
+    background: $width === 1 ? (theme.green) : ($width < 0.33 ? theme.red : theme.orange),
+  }
 }));
 
 export const CreateDate = styled.div(({ theme }) => ({
