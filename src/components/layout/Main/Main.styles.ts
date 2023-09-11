@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const MainWrapper = styled.div(({ theme }) => ({
   width: 'calc(100% - 31.8rem)',
-  minHeight: '100%',
+  minHeight: '100vh',
   marginLeft: '31.8rem',
   padding: '3.2rem 1.6rem',
   background: theme.darkGray,

@@ -1,48 +1,67 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useActions } from '@/hooks/useActions';
+import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { FILTER_NAMES } from '@/constants/filters';
 import Accordion from '@/components/core/Accordion';
+import Projects from '@/components/layout/Projects';
 import { SidebarWrapper } from '@/components/layout/Sidebar/Sidebar.styles';
 
 const Sidebar:FC = () => {
+  const { setFilter } = useActions();
+  const { projects } = useTypedSelector(state => state.project);
+  const [isActive, setActive] = useState(false);
+
+  const toggleClass = () => {
+    setActive(!isActive);
+  };
+
   const items = [
     {
       title: 'Projects',
       path: '/projects',
-      children: [
+      filter: false,
+      children: projects.map(item => (
         {
-          name: 'All ProjectPage'
-        },
-        {
-          name: 'Satellite'
-        },
-        {
-          name: 'CPS'
-        },
-        {
-          name: 'To Do'
+          name: item.title,
+          path: item.id
         }
-      ]
+      ))
     },
     {
       title: 'Tasks',
       path: '/',
+      filter: true,
       children: FILTER_NAMES.map(item => (
-        {name: item}
+        {
+          name: item,
+          path: ''
+        }
       ))
     }
   ];
-
-  const { setFilter } = useActions();
 
   return (
     <SidebarWrapper>
       <div>
         {items?.map((item, index) => (
           <Accordion key={index} title={item.title} link={item.path}>
-            {item?.children.map((child, idx) => (
-              <li key={idx} onClick={() => setFilter(child.name)}>{child.name}</li>
-            ))}
+            {
+              item.filter ? (
+                item?.children.map((child, idx) => (
+                  <li key={idx}
+                      onClick={() => { setFilter(child.name); toggleClass(); }}
+                      className={isActive ? 'active': ''}
+                  >{child.name}</li>
+                ))
+              ) : (
+                item?.children.map((child, idx) => (
+                  <NavLink to={`/projects/${child?.path}`}
+                           className={({ isActive }) => isActive ? 'active' : ''}
+                  >{child.name}</NavLink>
+                ))
+              )
+            }
           </Accordion>
         ))}
       </div>

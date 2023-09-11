@@ -6,7 +6,11 @@ import { getRandomInt } from '@/helpers/getRandomInt';
 import { addTask } from '@/store/actions/taskAction';
 import Button from '@/components/core/Button';
 
-const AddTask:FC = () => {
+interface AddTaskProps {
+  currentProject?: string
+}
+
+const AddTask:FC<AddTaskProps> = ({currentProject}) => {
   const today = new Date();
   const defaultDeadlineDate = new Date();
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
@@ -21,7 +25,7 @@ const AddTask:FC = () => {
     title: '',
     description: '',
     deadline: defaultDeadlineDate,
-    project: projects.length > 0 ? projects[0].id : ''
+    project: currentProject ? currentProject : projects.length > 0 ? projects[0].id : ''
   });
 
   const { title, description, deadline } = taskData;

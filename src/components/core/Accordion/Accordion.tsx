@@ -1,5 +1,5 @@
 import React, {FC, ReactNode} from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 import { Box, List, ListTitle } from '@/components/core/Accordion/Accordion.styles';
 import ChevronIcon from '@/components/icons/ChevronIcon';
 
@@ -16,9 +16,11 @@ const Accordion:FC<AccordionProps> = ({title, link, children}) => {
       <Box data-testid="accordion-header" onClick={() => setOpen(!isOpen)}>
         <ListTitle data-testid="accordion-title" className={`${isOpen ? "active" : ""}`}>
           {link ? (
-            <Link to={link}>
+            <NavLink to={link}
+                     className={({ isActive }) => isActive ? 'active' : ''}
+            >
               {title}
-            </Link>
+            </NavLink>
           ) : (
             <span>{title}</span>
           )}

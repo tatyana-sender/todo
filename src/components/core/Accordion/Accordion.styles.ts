@@ -11,13 +11,11 @@ export const Box = styled.div(({ theme }) => ({
 export const ListTitle = styled.div(({ theme }) => ({
   fontWeight: 700,
   color: theme.gray,
-  '&.active': {
-    color: theme.white,
 
-    a: {
+  'a.active': {
       color: theme.white,
-    }
   },
+
   a: {
     color: theme.gray,
     textDecoration: 'none',
@@ -37,11 +35,18 @@ export const List = styled.ul(({ theme }) => ({
     visibility: 'visible',
   },
 
-  'li': {
+  'li, a': {
     position: 'relative',
+    display: 'block',
     padding: '1rem 1.8rem',
     marginLeft: '2.2rem',
     borderRadius: '1.8rem',
+    textDecoration: 'none',
+    color: theme.gray,
+
+    '&.active': {
+      color: theme.white,
+    },
 
     '&::before': {
       content: '""',

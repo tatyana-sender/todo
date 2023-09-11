@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const SidebarWrapper = styled.aside(({ theme }) => ({
   position: 'fixed',
+  zIndex: 10,
   width: '31.8rem',
   height: '100%',
   padding: '2.8rem',
