@@ -5,19 +5,22 @@ import { FILTER_NAMES } from '@/constants/filters';
 import { TaskProps } from '@/types/types';
 import BoardIcon from '@/components/icons/BoardIcon';
 import Button from '@/components/core/Button';
+import CalendarView from '@/components/core/CalendarView';
 import Task from '@/components/core/Task';
 import Popover from '@/components/core/Popover';
 import AddTask from '@/components/core/AddTask';
 import { MainWrapper, Box, View, Column, ColumnWrapper } from '@/components/layout/Main/Main.styles';
 
 interface MainProps {
-  tasks: Array<TaskProps>,
+  tasks: TaskProps[],
   currentFilter: string,
   currentProject?: string
 }
 
 const Main: FC<MainProps> = ({tasks, currentFilter, currentProject}) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isCalendar, setIsCalendar] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
 
@@ -36,11 +39,17 @@ const Main: FC<MainProps> = ({tasks, currentFilter, currentProject}) => {
     <MainWrapper>
       <Box>
         <View>
-          <BoardIcon />
-          <span>Board View</span>
+          <Button isActive={isActive} onClick={()=>{setIsCalendar(false); setIsActive(true)}}>
+            <BoardIcon />
+            <span>Board View</span>
+          </Button>
+          <Button isActive={!isActive} onClick={()=>{setIsCalendar(true); setIsActive(false)}}>
+            <BoardIcon />
+            <span>Calendar View</span>
+          </Button>
         </View>
         <div>
-          <Button variant="text" onClick={() => setIsPopoverOpen(!isPopoverOpen)}>Sort</Button>
+          {!isCalendar && <Button variant="text" onClick={() => setIsPopoverOpen(!isPopoverOpen)}>Sort</Button>}
           {isPopoverOpen &&
             <Popover>
               <Button variant="text" onClick={() => handleClick('desc', 'title')}>
@@ -60,30 +69,34 @@ const Main: FC<MainProps> = ({tasks, currentFilter, currentProject}) => {
           <Button variant="contained" onClick={openModal}>Add Task</Button>
         </div>
       </Box>
-      <ColumnWrapper>
-        {FILTER_NAMES?.map((filter, index) => {
-          if (filter !== 'All') {
-            return (
-              <Column key={index}>
-                <div>{filter} ({tasks.filter((task: any) => task.status === filter).length})</div>
-                {tasks
-                  .filter((task: any) => {if (currentFilter !== 'All') {return task.status === currentFilter} else {return task}})
-                  .filter((task: any) => task.status === filter)
-                  .sort(getComparator(order, orderBy))
-                  .map((task: any) => {
-                    return (
-                      <Task
-                        key={task.id}
-                        task={task}
-                      />
-                    )
-                  })
-                }
-              </Column>
-            )
-          }
-        })}
-      </ColumnWrapper>
+      {isCalendar ? (
+        <CalendarView tasks={tasks} />
+      ) : (
+        <ColumnWrapper>
+          {FILTER_NAMES?.map((filter, index) => {
+            if (filter !== 'All') {
+              return (
+                <Column key={index}>
+                  <div>{filter} ({tasks.filter((task: any) => task.status === filter).length})</div>
+                  {tasks
+                    .filter((task: any) => {if (currentFilter !== 'All') {return task.status === currentFilter} else {return task}})
+                    .filter((task: any) => task.status === filter)
+                    .sort(getComparator(order, orderBy))
+                    .map((task: any) => {
+                      return (
+                        <Task
+                          key={task.id}
+                          task={task}
+                        />
+                      )
+                    })
+                  }
+                </Column>
+              )
+            }
+          })}
+        </ColumnWrapper>
+      )}
     </MainWrapper>
   );
 };

@@ -29,14 +29,20 @@ export const View = styled.div(({ theme }) => ({
     marginLeft: '0.8rem'
   },
 
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    height: '0.1rem',
-    background: theme.white
+  // '&::after': {
+  //   content: '""',
+  //   position: 'absolute',
+  //   bottom: 0,
+  //   left: 0,
+  //   width: '100%',
+  //   height: '0.1rem',
+  //   background: theme.white
+  // },
+
+  button: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '2rem',
   }
 }));
 
