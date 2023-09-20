@@ -3,16 +3,6 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { store } from '@/store/index';
 import App from '../App';
-import Task from '@/components/core/Task';
-
-const task = {
-  title: 'Test Delete',
-  status: 'To do',
-  id: 'id-1',
-  description: 'req.body.description',
-  createDate: '25.06.2023',
-  deadline: new Date()
-}
 
 describe('Task Component', () => {
   it('adding task', async () => {
@@ -25,28 +15,17 @@ describe('Task Component', () => {
     fireEvent.click(openModalButton);
     const titleInput = getByPlaceholderText('Title');
     const addButton = getByText('Add');
-    fireEvent.change(titleInput, { target: { value: 'Solve problem' } });
+    fireEvent.change(titleInput, { target: { value: 'Create Task Test' } });
     fireEvent.click(addButton);
-    const newTask = await waitFor(() => getAllByText('Solve problem')[0]);
-    expect(newTask).toBeInTheDocument();
+
+    await waitFor(() => {
+      const newTask = getAllByText('Create Task Test')[0];
+      expect(newTask).toBeInTheDocument();
+    });
   });
   it('deleting task', async () => {
 
-    const { getByText, queryByText } = render(
-      <Provider store={store}>
-        <Task task={task} />
-      </Provider>
-    );
-
-    expect(getByText('Test Delete')).toBeInTheDocument();;
-
-    fireEvent.click(screen.getByTestId('task-actions'));
-    await fireEvent.click(screen.getByTestId('task-delete'));
-  });
-
-  it('editing task', async () => {
-
-    const { getByText, getAllByText, getByPlaceholderText, getByTestId } = render(
+    const { getByText, getByTestId, getByPlaceholderText, getAllByText, findByText, findAllByText, getAllByTestId } = render(
       <Provider store={store}>
         <App />
       </Provider>
@@ -54,18 +33,52 @@ describe('Task Component', () => {
 
     fireEvent.click(getByTestId('add-task'));
     const titleInput = getByPlaceholderText('Title');
+    fireEvent.change(titleInput, { target: { value: 'Delete Task Test' } });
     const addButton = getByText('Add');
-    fireEvent.change(titleInput, { target: { value: 'Test Create' } });
     fireEvent.click(addButton);
 
-    const newTask = await waitFor(() => getAllByText('Test Create')[0]);
-    expect(newTask).toBeInTheDocument();
-    const taskActions = screen.queryAllByTestId('task-actions')[0];
-    expect(taskActions).toBeInTheDocument();
-    fireEvent.click(taskActions);
-    expect(screen.getByTestId('task-edit')).toBeInTheDocument();
-    await fireEvent.click(screen.getByTestId('task-edit'));
-    const input = await waitFor(() => screen.queryByPlaceholderText('Test Create'));
-    //expect(input).toBeInTheDocument();
+    await waitFor(() => {
+      const newTask = getAllByText('Delete Task Test')[0];
+      expect(newTask).toBeInTheDocument();
+      const actions = screen.getAllByTestId('task-actions')[0];
+      fireEvent.click(actions);
+      const btnDelete = screen.getByTestId('task-delete');
+      expect(btnDelete).toBeInTheDocument();
+      fireEvent.click(btnDelete);
+      expect(newTask).not.toBeInTheDocument();
+    });
+  });
+
+  it('editing task', async () => {
+
+    const { getByText, queryAllByText, getByPlaceholderText, getByTestId } = render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    fireEvent.click(getByTestId('add-task'));
+    const titleInput = getByPlaceholderText('Title');
+    fireEvent.change(titleInput, { target: { value: 'New Task Test' } });
+    const addButton = getByText('Add');
+    fireEvent.click(addButton);
+
+    await waitFor(() => {
+
+      const newTask = screen.queryAllByText('New Task Test')[0];
+      expect(newTask).toBeInTheDocument();
+      const actions = screen.queryAllByTestId('task-actions')[0];
+      fireEvent.click(actions);
+      const btnEdit = screen.queryAllByTestId('task-edit')[0];
+      expect(btnEdit).toBeInTheDocument();
+      fireEvent.click(btnEdit);
+      const inputEdit = screen.queryAllByPlaceholderText('Title')[0];
+      expect(inputEdit).toBeInTheDocument();
+      fireEvent.change(inputEdit, { target: { value: 'Edited Task Test' } });
+      const editButton = queryAllByText('Edit')[0];
+      expect(editButton).toBeInTheDocument();
+      fireEvent.click(editButton);
+      //const editedTask = queryAllByText('Edited Task Test')[0];
+    });
   });
 });
