@@ -22,8 +22,8 @@ export const Wrapper = styled.div(({ theme }) => ({
   padding: '1.6rem',
   marginBottom: '2.8rem',
   borderRadius: '1.2rem',
-  background: theme.black,
-  color: theme.white,
+  background: 'var(--bg-color)',
+  color: 'var(--text-color)',
 
   '&.full': {
     display: 'flex',
@@ -44,7 +44,7 @@ export const Wrapper = styled.div(({ theme }) => ({
   },
 }));
 
-export const Box = styled.div<BoxProps>(({theme, alignCenter, marginTop}) => ({
+export const Box = styled.div<BoxProps>(({ alignCenter, marginTop }) => ({
   position: 'relative',
   display: 'flex',
   justifyContent: 'space-between',
@@ -58,16 +58,16 @@ export const Box = styled.div<BoxProps>(({theme, alignCenter, marginTop}) => ({
   }
 }));
 
-export const Title = styled.div(({ theme }) => ({
-  color: theme.white,
+export const Title = styled.div(({}) => ({
+  color: 'var(--text-color)',
   fontWeight: 700
 }));
 
-export const Progressbar = styled.div<ProgressbarProps>(({ theme, $width }) => ({
+export const Progressbar = styled.div<ProgressbarProps>(({ $width }) => ({
   position: 'relative',
   height: '0.5rem',
   width: '100%',
-  background: theme.lightGray,
+  background: 'var(--bg2-color)',
   borderRadius: '0.5rem',
   marginTop: '2rem',
 
@@ -78,12 +78,12 @@ export const Progressbar = styled.div<ProgressbarProps>(({ theme, $width }) => (
     width: `${$width * 100}%`,
     height: '0.5rem',
     borderRadius: '0.5rem',
-    background: $width === 1 ? (theme.green) : ($width < 0.33 ? theme.red : theme.orange),
+    background: $width === 1 ? 'var(--green-color)' : ($width < 0.33 ? 'var(--red-color)' : 'var(--orange-color)'),
   }
 }));
 
-export const CreateDate = styled.div(({ theme }) => ({
-  color: theme.gray,
+export const CreateDate = styled.div(({}) => ({
+  color: 'var(--text2-color)',
   fontSize: '1.4rem',
   fontWeight: 600
 }));

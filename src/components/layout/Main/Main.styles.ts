@@ -1,27 +1,27 @@
 import styled from 'styled-components';
 
-export const MainWrapper = styled.div(({ theme }) => ({
+export const MainWrapper = styled.div(() => ({
   width: 'calc(100% - 31.8rem)',
   minHeight: '100vh',
   marginLeft: '31.8rem',
   padding: '3.2rem 1.6rem',
-  background: theme.darkGray,
+  background: 'var(--bg-color)',
 }));
 
-export const Box = styled.div(({ theme }) => ({
+export const Box = styled.div(() => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderBottom: `0.1rem solid ${theme.lightGray}`,
+  borderBottom: '0.1rem solid var(--border-color)',
   marginBottom: '2rem',
 }));
 
-export const View = styled.div(({ theme }) => ({
+export const View = styled.div(({}) => ({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
   fontWeight: 600,
-  color: theme.white,
+  color: 'var(--text-color)',
   padding: '1.8rem',
 
   'span': {
@@ -46,17 +46,17 @@ export const View = styled.div(({ theme }) => ({
   }
 }));
 
-export const ColumnWrapper = styled.div(({ theme }) => ({
+export const ColumnWrapper = styled.div(({}) => ({
   display: 'flex',
   justifyContent: 'space-between',
 }));
 
-export const Column = styled.div(({ theme }) => ({
+export const Column = styled.div(({}) => ({
   width: 'calc((100% - 2.8rem) / 3)',
   padding: '1.6rem',
   borderRadius: '1.2rem',
-  background: theme.black,
-  color: theme.white,
+  background: 'var(--bg-color)',
+  color: 'var(--text-color)',
 
   '&.full': {
     display: 'flex',

@@ -5,17 +5,17 @@ interface BoxProps {
   marginTop?: string
 }
 
-export const Wrapper = styled.div(({ theme }) => ({
+export const Wrapper = styled.div(({}) => ({
   width: '100%',
   maxWidth: 'calc((100vw - 41rem) / 3)',
   margin: '1.4rem 0',
   padding: '2rem',
   borderRadius: '1.2rem',
-  background: theme.darkGray,
-  color: theme.gray,
+  background: 'var(--main-bg-color)',
+  color: 'var(--text2-color)',
 }));
 
-export const Box = styled.div<BoxProps>(({theme, alignCenter, marginTop}) => ({
+export const Box = styled.div<BoxProps>(({ alignCenter, marginTop }) => ({
   position: 'relative',
   display: 'flex',
   justifyContent: 'space-between',
@@ -29,13 +29,13 @@ export const Box = styled.div<BoxProps>(({theme, alignCenter, marginTop}) => ({
   }
 }));
 
-export const Title = styled.div(({ theme }) => ({
-  color: theme.white,
+export const Title = styled.div(({}) => ({
+  color: 'var(--text-color)',
   fontWeight: 700
 }));
 
-export const CreateDate = styled.div(({ theme }) => ({
-  color: theme.gray,
+export const CreateDate = styled.div(({}) => ({
+  color: 'var(--text2-color)',
   fontSize: '1.4rem',
   fontWeight: 600
 }));

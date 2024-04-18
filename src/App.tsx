@@ -7,8 +7,12 @@ import Sidebar from '@/components/layout/Sidebar';
 import Modal from '@/components/core/Modal';
 import Projects from '@/components/layout/Projects';
 import ProjectPage from '@/components/layout/ProjectPage';
+import ThemeToggleButton from '@/components/core/ThemeToggleButton/ThemeToggleButton';
+import { useTheme } from './ThemeContext';
+import GlobalStyles from './styles/globalStyles';
 
 const App:FC = () => {
+  const { theme } = useTheme();
   const { loading, error } = useTypedSelector(state => state.task);
   const { fetchTasks, fetchProjects } = useActions();
   useEffect(() => {
@@ -24,7 +28,8 @@ const App:FC = () => {
   }
 
   return (
-    <div >
+    <>
+      <GlobalStyles theme={theme} />
       <Router>
         <Sidebar />
         {loading ? (<div>Data loading</div>) : (
@@ -37,8 +42,9 @@ const App:FC = () => {
           </Routes>
         )}
       </Router>
+      <ThemeToggleButton />
       <Modal />
-    </div>
+    </>
   );
 }
 

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Button from '@/components/core/Button';
 import Popover from '@/components/core/Popover/Popover';
 
-export const PopoverWrapper = styled.div(({ theme }) => ({
+export const PopoverWrapper = styled.div(({}) => ({
   position: 'absolute',
   top: '4rem',
   right: 0,
@@ -14,8 +14,8 @@ export const PopoverWrapper = styled.div(({ theme }) => ({
   minHeight: '10rem',
   padding: '1.8rem',
   borderRadius: '1.2rem',
-  background: theme.black,
-  color: theme.lightGray,
+  background: 'var(--bg-color)',
+  color: 'var(--text3-color)',
 
   button: {
     marginBottom: '2rem',

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Box = styled.div(({ theme }) => ({
+export const Box = styled.div(({}) => ({
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'space-between',
@@ -8,27 +8,27 @@ export const Box = styled.div(({ theme }) => ({
   margin: '1.6rem 0',
 }));
 
-export const ListTitle = styled.div(({ theme }) => ({
+export const ListTitle = styled.div(({}) => ({
   fontWeight: 700,
-  color: theme.gray,
+  color: 'var(--text2-color)',
 
   'a.active': {
-      color: theme.white,
+      color: 'var(--text-color)',
   },
 
   a: {
-    color: theme.gray,
+    color: 'var(--text2-color)',
     textDecoration: 'none',
   }
 }));
 
-export const List = styled.ul(({ theme }) => ({
+export const List = styled.ul(({}) => ({
   position: 'absolute',
   visibility: 'collapse',
   width: '100%',
   listStyle: 'none',
-  borderLeft: `2px solid ${theme.lightGray}`,
-  color: theme.gray,
+  borderLeft: '2px solid var(--border-color)',
+  color: 'var(--text2-color)',
 
   '&.active': {
     position: 'relative',
@@ -42,10 +42,10 @@ export const List = styled.ul(({ theme }) => ({
     marginLeft: '2.2rem',
     borderRadius: '1.8rem',
     textDecoration: 'none',
-    color: theme.gray,
+    color: 'var(--text2-color)',
 
     '&.active': {
-      color: theme.white,
+      color: 'var(--text-color)',
     },
 
     '&::before': {
@@ -57,7 +57,7 @@ export const List = styled.ul(({ theme }) => ({
       display: 'inline-block',
       width: '1.4rem',
       height: '0.2rem',
-      background: theme.lightGray
+      background: 'var(--bg2-color)'
     },
   },
 }));

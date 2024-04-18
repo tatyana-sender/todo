@@ -52,19 +52,24 @@ const Sidebar:FC = () => {
                   <li key={idx}
                       onClick={() => { setFilter(child.name); toggleClass(); }}
                       className={isActive ? 'active': ''}
-                  >{child.name}</li>
+                  >
+                    {child.name}
+                  </li>
                 ))
               ) : (
                 item?.children.map((child, idx) => (
                   <NavLink to={`/projects/${child?.path}`}
                            className={({ isActive }) => isActive ? 'active' : ''}
-                  >{child.name}</NavLink>
+                  >
+                    {child.name}
+                  </NavLink>
                 ))
               )
             }
           </Accordion>
         ))}
       </div>
+
     </SidebarWrapper>
   );
 };

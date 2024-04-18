@@ -3,7 +3,7 @@ import { Calendar } from 'react-big-calendar';
 
 export const StyledCalendar = styled(Calendar)(({ theme }) => ({
   height: '100vh',
-  color: theme.white,
+  color: 'var(--text-color)',
 
   '.rbc-toolbar': {
 
@@ -12,12 +12,12 @@ export const StyledCalendar = styled(Calendar)(({ theme }) => ({
     },
 
     'button, &-label': {
-      color: theme.white,
+      color: 'var(--text-color)',
     }
   },
 
 
   '.rbc-event': {
-    background: theme.red
+    background: 'var(--red-color)'
   }
 }));

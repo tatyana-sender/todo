@@ -6,6 +6,9 @@ interface ButtonProps {
 }
 
 export const StyledButton = styled.button<ButtonProps>(({ variant, isActive }) => ({
+  position: 'absolute',
+  bottom: 0,
+  zIndex: 10,
   width: 'min-content',
   height: 'min-content',
   padding: variant === 'contained' ? '1.2rem 2.4rem' : '1rem',
@@ -15,5 +18,5 @@ export const StyledButton = styled.button<ButtonProps>(({ variant, isActive }) =
     variant === 'contained' ? 'var(--blue-color)' : 'var(--bg2-color)',
   lineHeight: variant === 'contained' ? 1 : 0,
   whiteSpace: 'nowrap',
-  color: 'var(--text-color)'
+  color: 'var(--text2-color)'
 }));
