@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { useActions } from '@/hooks/useActions';
 import Main from '@/components/layout/Main';
@@ -36,8 +37,8 @@ const App:FC = () => {
           <Routes>
             <Route path="/" element={<Main tasks={tasks} currentFilter={currentFilter} />} />
             <Route path="/projects" element={<Projects />} />
-            {projects?.map(project => (
-              <Route path={`/projects/${project.id}`} element={<ProjectPage id={project.id} />} />
+            {projects?.map((project, idx) => (
+              <Route path={`/projects/${project.id}`} element={<ProjectPage id={project.id} />} key={idx} />
             ))}
           </Routes>
         )}

@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+
 import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { FILTER_NAMES } from '@/constants/filters';
@@ -60,6 +61,7 @@ const Sidebar:FC = () => {
                 item?.children.map((child, idx) => (
                   <NavLink to={`/projects/${child?.path}`}
                            className={({ isActive }) => isActive ? 'active' : ''}
+                           key={idx}
                   >
                     {child.name}
                   </NavLink>

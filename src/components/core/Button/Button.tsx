@@ -6,7 +6,7 @@ interface ButtonProps {
   variant?: string,
   onClick?: () => void,
   isActive?: boolean
-};
+}
 
 const Button:FC<ButtonProps> = ({ children, variant, ...rest }) => (
   <StyledButton variant={variant} {...rest}>
