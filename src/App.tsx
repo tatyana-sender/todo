@@ -14,15 +14,18 @@ import GlobalStyles from './styles/globalStyles';
 
 const App:FC = () => {
   const { theme } = useTheme();
-  const { loading, error } = useTypedSelector(state => state.task);
-  const { fetchTasks, fetchProjects } = useActions();
+  const { tasks, loading, error } = useTypedSelector(state => state.task);
+  const { projects } = useTypedSelector(state => state.project);
+  const { currentFilter } = useTypedSelector(state => state.currentFilter);
+  const { notification } = useTypedSelector(state => state.notification.message);
+
+  const { fetchTasks, fetchProjects, connectWebSocket } = useActions();
+
   useEffect(() => {
     fetchTasks();
     fetchProjects();
+    connectWebSocket();
   }, []);
-  const { projects } = useTypedSelector(state => state.project);
-  const { tasks } = useTypedSelector(state => state.task);
-  const { currentFilter } = useTypedSelector(state => state.currentFilter);
 
   if (error) {
     return <div>{error}</div>
@@ -44,6 +47,7 @@ const App:FC = () => {
         )}
       </Router>
       <ThemeToggleButton />
+      <div>123 {notification}</div>
       <Modal />
     </>
   );

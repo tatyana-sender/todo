@@ -4,7 +4,7 @@ const initialState: FilterState = {
   currentFilter: 'All',
 };
 
-const filterReducer = (state = initialState, action: FilterAction): FilterState => {
+export const filterReducer = (state = initialState, action: FilterAction): FilterState => {
   switch (action.type) {
     case FilterActionTypes.SET_FILTER:
       return { ...state, currentFilter: action.payload };
@@ -12,5 +12,3 @@ const filterReducer = (state = initialState, action: FilterAction): FilterState 
       return state;
   }
 };
-
-export default filterReducer;

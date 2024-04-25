@@ -10,7 +10,7 @@ module.exports = {
   },
   target: 'web',
   devServer: {
-    port: '3002',
+    port: '3003',
     historyApiFallback: true,
     static: {
       directory: path.join(__dirname, 'public'),

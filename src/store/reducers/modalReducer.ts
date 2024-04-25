@@ -5,7 +5,7 @@ const initialState: ModalState = {
   modalContent: null,
 };
 
-const modalReducer = (state = initialState, action: ModalAction): ModalState => {
+export const modalReducer = (state = initialState, action: ModalAction): ModalState => {
   switch (action.type) {
     case ModalActionTypes.SHOW_MODAL:
       return { ...state, showModal: true, modalContent: action.payload };
@@ -15,5 +15,3 @@ const modalReducer = (state = initialState, action: ModalAction): ModalState => 
       return state;
   }
 };
-
-export default modalReducer;
