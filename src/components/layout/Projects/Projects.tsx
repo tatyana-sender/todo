@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { ProjectProps } from '@/types/types';
 import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
+import Header from '@/components/layout/Header';
 import Button from '@/components/core/Button';
 import Popover from '@/components/core/Popover';
 import Project from '@/components/core/Project';
@@ -25,6 +26,7 @@ const Projects: FC<ProjectsProps> = () => {
 
   return (
     <MainWrapper>
+      <Header />
       <Box>
         <Title>Projects</Title>
         <div>

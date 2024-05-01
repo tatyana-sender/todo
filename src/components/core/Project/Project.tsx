@@ -8,7 +8,8 @@ import Popover from '@/components/core/Popover';
 import EditIcon from '@/components/icons/EditIcon';
 import DeleteIcon from '@/components/icons/DeleteIcon';
 import EditProject from '@/components/core/EditProject';
-import { Box, Wrapper, Title, CreateDate, Progressbar } from '@/components/core/Project/Project.styles';
+import { Box, Wrapper, Title, CreateDate, Deadline, Progressbar } from '@/components/core/Project/Project.styles';
+import {NavLink} from 'react-router-dom';
 
 const Project:FC<ProjectProps> = ({project }) => {
   const { deleteProject, showModal } = useActions();
@@ -28,11 +29,15 @@ const Project:FC<ProjectProps> = ({project }) => {
     <Wrapper>
       <Box>
         <div>
-          <Title>{title}</Title>
+          <Title>
+            <NavLink to={`/projects/${id}`} className={({ isActive }) => isActive ? 'active' : ''}>
+              {title}
+            </NavLink>
+          </Title>
           <div>{description}</div>
         </div>
         <Button data-testid="project-actions" variant="outlined" onClick={()=>setIsPopoverOpen(!isPopoverOpen)}>
-          <DotsIcon color={isPopoverOpen ? 'rgba(255,255,255,0.5)' : 'white'}/>
+          <DotsIcon />
         </Button>
         {isPopoverOpen && <Popover>
           <Button onClick={()=>handleClick(id)} data-testid="project-edit">
@@ -49,8 +54,8 @@ const Project:FC<ProjectProps> = ({project }) => {
       </Box>
       <Progressbar $width={width} />
       <Box alignCenter={true} marginTop='2rem'>
-        <CreateDate>{createDate}</CreateDate>
-        <Button>{new Date(deadline).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}</Button>
+        <CreateDate>{new Date(createDate).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}</CreateDate>
+        <Deadline>{new Date(deadline).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}</Deadline>
       </Box>
     </Wrapper>
   )

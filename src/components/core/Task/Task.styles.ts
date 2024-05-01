@@ -11,7 +11,8 @@ export const Wrapper = styled.div(({}) => ({
   margin: '1.4rem 0',
   padding: '2rem',
   borderRadius: '1.2rem',
-  background: 'var(--main-bg-color)',
+  border: '0.2rem solid var(--item-border-color)',
+  background: 'var(--item-bg-color)',
   color: 'var(--text2-color)',
 }));
 

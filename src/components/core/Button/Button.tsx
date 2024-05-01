@@ -9,7 +9,7 @@ interface ButtonProps {
 }
 
 const Button:FC<ButtonProps> = ({ children, variant, ...rest }) => (
-  <StyledButton variant={variant} {...rest}>
+  <StyledButton className={variant} {...rest}>
     {children}
   </StyledButton>
 );

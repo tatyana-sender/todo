@@ -17,6 +17,7 @@ export const Box = styled.div(({}) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  padding: '1.2rem 0',
   borderBottom: '0.1rem solid var(--border-color)',
   marginBottom: '2rem',
 }));
@@ -24,5 +25,5 @@ export const Box = styled.div(({}) => ({
 export const ColumnWrapper = styled.div(({}) => ({
   display: 'flex',
   flexWrap: 'wrap',
-  justifyContent: 'space-between',
+  columnGap: '1.4rem',
 }));

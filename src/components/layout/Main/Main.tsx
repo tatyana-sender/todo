@@ -1,26 +1,17 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { getComparator } from '@/helpers/getComparator';
 import { useActions } from '@/hooks/useActions';
 import { FILTER_NAMES } from '@/constants/filters';
 import { TaskProps } from '@/types/types';
-import BellIcon from '@/components/icons/BellIcon';
 import BoardIcon from '@/components/icons/BoardIcon';
+import CalendarIcon from '@/components/icons/CalendarIcon';
+import Header from '@/components/layout/Header';
 import Button from '@/components/core/Button';
 import CalendarView from '@/components/core/CalendarView';
 import Task from '@/components/core/Task';
 import Popover from '@/components/core/Popover';
 import AddTask from '@/components/core/AddTask';
-import {
-  Box,
-  BoxRight,
-  CalendarBox,
-  Column,
-  ColumnWrapper,
-  MainWrapper,
-  NotificationBox,
-  View
-} from '@/components/layout/Main/Main.styles';
-import CalendarIcon from '@/components/icons/CalendarIcon';
+import { Box, Column, ColumnWrapper, MainWrapper, View } from '@/components/layout/Main/Main.styles';
 
 interface MainProps {
   tasks: TaskProps[],
@@ -34,22 +25,6 @@ const Main: FC<MainProps> = ({tasks, currentFilter, currentProject}) => {
   const [isActive, setIsActive] = useState(true);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
-  const [currentDay, setCurrentDay] = useState<string>('');
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const currentDate = new Date();
-      const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      };
-      const formattedDate = currentDate.toLocaleDateString('de', options);
-      setCurrentDay(formattedDate);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const { showModal } = useActions();
   const openModal = () => {
@@ -64,28 +39,20 @@ const Main: FC<MainProps> = ({tasks, currentFilter, currentProject}) => {
 
   return (
     <MainWrapper>
-      <BoxRight>
-        <NotificationBox>
-          <BellIcon />
-        </NotificationBox>
-        <CalendarBox>
-          <CalendarIcon />
-          {currentDay}
-        </CalendarBox>
-      </BoxRight>
+      <Header />
       <Box>
         <View>
-          <Button isActive={isActive} onClick={()=>{setIsCalendar(false); setIsActive(true)}}>
+          <Button variant="line" isActive={isActive} onClick={()=>{setIsCalendar(false); setIsActive(true)}}>
             <BoardIcon />
             <span>Board View</span>
           </Button>
-          <Button isActive={!isActive} onClick={()=>{setIsCalendar(true); setIsActive(false)}}>
-            <BoardIcon />
+          <Button variant="line" isActive={!isActive} onClick={()=>{setIsCalendar(true); setIsActive(false)}}>
+            <CalendarIcon />
             <span>Calendar View</span>
           </Button>
         </View>
         <div>
-          {!isCalendar && <Button variant="text" onClick={() => setIsPopoverOpen(!isPopoverOpen)}>Sort</Button>}
+          {!isCalendar && <Button variant="text sort" onClick={() => setIsPopoverOpen(!isPopoverOpen)}>Sort</Button>}
           {isPopoverOpen &&
             <Popover>
               <Button variant="text" onClick={() => handleClick('desc', 'title')}>

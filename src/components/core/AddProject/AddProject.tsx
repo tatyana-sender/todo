@@ -40,7 +40,7 @@ const AddProject:FC = () => {
           <Field type="text" name="description" placeholder="Description" />
           <ErrorMessage name="description" />
           <Field name="deadline" component={ DateField } />
-          <Button variant="outlined">
+          <Button variant="contained">
             Add
           </Button>
         </Form>
