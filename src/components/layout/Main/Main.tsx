@@ -1,15 +1,26 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { getComparator } from '@/helpers/getComparator';
 import { useActions } from '@/hooks/useActions';
 import { FILTER_NAMES } from '@/constants/filters';
 import { TaskProps } from '@/types/types';
+import BellIcon from '@/components/icons/BellIcon';
 import BoardIcon from '@/components/icons/BoardIcon';
 import Button from '@/components/core/Button';
 import CalendarView from '@/components/core/CalendarView';
 import Task from '@/components/core/Task';
 import Popover from '@/components/core/Popover';
 import AddTask from '@/components/core/AddTask';
-import { MainWrapper, Box, View, Column, ColumnWrapper } from '@/components/layout/Main/Main.styles';
+import {
+  Box,
+  BoxRight,
+  CalendarBox,
+  Column,
+  ColumnWrapper,
+  MainWrapper,
+  NotificationBox,
+  View
+} from '@/components/layout/Main/Main.styles';
+import CalendarIcon from '@/components/icons/CalendarIcon';
 
 interface MainProps {
   tasks: TaskProps[],
@@ -23,8 +34,24 @@ const Main: FC<MainProps> = ({tasks, currentFilter, currentProject}) => {
   const [isActive, setIsActive] = useState(true);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
+  const [currentDay, setCurrentDay] = useState<string>('');
 
-  const {showModal} = useActions();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const currentDate = new Date();
+      const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      };
+      const formattedDate = currentDate.toLocaleDateString('de', options);
+      setCurrentDay(formattedDate);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const { showModal } = useActions();
   const openModal = () => {
     const modalContent = <AddTask currentProject={currentProject} />
     showModal(modalContent);
@@ -37,6 +64,15 @@ const Main: FC<MainProps> = ({tasks, currentFilter, currentProject}) => {
 
   return (
     <MainWrapper>
+      <BoxRight>
+        <NotificationBox>
+          <BellIcon />
+        </NotificationBox>
+        <CalendarBox>
+          <CalendarIcon />
+          {currentDay}
+        </CalendarBox>
+      </BoxRight>
       <Box>
         <View>
           <Button isActive={isActive} onClick={()=>{setIsCalendar(false); setIsActive(true)}}>

@@ -47,7 +47,6 @@ const App:FC = () => {
         )}
       </Router>
       <ThemeToggleButton />
-      <div>123 {notification}</div>
       <Modal />
     </>
   );

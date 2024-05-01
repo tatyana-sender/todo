@@ -6,17 +6,41 @@ interface ButtonProps {
 }
 
 export const StyledButton = styled.button<ButtonProps>(({ variant, isActive }) => ({
-  position: 'absolute',
-  bottom: 0,
+  position: 'fixed',
+  left: '3.2rem',
+  bottom: '3.2rem',
   zIndex: 10,
-  width: 'min-content',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '25.4rem',
   height: 'min-content',
-  padding: variant === 'contained' ? '1.2rem 2.4rem' : '1rem',
-  border: variant === 'outlined' || isActive ? '0.1rem solid var(--bg2-color)' : 'none',
+  padding: '0.4rem',
+  border: 'none',
   borderRadius: '2rem',
-  background: (variant === 'text' || variant === 'outlined') ? 'transparent' :
-    variant === 'contained' ? 'var(--blue-color)' : 'var(--bg2-color)',
-  lineHeight: variant === 'contained' ? 1 : 0,
-  whiteSpace: 'nowrap',
-  color: 'var(--text2-color)'
+  background: 'var(--link-active-bg-color)',
+  color: 'var(--text2-color)',
+
+  span: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '50%',
+    padding: '0.7rem',
+    color: 'var(--link-color)',
+  },
+
+  svg: {
+    fill: 'var(--link-color)',
+  },
+
+  '.active': {
+    borderRadius: '2rem',
+    background: 'var(--border-color)',
+    color: 'var(--link-active-color)',
+
+    svg: {
+      fill: 'var(--link-active-color)',
+    },
+  },
 }));

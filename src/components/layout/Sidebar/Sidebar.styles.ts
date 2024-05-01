@@ -6,7 +6,8 @@ export const SidebarWrapper = styled.aside(({}) => ({
   width: '31.8rem',
   height: '100%',
   padding: '2.8rem',
-  background: 'var(--bg-color)',
+  background: 'var(--sidebar-bg-color)',
+  boxShadow: '1rem 0 1rem 0 var(--link-active-bg-color)',
 }));
 
 export const Box = styled.div(({}) => ({

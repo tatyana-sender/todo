@@ -6,29 +6,38 @@ export const Box = styled.div(({}) => ({
   justifyContent: 'space-between',
   alignItems: 'center',
   margin: '1.6rem 0',
+
+  svg: {
+    stroke: 'var(--link-color)',
+  },
+
+  '&.active svg': {
+    stroke: 'var(--link-active-color)',
+    transform: 'rotate(90deg)',
+  },
 }));
 
 export const ListTitle = styled.div(({}) => ({
   fontWeight: 700,
-  color: 'var(--text2-color)',
+  color: 'var(--link-color)',
 
   'a.active': {
-      color: 'var(--text-color)',
+      color: 'var(--link-active-color)',
   },
 
   a: {
-    color: 'var(--text2-color)',
+    color: 'var(--link-color)',
     textDecoration: 'none',
-  }
+  },
 }));
 
 export const List = styled.ul(({}) => ({
   position: 'absolute',
   visibility: 'collapse',
-  width: '100%',
+  width: 'calc(100% - 4rem)',
   listStyle: 'none',
   borderLeft: '2px solid var(--border-color)',
-  color: 'var(--text2-color)',
+  color: 'var(--link-color)',
 
   '&.active': {
     position: 'relative',
@@ -42,10 +51,11 @@ export const List = styled.ul(({}) => ({
     marginLeft: '2.2rem',
     borderRadius: '1.8rem',
     textDecoration: 'none',
-    color: 'var(--text2-color)',
+    color: 'var(--link-color)',
 
     '&.active': {
-      color: 'var(--text-color)',
+      color: 'var(--link-active-color)',
+      background: 'var(--link-active-bg-color)',
     },
 
     '&::before': {
@@ -57,7 +67,7 @@ export const List = styled.ul(({}) => ({
       display: 'inline-block',
       width: '1.4rem',
       height: '0.2rem',
-      background: 'var(--bg2-color)'
+      background: 'var(--border-color)'
     },
   },
 }));

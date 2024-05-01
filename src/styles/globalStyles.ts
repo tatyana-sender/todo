@@ -3,12 +3,18 @@ import { createGlobalStyle } from 'styled-components';
 
 const colors = {
   black: '#222327',
+  black2: 'rgba(28, 29, 34, 0.5)',
+  black3: 'rgba(28, 29, 34, 0.1)',
+  black4: 'rgba(28, 29, 34, 0.04)',
   darkGray: '#2A2B2F',
   gray: 'rgba(255,255,255,0.5)',
   gray2: '#ababab',
   gray3: '#888',
   lightGray: 'rgba(255, 255, 255, 0.1)',
   white: '#FFF',
+  white2: 'rgba(255,255,255,0.5)',
+  white3: 'rgba(255,255,255,0.1)',
+  white4: 'rgba(255,255,255,0.04)',
   blue: '#4B69FF',
   green: '#78D700',
   orange: '#FFA048',
@@ -23,11 +29,16 @@ export default createGlobalStyle(({ theme }) => ({
     '--text-color': theme == 'light' ? colors.black : colors.white,
     '--text2-color': theme == 'light' ? colors.black : colors.gray,
     '--text3-color': theme == 'light' ? colors.black : colors.lightGray,
-    '--border-color': theme == 'light' ? colors.gray : colors.lightGray,
+    '--border-color': theme == 'light' ? colors.black3 : colors.white3,
     '--red-color': colors.red,
     '--orange-color': colors.orange,
     '--blue-color': colors.blue,
     '--green-color': colors.green,
+
+    '--sidebar-bg-color': theme == 'light' ? colors.white : colors.black,
+    '--link-color': theme == 'light' ? colors.black2 : colors.white2,
+    '--link-active-color': theme == 'light' ? colors.black : colors.white,
+    '--link-active-bg-color': theme == 'light' ? colors.black4 : colors.white4,
   },
 
   '*': {

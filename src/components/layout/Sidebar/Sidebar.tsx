@@ -11,10 +11,11 @@ import { SidebarWrapper } from '@/components/layout/Sidebar/Sidebar.styles';
 const Sidebar:FC = () => {
   const { setFilter } = useActions();
   const { projects } = useTypedSelector(state => state.project);
-  const [isActive, setActive] = useState(false);
+  const [activeItem, setActiveItem] = useState('All');
 
-  const toggleClass = () => {
-    setActive(!isActive);
+  const handleClick = (name: string) => {
+    setFilter(name);
+    setActiveItem(name);
   };
 
   const items = [
@@ -50,18 +51,20 @@ const Sidebar:FC = () => {
             {
               item.filter ? (
                 item?.children.map((child, idx) => (
-                  <li key={idx}
-                      onClick={() => { setFilter(child.name); toggleClass(); }}
-                      className={isActive ? 'active': ''}
+                  <li
+                    key={idx}
+                    onClick={() => handleClick(child.name)}
+                    className={activeItem === child.name ? 'active': ''}
                   >
                     {child.name}
                   </li>
                 ))
               ) : (
                 item?.children.map((child, idx) => (
-                  <NavLink to={`/projects/${child?.path}`}
-                           className={({ isActive }) => isActive ? 'active' : ''}
-                           key={idx}
+                  <NavLink
+                    to={`/projects/${child?.path}`}
+                    className={({ isActive }) => isActive ? 'active' : ''}
+                    key={idx}
                   >
                     {child.name}
                   </NavLink>
@@ -71,7 +74,6 @@ const Sidebar:FC = () => {
           </Accordion>
         ))}
       </div>
-
     </SidebarWrapper>
   );
 };
