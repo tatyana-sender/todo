@@ -5,7 +5,7 @@ export const MainWrapper = styled.div(() => ({
   minHeight: '100vh',
   marginLeft: '31.8rem',
   padding: '3.2rem 1.6rem',
-  background: 'var(--bg-color)',
+  background: 'var(--main-bg-color)',
 }));
 
 export const Box = styled.div(() => ({
@@ -13,33 +13,8 @@ export const Box = styled.div(() => ({
   justifyContent: 'space-between',
   alignItems: 'center',
   borderBottom: '0.1rem solid var(--border-color)',
+  padding: '1.2rem 0',
   marginBottom: '2rem',
-}));
-
-export const BoxRight = styled.div(() => ({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  marginBottom: '2rem',
-}));
-
-export const NotificationBox = styled.div(({}) => ({
-  position: 'relative',
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  marginRight: '2rem',
-}));
-
-export const CalendarBox = styled.div(({}) => ({
-  position: 'relative',
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-
-  'svg': {
-    marginRight: '0.5rem',
-  }
 }));
 
 export const View = styled.div(({}) => ({
@@ -48,22 +23,11 @@ export const View = styled.div(({}) => ({
   alignItems: 'center',
   fontWeight: 600,
   color: 'var(--text-color)',
-  padding: '1.8rem',
 
   'span': {
     display: 'inline-block',
     marginLeft: '0.8rem'
   },
-
-  // '&::after': {
-  //   content: '""',
-  //   position: 'absolute',
-  //   bottom: 0,
-  //   left: 0,
-  //   width: '100%',
-  //   height: '0.1rem',
-  //   background: theme.white
-  // },
 
   button: {
     display: 'flex',
@@ -81,8 +45,9 @@ export const Column = styled.div(({}) => ({
   width: 'calc((100% - 2.8rem) / 3)',
   padding: '1.6rem',
   borderRadius: '1.2rem',
-  background: 'var(--bg-color)',
-  color: 'var(--text-color)',
+  border: '0.2rem dashed var(--column-border-color)',
+  background: 'var(--column-bg-color)',
+  color: 'var(--link-color)',
 
   '&.full': {
     display: 'flex',

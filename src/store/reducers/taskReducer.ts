@@ -23,7 +23,7 @@ export const taskReducer = (state = initialState, action: TaskAction): TaskState
     case TaskActionTypes.DELETE_TASK_ERROR:
       return { ...state, loading: false, error: action.payload }
     case TaskActionTypes.EDIT_TASK_SUCCESS:
-      return { ...state, tasks: [...state.tasks.filter((task) => task.id !== action.payload.id), action.payload], loading: false }
+      return { ...state, tasks: [...state.tasks, action.payload], loading: false }
     case TaskActionTypes.EDIT_TASK_ERROR:
       return { ...state, loading: false, error: action.payload }
     default:

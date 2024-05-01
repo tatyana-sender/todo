@@ -9,21 +9,14 @@ interface ProgressbarProps {
   $width: any
 }
 
-export const Wrapper = styled.div(({ theme }) => ({
-  // width: '100%',
-  // maxWidth: 'calc((100vw - 41rem) / 3)',
-  // margin: '1.4rem 0',
-  // padding: '2rem',
-  // borderRadius: '1.2rem',
-  // background: theme.darkGray,
-  // color: theme.gray,
-
+export const Wrapper = styled.div(({}) => ({
   width: 'calc((100% - 2.8rem) / 3)',
   padding: '1.6rem',
   marginBottom: '2.8rem',
   borderRadius: '1.2rem',
-  background: 'var(--bg-color)',
-  color: 'var(--text-color)',
+  border: '0.2rem solid var(--item-border-color)',
+  background: 'var(--item-bg-color)',
+  color: 'var(--link-color)',
 
   '&.full': {
     display: 'flex',
@@ -50,17 +43,26 @@ export const Box = styled.div<BoxProps>(({ alignCenter, marginTop }) => ({
   justifyContent: 'space-between',
   alignItems: alignCenter ? 'center' : '',
   marginTop: marginTop ? marginTop : 0,
+  color: 'var(--link-active-color)',
 
   Button: {
     fontSize: '1.4rem',
     fontWeight: 600,
     lineHeight: alignCenter ? 1 : 0,
+  },
+
+  strong: {
+    color: 'var(--link-color)',
   }
 }));
 
 export const Title = styled.div(({}) => ({
-  color: 'var(--text-color)',
-  fontWeight: 700
+  color: 'var(--link-active-color)',
+  fontWeight: 700,
+
+  a: {
+    textDecoration: 'none',
+  },
 }));
 
 export const Progressbar = styled.div<ProgressbarProps>(({ $width }) => ({
@@ -86,4 +88,13 @@ export const CreateDate = styled.div(({}) => ({
   color: 'var(--text2-color)',
   fontSize: '1.4rem',
   fontWeight: 600
+}));
+
+export const Deadline = styled.div(({}) => ({
+  color: 'var(--deadline-color)',
+  fontSize: '1.4rem',
+  fontWeight: 600,
+  padding: '0.8rem 1.6rem',
+  borderRadius: '2rem',
+  background: 'var(--deadline-bg-color)',
 }));

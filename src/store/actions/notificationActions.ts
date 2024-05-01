@@ -7,14 +7,13 @@ export const setNotification = (message: string) => ({
 });
 
 export const connectWebSocket = () => (dispatch: Dispatch) => {
-  const ws = new WebSocket('ws://localhost:3000');
+  const ws = new WebSocket('ws://localhost:3001');
   ws.onopen = () => {
     console.log('WebSocket connected');
   };
 
   ws.onmessage = (event) => {
     dispatch(receiveMessage(event.data));
-    console.log('Received from server: ', event.data);
     const data = JSON.parse(event.data);
     if (data.type === 'NOTIFICATION') {
       dispatch(setNotification(data.message));
@@ -28,8 +27,6 @@ export const connectWebSocket = () => (dispatch: Dispatch) => {
   ws.onclose = () => {
     console.log('WebSocket closed');
   };
-
-  dispatch({ type: 'WEBSOCKET_CONNECT', payload: ws });
 };
 
 export const receiveMessage = (message: string) => ({

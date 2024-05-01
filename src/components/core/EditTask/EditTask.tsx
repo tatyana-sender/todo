@@ -58,7 +58,7 @@ const EditTask:FC<EditTaskProps> = ({currentTask}) => {
           <ErrorMessage name="title" />
           <Field type="text" name="description" placeholder="Description" />
           <ErrorMessage name="description" />
-          <Field name="project" options={FILTER_NAMES} component={SelectField} />
+          <Field name="status" options={FILTER_NAMES} component={SelectField} />
           <Field name="project" options={projects} component={SelectField} />
           <Field name="deadline" component={DateField} />
           <Button variant="contained">

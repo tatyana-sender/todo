@@ -30,7 +30,7 @@ const Task:FC<TaskProps> = ({task }) => {
           <div>{description}</div>
         </div>
         <Button data-testid="task-actions" variant="outlined" onClick={()=>setIsPopoverOpen(!isPopoverOpen)}>
-          <DotsIcon color={isPopoverOpen ? 'rgba(255,255,255,0.5)' : 'white'}/>
+          <DotsIcon />
         </Button>
         {isPopoverOpen && <Popover>
           <Button onClick={()=>handleClick(id)} data-testid="task-edit">
@@ -43,7 +43,7 @@ const Task:FC<TaskProps> = ({task }) => {
       </Box>
       <Box>Project - {currentProjectData?.title}</Box>
       <Box alignCenter={true} marginTop='2rem'>
-        <CreateDate>{createDate}</CreateDate>
+        <CreateDate>{new Date(createDate).toLocaleString('ru-Ru', { year: 'numeric', month: 'numeric', day: 'numeric' })}</CreateDate>
         <Button>{new Date(deadline).toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' })}</Button>
       </Box>
     </Wrapper>
