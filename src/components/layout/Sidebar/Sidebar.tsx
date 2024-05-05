@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import { FILTER_NAMES } from '@/constants/filters';
+import { FILTER_NAMES, FILTER_NOTIFICATIONS } from '@/constants/filters';
 import Accordion from '@/components/core/Accordion';
 import Projects from '@/components/layout/Projects';
 import { SidebarWrapper } from '@/components/layout/Sidebar/Sidebar.styles';
@@ -35,6 +35,17 @@ const Sidebar:FC = () => {
       path: '/',
       filter: true,
       children: FILTER_NAMES.map(item => (
+        {
+          name: item,
+          path: ''
+        }
+      ))
+    },
+    {
+      title: 'Notifications',
+      path: '/notifications',
+      filter: true,
+      children: FILTER_NOTIFICATIONS.map(item => (
         {
           name: item,
           path: ''

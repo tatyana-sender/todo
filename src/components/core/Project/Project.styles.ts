@@ -22,19 +22,19 @@ export const Wrapper = styled.div(({}) => ({
     display: 'flex',
     flexWrap: 'wrap',
     width: '100%',
-
-    '& > div': {
-      marginRight: '1.4rem',
-
-      '&:first-child': {
-        width: '100%',
-      },
-
-      '&:nth-of-type(3n+1)': {
-        marginRight: 0,
-      }
-    }
   },
+
+  '& > div': {
+    marginRight: '1.4rem',
+
+    '&:first-child': {
+      width: '100%',
+    },
+
+    '&:nth-of-type(3n+1)': {
+      marginRight: 0,
+    }
+  }
 }));
 
 export const Box = styled.div<BoxProps>(({ alignCenter, marginTop }) => ({

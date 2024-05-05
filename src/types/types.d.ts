@@ -28,3 +28,11 @@ export interface ProjectProps {
     deadline: Date,
   }
 }
+
+export interface NotificationProps {
+  message: string,
+  task: string,
+  id: string,
+  project: string,
+  status: string,
+}
