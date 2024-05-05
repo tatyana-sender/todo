@@ -23,7 +23,7 @@ export const projectReducer = (state = initialState, action: ProjectAction): Pro
     case ProjectActionTypes.DELETE_PROJECT_ERROR:
       return { ...state, loading: false, error: action.payload }
     case ProjectActionTypes.EDIT_PROJECT_SUCCESS:
-      return { ...state, projects: [...state.projects, action.payload], loading: false }
+      return { ...state, projects: [...state.projects.filter((project) => project.id !== action.payload.id), action.payload], loading: false }
     case ProjectActionTypes.EDIT_PROJECT_ERROR:
       return { ...state, loading: false, error: action.payload }
     default:

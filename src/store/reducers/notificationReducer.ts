@@ -32,7 +32,7 @@ export const notificationReducer = (state = initialState, action: NotificationAc
     case NotificationActionTypes.DELETE_NOTIFICATION_ERROR:
       return { ...state, loading: false, error: action.payload }
     case NotificationActionTypes.EDIT_NOTIFICATION_SUCCESS:
-      return { ...state, notifications: [...state.notifications, action.payload], loading: false }
+      return { ...state, notifications: [...state.notifications.filter((notification) => notification.id !== action.payload.id), action.payload], loading: false }
     case NotificationActionTypes.EDIT_NOTIFICATION_ERROR:
       return { ...state, loading: false, error: action.payload }
     default:

@@ -43,7 +43,7 @@ export const deleteProject: any = (id: string) => {
 	return async (dispatch: Dispatch<ProjectAction>) => {
 		try {
 			dispatch({ type: ProjectActionTypes.START_PROJECTS })
-			const response = await axios.delete(`${API_URL}/${PROJECTS_PATH}/${id}`)
+			await axios.delete(`${API_URL}/${PROJECTS_PATH}/${id}`)
 			dispatch({
 				type: ProjectActionTypes.DELETE_PROJECT_SUCCESS,
 				payload: id
@@ -61,11 +61,10 @@ export const editProject: any = (projectData: any) => {
 	return async (dispatch: Dispatch<ProjectAction>) => {
 		try {
 			dispatch({ type: ProjectActionTypes.START_PROJECTS })
-			const response = await axios.put(`${API_URL}/${PROJECTS_PATH}/${projectData.id}`, projectData)
-				console.log(response.data, 'edit');
+			await axios.put(`${API_URL}/${PROJECTS_PATH}/${projectData.id}`, projectData)
 			dispatch({
 				type: ProjectActionTypes.EDIT_PROJECT_SUCCESS,
-				payload: response.data
+				payload: projectData
 			})
 		} catch (e) {
 			dispatch({

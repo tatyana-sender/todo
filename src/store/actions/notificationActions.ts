@@ -47,7 +47,7 @@ export const deleteNotification: any = (id: string) => {
   return async (dispatch: Dispatch<NotificationAction>) => {
     try {
       dispatch({ type: NotificationActionTypes.START_NOTIFICATIONS })
-      const response = await axios.delete(`${API_URL}/${NOTIFICATIONS_PATH}/${id}`)
+      await axios.delete(`${API_URL}/${NOTIFICATIONS_PATH}/${id}`)
       dispatch({
         type: NotificationActionTypes.DELETE_NOTIFICATION_SUCCESS,
         payload: id
@@ -65,10 +65,10 @@ export const editNotification: any = (notificationData: any) => {
   return async (dispatch: Dispatch<NotificationAction>) => {
     try {
       dispatch({ type: NotificationActionTypes.START_NOTIFICATIONS })
-      const response = await axios.put(`${API_URL}/${NOTIFICATIONS_PATH}/${notificationData.id}`, notificationData)
+      await axios.put(`${API_URL}/${NOTIFICATIONS_PATH}/${notificationData.id}`, notificationData)
       dispatch({
         type: NotificationActionTypes.EDIT_NOTIFICATION_SUCCESS,
-        payload: response.data
+        payload: notificationData
       })
     } catch (e) {
       dispatch({

@@ -19,14 +19,18 @@ const App:FC = () => {
   const { projects } = useTypedSelector(state => state.project);
   const { currentFilter } = useTypedSelector(state => state.currentFilter);
   const { notifications } = useTypedSelector(state => state.notification);
+  const notificationsWS = useTypedSelector(state => state.notificationWS);
 
   const { fetchTasks, fetchProjects, fetchNotifications } = useActions();
 
   useEffect(() => {
     fetchTasks();
     fetchProjects();
-    fetchNotifications();
   }, []);
+
+  useEffect(() => {
+    fetchNotifications();
+  }, [notificationsWS]);
 
   if (error) {
     return <div>{error}</div>

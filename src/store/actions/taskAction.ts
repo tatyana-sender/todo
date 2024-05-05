@@ -43,7 +43,7 @@ export const deleteTask: any = (id: string) => {
 	return async (dispatch: Dispatch<TaskAction>) => {
 		try {
 			dispatch({ type: TaskActionTypes.START_TASKS })
-			const response = await axios.delete(`${API_URL}/${TASKS_PATH}/${id}`)
+			await axios.delete(`${API_URL}/${TASKS_PATH}/${id}`)
 			dispatch({
 				type: TaskActionTypes.DELETE_TASK_SUCCESS,
 				payload: id
@@ -61,10 +61,10 @@ export const editTask: any = (taskData: any) => {
 	return async (dispatch: Dispatch<TaskAction>) => {
 		try {
 			dispatch({ type: TaskActionTypes.START_TASKS })
-			const response = await axios.put(`${API_URL}/${TASKS_PATH}/${taskData.id}`, taskData)
+			await axios.put(`${API_URL}/${TASKS_PATH}/${taskData.id}`, taskData)
 			dispatch({
 				type: TaskActionTypes.EDIT_TASK_SUCCESS,
-				payload: response.data
+				payload: taskData,
 			})
 		} catch (e) {
 			dispatch({
