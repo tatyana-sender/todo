@@ -6,6 +6,7 @@ import { getRandomInt } from '@/helpers/getRandomInt';
 import { validationSchema } from '@/helpers/validationShema';
 import Button from '@/components/core/Button';
 import DateField from '@/components/core/DateField';
+import TextareaField from '@/components/core/TextareaField';
 
 const AddProject:FC = () => {
   const today = new Date();
@@ -37,7 +38,7 @@ const AddProject:FC = () => {
         <Form>
           <Field type="text" name="title" placeholder="Title" />
           <ErrorMessage name="title" />
-          <Field type="text" name="description" placeholder="Description" />
+          <Field as="textarea" name="description" placeholder="Description" component={TextareaField} />
           <ErrorMessage name="description" />
           <Field name="deadline" component={ DateField } />
           <Button variant="contained">

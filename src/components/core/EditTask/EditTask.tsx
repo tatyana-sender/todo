@@ -8,6 +8,7 @@ import { FILTER_NAMES } from '@/constants/filters';
 import Button from '@/components/core/Button';
 import SelectField from '@/components/core/SelectField';
 import DateField from '@/components/core/DateField';
+import TextareaField from '@/components/core/TextareaField';
 
 interface EditTaskProps {
   currentTask: string
@@ -56,7 +57,7 @@ const EditTask:FC<EditTaskProps> = ({currentTask}) => {
         <Form>
           <Field type="text" name="title" placeholder="Title" />
           <ErrorMessage name="title" />
-          <Field type="text" name="description" placeholder="Description" />
+          <Field as="textarea" name="description" placeholder="Description" component={TextareaField} />
           <ErrorMessage name="description" />
           <Field name="status" options={FILTER_NAMES} component={SelectField} />
           <Field name="project" options={projects} component={SelectField} />

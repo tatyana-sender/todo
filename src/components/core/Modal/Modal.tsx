@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
@@ -6,7 +6,8 @@ import PlusIcon from '@/components/icons/PlusIcon';
 import { ModalWrapper, CloseButton } from '@/components/core/Modal/Modal.styles';
 
 const Modal = () => {
-  const { hideModal} = useActions();
+  const modalRef = useRef<HTMLDivElement>(null);
+  const { hideModal } = useActions();
   const { showModal, modalContent } = useTypedSelector(state => state.modal);
   const dispatch = useDispatch();
 
@@ -18,8 +19,14 @@ const Modal = () => {
     return null;
   }
 
+  const handleResize = () => {
+    if (modalRef.current) {
+      modalRef.current.style.height = `${modalRef.current.children[1].clientHeight + 50}px`;
+    }
+  };
+
   return (
-    <ModalWrapper>
+    <ModalWrapper ref={modalRef} onInput={handleResize}>
       <CloseButton onClick={closeModal} data-testid="close-modal">
         <PlusIcon />
       </CloseButton>

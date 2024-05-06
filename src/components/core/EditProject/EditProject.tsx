@@ -6,6 +6,7 @@ import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { validationSchema } from '@/helpers/validationShema';
 import Button from '@/components/core/Button';
 import DateField from '@/components/core/DateField';
+import TextareaField from '@/components/core/TextareaField';
 
 interface EditProjectProps {
   currentProject: string
@@ -43,7 +44,7 @@ const EditProject:FC<EditProjectProps> = ({currentProject}) => {
         <Form>
           <Field type="text" name="title" placeholder="Title" />
           <ErrorMessage name="title" />
-          <Field type="text" name="description" placeholder="Description" />
+          <Field as="textarea" name="description" placeholder="Description" component={TextareaField} />
           <ErrorMessage name="description" />
           <Field name="deadline" component={ DateField } />
           <Button variant="contained">

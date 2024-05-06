@@ -9,6 +9,7 @@ import { addTask } from '@/store/actions/taskAction';
 import Button from '@/components/core/Button';
 import DateField from '@/components/core/DateField';
 import SelectField from '@/components/core/SelectField';
+import TextareaField from '@/components/core/TextareaField';
 
 interface AddTaskProps {
   currentProject?: string
@@ -53,7 +54,7 @@ const AddTask:FC<AddTaskProps> = ({currentProject}) => {
         <Form>
           <Field type="text" name="title" placeholder="Title" />
           <ErrorMessage name="title" />
-          <Field type="text" name="description" placeholder="Description" />
+          <Field as="textarea" name="description" placeholder="Description" component={TextareaField} />
           <ErrorMessage name="description" />
           <Field name="project" options={projects} component={SelectField} />
           <Field name="deadline" component={DateField} />

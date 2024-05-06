@@ -89,7 +89,7 @@ export default createGlobalStyle(({ theme }) => ({
     }
   },
 
-  'input': {
+  'input, textarea': {
     width: '100%',
     padding: '1rem',
     marginBottom: '2rem',
