@@ -10,7 +10,8 @@ module.exports = {
   },
   target: 'web',
   devServer: {
-    port: '3002',
+    port: '3003',
+    historyApiFallback: true,
     static: {
       directory: path.join(__dirname, 'public'),
     },
@@ -19,10 +20,21 @@ module.exports = {
     liveReload: true,
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.css'],
     alias: {
-      '@components': path.resolve(__dirname, 'src/components'),
+      '@/components': path.resolve(__dirname, 'src/components'),
+      '@/types': path.resolve(__dirname, 'src/types'),
+      '@/hooks': path.resolve(__dirname, 'src/hooks'),
+      '@/helpers': path.resolve(__dirname, 'src/helpers'),
+      '@/store': path.resolve(__dirname, 'src/store'),
+      '@/constants': path.resolve(__dirname, 'src/constants'),
     },
+    modules: [
+      'node_modules',
+      'bower_components',
+      'shared',
+      '/shared/vendor/modules',
+    ],
   },
   module: {
     rules: [
@@ -30,6 +42,15 @@ module.exports = {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: 'ts-loader',
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(cjs|js)$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
       },
     ],
   },
