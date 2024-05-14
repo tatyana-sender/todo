@@ -15,15 +15,15 @@ const SelectField: React.FC<SelectFieldProps> = ({ field, options }) => {
   return(
     <div>
       <select {...field}>
-        {options.map((option) => {
+        {options.map((option, index) => {
           if (typeof option !== 'string') {
             return (
-              <option key={option.id} value={option.id}>
+              <option key={index} value={option.id}>
                 {option.title}
               </option>
             )
           } else {
-            return (option !== 'All') && <option key={option} value={option}>{option}</option>
+            return (option !== 'All') && <option key={index} value={option}>{option}</option>
           }
         })}
       </select>

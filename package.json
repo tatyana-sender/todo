@@ -62,6 +62,7 @@
     "@types/react-redux": "^7.1.25",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
+    "@types/websocket": "^1.0.10",
     "axios": "^1.4.0",
     "css-loader": "^6.8.1",
     "formik": "^2.4.5",
@@ -75,10 +76,13 @@
     "react-router-dom": "^6.14.2",
     "redux": "^4.2.1",
     "redux-mock-store": "^1.5.4",
+    "redux-saga": "^1.3.0",
     "redux-thunk": "^2.4.2",
     "source-map-loader": "^4.0.1",
     "style-loader": "^3.3.3",
     "styled-normalize": "^8.0.7",
+    "typed-redux-saga": "^1.5.0",
+    "websocket": "^1.0.35",
     "yup": "^1.4.0"
   },
   "lint-staged": {

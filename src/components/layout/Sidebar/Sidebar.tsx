@@ -1,20 +1,21 @@
 import React, { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { FILTER_NAMES, FILTER_NOTIFICATIONS } from '@/constants/filters';
+import { setFilter } from '@/store/actions/filterActions';
 import Accordion from '@/components/core/Accordion';
 import Projects from '@/components/layout/Projects';
 import { SidebarWrapper } from '@/components/layout/Sidebar/Sidebar.styles';
 
 const Sidebar:FC = () => {
-  const { setFilter } = useActions();
+  const dispatch = useDispatch();
   const { projects } = useTypedSelector(state => state.project);
   const [activeItem, setActiveItem] = useState('All');
 
   const handleClick = (name: string) => {
-    setFilter(name);
+    dispatch(setFilter(name));
     setActiveItem(name);
   };
 

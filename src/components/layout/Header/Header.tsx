@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import { useActions } from '@/hooks/useActions';
 import BellIcon from '@/components/icons/BellIcon';
 import BellIconFill from '@/components/icons/BellIconFill';
 import CalendarIcon from '@/components/icons/CalendarIcon';
@@ -10,13 +10,13 @@ import Popover from '@/components/core/Popover';
 import { BoxRight, CalendarBox, NotificationBox } from '@/components/layout/Header/Header.styles';
 
 const Header:FC = () => {
-  const { notifications } = useTypedSelector(state => state.notificationWS);
-  const { connectWebSocket } = useActions();
+  const dispatch = useDispatch();
+  const { notificationsWS } = useTypedSelector(state => state.notificationWS);
   const [currentDay, setCurrentDay] = useState<string>('');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   useEffect(() => {
-    connectWebSocket();
+    dispatch({ type: 'CONNECT_WEBSOCKET' });
     const interval = setInterval(() => {
       const currentDate = new Date();
       const options: Intl.DateTimeFormatOptions = {
@@ -29,13 +29,13 @@ const Header:FC = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [dispatch]);
 
   return (
     <BoxRight>
       <NotificationBox>
         <Button variant="text" onClick={() => setIsPopoverOpen(!isPopoverOpen)}>
-          {notifications?.length > 0 ? (
+          {notificationsWS?.length > 0 ? (
             <BellIconFill />
           ) : (
             <BellIcon />
@@ -44,7 +44,7 @@ const Header:FC = () => {
         {isPopoverOpen &&
         <Popover>
           <div>
-            {notifications.slice(-1)[0]}
+            {notificationsWS.slice(-1)[0]}
           </div>
           <NavLink to={`/notifications`}>
             View all

@@ -1,76 +1,76 @@
-import axios from 'axios';
-import { Dispatch } from 'redux';
-import { API_URL, PROJECTS_PATH } from '@/constants/global';
-import { ProjectActionTypes, ProjectAction } from '@/types/project';
+import {
+	addProjectActionError,
+	addProjectActionRequest,
+	addProjectActionSuccess,
+	deleteProjectActionError,
+	deleteProjectActionRequest,
+	deleteProjectActionSuccess,
+	editProjectActionError,
+	editProjectActionRequest,
+	editProjectActionSuccess,
+	fetchProjectErrorAction,
+	fetchProjectRequestAction,
+	fetchProjectSuccessAction,
+	ProjectActionTypes,
+	ProjectProps,
+} from '@/types/project';
 
-export const fetchProjects: any = () => {
-	return async (dispatch: Dispatch<ProjectAction>) => {
-		try {
-			dispatch({ type: ProjectActionTypes.START_PROJECTS })
-			const response = await axios.get(`${API_URL}/${PROJECTS_PATH}`)
-			dispatch({
-				type: ProjectActionTypes.FETCH_PROJECTS_SUCCESS,
-				payload: response.data
-			})
-		} catch (e) {
-			dispatch({
-				type: ProjectActionTypes.FETCH_PROJECTS_ERROR,
-				payload: 'Error with load data'
-			})
-		}
-	}
-}
+export const fetchProjectsRequest = (): fetchProjectRequestAction => ({
+	type: ProjectActionTypes.FETCH_PROJECTS_REQUEST,
+})
 
-export const addProject: any = (projectData: any) => {
-	return async (dispatch: Dispatch<ProjectAction>) => {
-		try {
-			dispatch({ type: ProjectActionTypes.START_PROJECTS })
-			const response = await axios.post(`${API_URL}/${PROJECTS_PATH}`, projectData)
-			dispatch({
-				type: ProjectActionTypes.ADD_PROJECT_SUCCESS,
-				payload: response.data
-			})
-		} catch (e) {
-			dispatch({
-				type: ProjectActionTypes.ADD_PROJECT_ERROR,
-				payload: 'New project wasn`t added'
-			})
-		}
-	}
-}
 
-export const deleteProject: any = (id: string) => {
-	return async (dispatch: Dispatch<ProjectAction>) => {
-		try {
-			dispatch({ type: ProjectActionTypes.START_PROJECTS })
-			await axios.delete(`${API_URL}/${PROJECTS_PATH}/${id}`)
-			dispatch({
-				type: ProjectActionTypes.DELETE_PROJECT_SUCCESS,
-				payload: id
-			})
-		} catch (e) {
-			dispatch({
-				type: ProjectActionTypes.DELETE_PROJECT_ERROR,
-				payload: 'Project wasn`t deleted'
-			})
-		}
-	}
-}
+export const fetchProjectsSuccess = (payload: ProjectProps[]): fetchProjectSuccessAction => ({
+	type: ProjectActionTypes.FETCH_PROJECTS_SUCCESS,
+	payload
+})
 
-export const editProject: any = (projectData: any) => {
-	return async (dispatch: Dispatch<ProjectAction>) => {
-		try {
-			dispatch({ type: ProjectActionTypes.START_PROJECTS })
-			await axios.put(`${API_URL}/${PROJECTS_PATH}/${projectData.id}`, projectData)
-			dispatch({
-				type: ProjectActionTypes.EDIT_PROJECT_SUCCESS,
-				payload: projectData
-			})
-		} catch (e) {
-			dispatch({
-				type: ProjectActionTypes.EDIT_PROJECT_ERROR,
-				payload: 'Project wasn`t edited'
-			})
-		}
-	}
-}
+export const fetchProjectsFail = (payload: string): fetchProjectErrorAction => ({
+	type: ProjectActionTypes.FETCH_PROJECTS_ERROR,
+	payload
+})
+
+export const addProject = (project: ProjectProps): addProjectActionRequest => ({
+	type: ProjectActionTypes.ADD_PROJECT_REQUEST,
+	payload: project
+})
+
+export const addProjectSuccess = (payload: ProjectProps): addProjectActionSuccess => ({
+	type: ProjectActionTypes.ADD_PROJECT_SUCCESS,
+	payload
+})
+
+export const addProjectFail = (payload: string): addProjectActionError => ({
+	type: ProjectActionTypes.ADD_PROJECT_ERROR,
+	payload
+})
+
+export const deleteProject = (payload: string): deleteProjectActionRequest => ({
+	type: ProjectActionTypes.DELETE_PROJECT_REQUEST,
+	payload
+})
+
+export const deleteProjectSuccess = (payload: string): deleteProjectActionSuccess => ({
+	type: ProjectActionTypes.DELETE_PROJECT_SUCCESS,
+	payload
+})
+
+export const deleteProjectFail = (payload: string): deleteProjectActionError => ({
+	type: ProjectActionTypes.DELETE_PROJECT_ERROR,
+	payload
+})
+
+export const editProject = (payload: ProjectProps): editProjectActionRequest => ({
+	type: ProjectActionTypes.EDIT_PROJECT_REQUEST,
+	payload
+})
+
+export const editProjectSuccess = (payload: ProjectProps): editProjectActionSuccess => ({
+	type: ProjectActionTypes.EDIT_PROJECT_SUCCESS,
+	payload
+})
+
+export const editProjectFail = (payload: string): editProjectActionError => ({
+	type: ProjectActionTypes.EDIT_PROJECT_ERROR,
+	payload
+})

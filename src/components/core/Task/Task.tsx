@@ -1,7 +1,9 @@
 import React, { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { TaskProps } from '@/types/types';
-import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { deleteTask } from '@/store/actions/taskAction';
+import { showModal } from '@/store/actions/modalActions';
 import Button from '@/components/core/Button';
 import DotsIcon from '@/components/icons/DotsIcon';
 import Popover from '@/components/core/Popover';
@@ -11,14 +13,14 @@ import EditTask from '@/components/core/EditTask';
 import { Box, Wrapper, Title, CreateDate } from '@/components/core/Task/Task.styles';
 
 const Task:FC<TaskProps> = ({task }) => {
+  const dispatch = useDispatch();
   const { projects } = useTypedSelector(state => state.project);
-  const { deleteTask, showModal } = useActions();
   const { id, title, description, createDate, deadline, project } = task;
   const currentProjectData = projects.filter(item => project === item.id)[0];
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   function handleClick(id: string) {
     const modalContent = <EditTask currentTask={id} />
-    showModal(modalContent);
+    dispatch(showModal(modalContent));
     setIsPopoverOpen(false)
   }
 
@@ -36,7 +38,7 @@ const Task:FC<TaskProps> = ({task }) => {
           <Button onClick={()=>handleClick(id)} data-testid="task-edit">
             <EditIcon />
           </Button>
-          <Button onClick={()=>deleteTask(id)} data-testid="task-delete">
+          <Button onClick={()=>dispatch(deleteTask(id))} data-testid="task-delete">
             <DeleteIcon />
           </Button>
         </Popover>}

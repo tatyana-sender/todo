@@ -1,8 +1,9 @@
 import React, { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { getComparator } from '@/helpers/getComparator';
-import { useActions } from '@/hooks/useActions';
 import { FILTER_NAMES } from '@/constants/filters';
 import { TaskProps } from '@/types/types';
+import { showModal } from '@/store/actions/modalActions';
 import BoardIcon from '@/components/icons/BoardIcon';
 import CalendarIcon from '@/components/icons/CalendarIcon';
 import Header from '@/components/layout/Header';
@@ -20,16 +21,16 @@ interface MainProps {
 }
 
 const Main: FC<MainProps> = ({tasks, currentFilter, currentProject}) => {
+  const dispatch = useDispatch();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isCalendar, setIsCalendar] = useState(false);
   const [isActive, setIsActive] = useState(true);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
 
-  const { showModal } = useActions();
   const openModal = () => {
     const modalContent = <AddTask currentProject={currentProject} />
-    showModal(modalContent);
+    dispatch(showModal(modalContent));
   };
 
   function handleClick(order: string, orderBy: string) {

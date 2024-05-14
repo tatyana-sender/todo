@@ -1,23 +1,26 @@
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 
-import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { validationSchema } from '@/helpers/validationShema';
 import { FILTER_NAMES } from '@/constants/filters';
+import { editTask } from '@/store/actions/taskAction';
+import { hideModal } from '@/store/actions/modalActions';
 import Button from '@/components/core/Button';
 import SelectField from '@/components/core/SelectField';
 import DateField from '@/components/core/DateField';
 import TextareaField from '@/components/core/TextareaField';
+
 
 interface EditTaskProps {
   currentTask: string
 }
 
 const EditTask:FC<EditTaskProps> = ({currentTask}) => {
+  const dispatch = useDispatch();
   const { tasks } = useTypedSelector(state => state.task);
   const { projects } = useTypedSelector(state => state.project);
-  const { editTask, hideModal } = useActions();
   const defaultDeadlineDate = new Date()
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7)
   const currentTaskData = tasks.filter(task => currentTask === task.id)[0];
@@ -42,15 +45,15 @@ const EditTask:FC<EditTaskProps> = ({currentTask}) => {
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        editTask({
+        dispatch(editTask({
           ...newTaskData,
           title: values.title,
           description: values.description,
           status: values.status,
           project: values.project,
           deadline: values.deadline
-        });
-        hideModal();
+        }));
+        dispatch(hideModal());
       }}
     >
       {() => (

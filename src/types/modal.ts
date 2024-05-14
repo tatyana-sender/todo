@@ -10,12 +10,12 @@ export enum ModalActionTypes {
   HIDE_MODAL = "HIDE_MODAL"
 }
 
-interface showModalAction {
+export interface showModalAction {
   type: ModalActionTypes.SHOW_MODAL;
   payload: any;
 }
 
-interface hideModalAction {
+export interface hideModalAction {
   type: ModalActionTypes.HIDE_MODAL;
 }
 

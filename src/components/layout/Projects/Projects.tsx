@@ -1,7 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, {FC, useState} from 'react';
+import { useDispatch } from 'react-redux';
 import { ProjectProps } from '@/types/types';
-import { useActions } from '@/hooks/useActions';
-import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { showModal } from '@/store/actions/modalActions';
 import Header from '@/components/layout/Header';
 import Button from '@/components/core/Button';
 import Popover from '@/components/core/Popover';
@@ -10,18 +10,17 @@ import AddProject from '@/components/core/AddProject';
 import { MainWrapper, Box, ColumnWrapper, Title } from '@/components/layout/Projects/Projects.styles';
 
 interface ProjectsProps {
-  projects?: Array<ProjectProps>,
+  projects: ProjectProps[],
   currentFilter?: string
 }
 
-const Projects: FC<ProjectsProps> = () => {
-  const { projects } = useTypedSelector(state => state.project);
+const Projects: FC<ProjectsProps> = ({ projects }) => {
+  const dispatch = useDispatch();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
-  const { showModal } = useActions();
   const openModal = () => {
     const modalContent = <AddProject />
-    showModal(modalContent);
+    dispatch(showModal(modalContent));
   };
 
   return (

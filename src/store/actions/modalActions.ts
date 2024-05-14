@@ -1,10 +1,10 @@
-import { ModalActionTypes, ModalAction } from '@/types/modal';
+import { hideModalAction, ModalActionTypes, showModalAction } from '@/types/modal';
 
-export const showModal = (content: React.ReactNode) => ({
+export const showModal = (content: React.ReactNode): showModalAction => ({
   type: ModalActionTypes.SHOW_MODAL,
   payload: content,
-});
+})
 
-export const hideModal = () => ({
+export const hideModal = (): hideModalAction => ({
   type: ModalActionTypes.HIDE_MODAL,
-});
+})

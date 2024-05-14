@@ -1,80 +1,63 @@
-import { Dispatch } from 'redux';
-import axios from 'axios';
-import { NotificationActionTypes, setNotification, NotificationAction } from '@/types/notification';
-import { API_URL, NOTIFICATIONS_PATH } from '@/constants/global';
+import {
+  deleteNotificationErrorAction,
+  deleteNotificationRequestAction,
+  deleteNotificationSuccessAction,
+  editNotificationRequestAction,
+  editNotificationSuccessAction,
+  editNotificationErrorAction,
+  fetchNotificationErrorAction,
+  fetchNotificationRequestAction,
+  fetchNotificationSuccessAction,
+  NotificationActionTypes,
+  NotificationProps,
+  setNotificationAction,
+} from '@/types/notification';
 
-export const connectWebSocket = () => (dispatch: Dispatch) => {
-  const ws = new WebSocket('ws://localhost:3001');
-  ws.onopen = () => {
-    console.log('WebSocket connected');
-  };
+export const setNotification = (message: any): setNotificationAction => {console.log(123, message); return({
+  type: NotificationActionTypes.SET_NOTIFICATION,
+  payload: message,
+})};
 
-  ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    if (data.type === 'NOTIFICATION') {
-      dispatch(setNotification(data.message));
-    }
-  };
+export const fetchNotificationsRequest = (): fetchNotificationRequestAction => ({
+  type: NotificationActionTypes.FETCH_NOTIFICATIONS_REQUEST,
+})
 
-  ws.onerror = (error) => {
-    console.error('WebSocket error:', error);
-  };
+export const fetchNotificationsSuccess = (payload: NotificationProps[]): fetchNotificationSuccessAction => ({
+  type: NotificationActionTypes.FETCH_NOTIFICATIONS_SUCCESS,
+  payload
+})
 
-  ws.onclose = () => {
-    console.log('WebSocket closed');
-  };
-};
+export const fetchNotificationsFail = (payload: string): fetchNotificationErrorAction => ({
+  type: NotificationActionTypes.FETCH_NOTIFICATIONS_ERROR,
+  payload
+})
 
-export const fetchNotifications: any = () => {
-  return async (dispatch: Dispatch<NotificationAction>) => {
-    try {
-      dispatch({type: NotificationActionTypes.START_NOTIFICATIONS })
-      const response = await axios.get(`${API_URL}/${NOTIFICATIONS_PATH}`)
-      dispatch({
-        type: NotificationActionTypes.FETCH_NOTIFICATIONS_SUCCESS,
-        payload: response.data
-      })
-    } catch (e) {
-      dispatch({
-        type: NotificationActionTypes.FETCH_NOTIFICATIONS_ERROR,
-        payload: 'Error with load Notifications'
-      })
-    }
-  }
-}
+export const deleteNotification = (payload: string): deleteNotificationRequestAction => ({
+  type: NotificationActionTypes.DELETE_NOTIFICATION_REQUEST,
+  payload
+})
 
-export const deleteNotification: any = (id: string) => {
-  return async (dispatch: Dispatch<NotificationAction>) => {
-    try {
-      dispatch({ type: NotificationActionTypes.START_NOTIFICATIONS })
-      await axios.delete(`${API_URL}/${NOTIFICATIONS_PATH}/${id}`)
-      dispatch({
-        type: NotificationActionTypes.DELETE_NOTIFICATION_SUCCESS,
-        payload: id
-      })
-    } catch (e) {
-      dispatch({
-        type: NotificationActionTypes.DELETE_NOTIFICATION_ERROR,
-        payload: 'Notification wasn`t deleted'
-      })
-    }
-  }
-}
+export const deleteNotificationSuccess = (payload: string): deleteNotificationSuccessAction => ({
+  type: NotificationActionTypes.DELETE_NOTIFICATION_SUCCESS,
+  payload
+})
 
-export const editNotification: any = (notificationData: any) => {
-  return async (dispatch: Dispatch<NotificationAction>) => {
-    try {
-      dispatch({ type: NotificationActionTypes.START_NOTIFICATIONS })
-      await axios.put(`${API_URL}/${NOTIFICATIONS_PATH}/${notificationData.id}`, notificationData)
-      dispatch({
-        type: NotificationActionTypes.EDIT_NOTIFICATION_SUCCESS,
-        payload: notificationData
-      })
-    } catch (e) {
-      dispatch({
-        type: NotificationActionTypes.EDIT_NOTIFICATION_ERROR,
-        payload: 'Notification wasn`t marked'
-      })
-    }
-  }
-}
+export const deleteNotificationFail = (payload: string): deleteNotificationErrorAction => ({
+  type: NotificationActionTypes.DELETE_NOTIFICATION_ERROR,
+  payload
+})
+
+export const editNotification = (payload: NotificationProps): editNotificationRequestAction => ({
+  type: NotificationActionTypes.EDIT_NOTIFICATION_REQUEST,
+  payload
+})
+
+export const editNotificationSuccess = (payload: NotificationProps): editNotificationSuccessAction => ({
+  type: NotificationActionTypes.EDIT_NOTIFICATION_SUCCESS,
+  payload
+})
+
+export const editNotificationFail = (payload: string): editNotificationErrorAction => ({
+  type: NotificationActionTypes.EDIT_NOTIFICATION_ERROR,
+  payload
+})

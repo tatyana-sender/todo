@@ -1,5 +1,3 @@
-import {Dispatch, SetStateAction} from 'react';
-
 export interface IconProps {
   width?: string,
   height?: string,

@@ -14,7 +14,13 @@
       "@/helpers/*": ["src/helpers/*"],
       "@/store/*": ["src/store/*"],
       "@/constants/*": ["src/constants/*"]
-    }
+    },
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost",
+      "es2015.promise"
+    ]
   },
   "include": ["./src/**/*", "./src/*"]
 }
