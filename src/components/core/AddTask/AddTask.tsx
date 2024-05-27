@@ -26,7 +26,7 @@ const AddTask:FC<AddTaskProps> = ({currentProject}) => {
   const taskData = {
     id: `task-${id}`,
     status: 'To do',
-    createDate: today.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }),
+    createDate: today,
     project: currentProject ? currentProject : projects.length > 0 ? projects[0].id : ''
   };
 

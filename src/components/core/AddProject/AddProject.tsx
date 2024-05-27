@@ -17,7 +17,7 @@ const AddProject:FC = () => {
 
   const projectData = {
     id: `project-${id}`,
-    createDate: today.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }),
+    createDate: today,
     tasks: [],
   };
 
