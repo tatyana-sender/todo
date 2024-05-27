@@ -1,8 +1,12 @@
 import React, { FC, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { useTypedSelector } from '@/hooks/useTypedSelector';
-import { useActions } from '@/hooks/useActions';
+import { AppDispatch } from '@/store/index';
+import { fetchProjects } from '@/store/actions/projectAction';
+import { fetchNotifications } from '@/store/actions/notificationActions';
+import { fetchTasks } from '@/store/actions/taskAction';
 import Main from '@/components/layout/Main';
 import Sidebar from '@/components/layout/Sidebar';
 import Modal from '@/components/core/Modal';
@@ -14,6 +18,7 @@ import { useTheme } from './ThemeContext';
 import GlobalStyles from './styles/globalStyles';
 
 const App:FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const { theme } = useTheme();
   const { tasks, loading, error } = useTypedSelector(state => state.task);
   const { projects } = useTypedSelector(state => state.project);
@@ -21,15 +26,13 @@ const App:FC = () => {
   const { notifications } = useTypedSelector(state => state.notification);
   const notificationsWS = useTypedSelector(state => state.notificationWS);
 
-  const { fetchTasks, fetchProjects, fetchNotifications } = useActions();
-
   useEffect(() => {
-    fetchTasks();
-    fetchProjects();
+    dispatch(fetchTasks());
+    dispatch(fetchProjects());
   }, []);
 
   useEffect(() => {
-    fetchNotifications();
+    dispatch(fetchNotifications());
   }, [notificationsWS]);
 
   if (error) {

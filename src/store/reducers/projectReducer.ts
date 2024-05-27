@@ -1,4 +1,6 @@
-import { ProjectState, ProjectAction, ProjectActionTypes } from '@/types/project';
+import { createSlice } from '@reduxjs/toolkit';
+import { addProject, deleteProject, editProject, fetchProjects } from '@/store/actions/projectAction';
+import { ProjectState } from '@/types/project';
 
 const initialState: ProjectState = {
   projects: [],
@@ -6,27 +8,55 @@ const initialState: ProjectState = {
   error: null
 }
 
-export const projectReducer = (state = initialState, action: ProjectAction): ProjectState => {
-  switch (action.type) {
-    case ProjectActionTypes.START_PROJECTS:
-      return { ...state, loading: true }
-    case ProjectActionTypes.FETCH_PROJECTS_SUCCESS:
-      return { ...state, projects: action.payload, loading: false }
-    case ProjectActionTypes.FETCH_PROJECTS_ERROR:
-      return { ...state, loading: false, error: action.payload }
-    case ProjectActionTypes.ADD_PROJECT_SUCCESS:
-      return { ...state, projects: [...state.projects, action.payload], loading: false }
-    case ProjectActionTypes.ADD_PROJECT_ERROR:
-      return { ...state, loading: false, error: action.payload }
-    case ProjectActionTypes.DELETE_PROJECT_SUCCESS:
-      return { ...state, projects: state.projects.filter((project) => project.id !== action.payload), loading: false }
-    case ProjectActionTypes.DELETE_PROJECT_ERROR:
-      return { ...state, loading: false, error: action.payload }
-    case ProjectActionTypes.EDIT_PROJECT_SUCCESS:
-      return { ...state, projects: [...state.projects.filter((project) => project.id !== action.payload.id), action.payload], loading: false }
-    case ProjectActionTypes.EDIT_PROJECT_ERROR:
-      return { ...state, loading: false, error: action.payload }
-    default:
-      return state;
-  }
-}
+const projectSlice = createSlice({
+  name: 'projects',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProjects.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProjects.fulfilled, (state, action) => {
+        state.loading = false;
+        state.projects = action.payload;
+      })
+      .addCase(fetchProjects.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? 'Something went wrong';
+      })
+      .addCase(addProject.fulfilled, (state, action) => {
+        state.loading = false;
+        state.projects.push(action.payload);
+      })
+      .addCase(addProject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? 'Something went wrong';
+      })
+      .addCase(deleteProject.fulfilled, (state, action) => {
+        state.loading = false;
+        state.projects = state.projects.filter((project) => project.id !== action.payload.id);
+      })
+      .addCase(deleteProject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? 'Something went wrong';
+      })
+      .addCase(editProject.fulfilled, (state, action) => {
+        state.loading = false;
+        state.projects = state.projects.map((project) => {
+          if (project.id == action.meta.arg.id) {
+            project.title = action.meta.arg.title;
+            project.description = action.meta.arg.description;
+            project.deadline = action.meta.arg.deadline;
+          }
+          return project;
+        });
+      })
+      .addCase(editProject.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? 'Something went wrong';
+      })
+  },
+});
+
+export default projectSlice.reducer;

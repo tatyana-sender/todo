@@ -1,7 +1,9 @@
 import React, { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { ProjectProps } from '@/types/types';
-import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { AppDispatch } from '@/store/index';
+import { showModal } from '@/store/reducers/modalReducer';
 import Header from '@/components/layout/Header';
 import Button from '@/components/core/Button';
 import Popover from '@/components/core/Popover';
@@ -15,13 +17,13 @@ interface ProjectsProps {
 }
 
 const Projects: FC<ProjectsProps> = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const { projects } = useTypedSelector(state => state.project);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
-  const { showModal } = useActions();
   const openModal = () => {
     const modalContent = <AddProject />
-    showModal(modalContent);
+    dispatch(showModal(modalContent));
   };
 
   return (

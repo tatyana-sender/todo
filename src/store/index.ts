@@ -1,7 +1,15 @@
-import { applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { rootReducer } from './reducers';
+import { configureStore } from '@reduxjs/toolkit';
+import { rootReducer } from '@/store/reducers';
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['modal/showModal'],
+        ignoredPaths: ['modal.modalContent'],
+      },
+    }),
+});
 
-export const store = createStore(rootReducer, applyMiddleware(thunk));
-
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

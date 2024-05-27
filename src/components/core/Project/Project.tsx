@@ -1,7 +1,11 @@
 import React, { FC, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { ProjectProps } from '@/types/types';
-import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { AppDispatch } from '@/store/index';
+import { showModal } from '@/store/reducers/modalReducer';
+import { deleteProject } from '@/store/actions/projectAction';
 import Button from '@/components/core/Button';
 import DotsIcon from '@/components/icons/DotsIcon';
 import Popover from '@/components/core/Popover';
@@ -9,10 +13,9 @@ import EditIcon from '@/components/icons/EditIcon';
 import DeleteIcon from '@/components/icons/DeleteIcon';
 import EditProject from '@/components/core/EditProject';
 import { Box, Wrapper, Title, CreateDate, Deadline, Progressbar } from '@/components/core/Project/Project.styles';
-import {NavLink} from 'react-router-dom';
 
 const Project:FC<ProjectProps> = ({project }) => {
-  const { deleteProject, showModal } = useActions();
+  const dispatch = useDispatch<AppDispatch>();
   const { id, title, description, createDate, deadline } = project;
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { tasks } = useTypedSelector(state => state.task);
@@ -21,7 +24,7 @@ const Project:FC<ProjectProps> = ({project }) => {
   const width = projectTasks.length > 0 ? (filteredTasksLength / projectTasks.length) : 0;
   function handleClick(id: string) {
     const modalContent = <EditProject currentProject={id} />
-    showModal(modalContent);
+    dispatch(showModal(modalContent));
     setIsPopoverOpen(false)
   }
 
@@ -43,7 +46,7 @@ const Project:FC<ProjectProps> = ({project }) => {
           <Button onClick={()=>handleClick(id)} data-testid="project-edit">
             <EditIcon />
           </Button>
-          <Button onClick={()=>deleteProject(id)} data-testid="project-delete">
+          <Button onClick={()=>dispatch(deleteProject(id))} data-testid="project-delete">
             <DeleteIcon />
           </Button>
         </Popover>}

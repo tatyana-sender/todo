@@ -1,9 +1,12 @@
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 
-import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { validationSchema } from '@/helpers/validationShema';
+import { AppDispatch } from '@/store/index';
+import { hideModal } from '@/store/reducers/modalReducer';
+import { editProject } from '@/store/actions/projectAction';
 import Button from '@/components/core/Button';
 import DateField from '@/components/core/DateField';
 import TextareaField from '@/components/core/TextareaField';
@@ -13,8 +16,8 @@ interface EditProjectProps {
 }
 
 const EditProject:FC<EditProjectProps> = ({currentProject}) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { projects } = useTypedSelector(state => state.project);
-  const { editProject, hideModal } = useActions();
   const defaultDeadlineDate = new Date()
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7)
   const currentProjectData = projects.filter(project => currentProject === project.id)[0];
@@ -36,8 +39,13 @@ const EditProject:FC<EditProjectProps> = ({currentProject}) => {
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        editProject({...newProjectData, title: values.title, description: values.description, deadline: values.deadline});
-        hideModal();
+        dispatch(editProject({
+          ...newProjectData,
+          title: values.title,
+          description: values.description,
+          deadline: values.deadline
+        }));
+        dispatch(hideModal());
       }}
     >
       {() => (

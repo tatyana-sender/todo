@@ -1,7 +1,8 @@
 import { Dispatch } from 'redux';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { NotificationActionTypes, setNotification, NotificationAction } from '@/types/notification';
 import { API_URL, NOTIFICATIONS_PATH } from '@/constants/global';
+import { setNotification } from '@/store/reducers/notificationWSReducer';
 
 export const connectWebSocket = () => (dispatch: Dispatch) => {
   const ws = new WebSocket('ws://localhost:3001');
@@ -25,56 +26,17 @@ export const connectWebSocket = () => (dispatch: Dispatch) => {
   };
 };
 
-export const fetchNotifications: any = () => {
-  return async (dispatch: Dispatch<NotificationAction>) => {
-    try {
-      dispatch({type: NotificationActionTypes.START_NOTIFICATIONS })
-      const response = await axios.get(`${API_URL}/${NOTIFICATIONS_PATH}`)
-      dispatch({
-        type: NotificationActionTypes.FETCH_NOTIFICATIONS_SUCCESS,
-        payload: response.data
-      })
-    } catch (e) {
-      dispatch({
-        type: NotificationActionTypes.FETCH_NOTIFICATIONS_ERROR,
-        payload: 'Error with load Notifications'
-      })
-    }
-  }
-}
+export const fetchNotifications: any = createAsyncThunk('notifications/fetchNotifications', async () => {
+  const response = await axios.get(`${API_URL}/${NOTIFICATIONS_PATH}`);
+  return response.data;
+})
 
-export const deleteNotification: any = (id: string) => {
-  return async (dispatch: Dispatch<NotificationAction>) => {
-    try {
-      dispatch({ type: NotificationActionTypes.START_NOTIFICATIONS })
-      await axios.delete(`${API_URL}/${NOTIFICATIONS_PATH}/${id}`)
-      dispatch({
-        type: NotificationActionTypes.DELETE_NOTIFICATION_SUCCESS,
-        payload: id
-      })
-    } catch (e) {
-      dispatch({
-        type: NotificationActionTypes.DELETE_NOTIFICATION_ERROR,
-        payload: 'Notification wasn`t deleted'
-      })
-    }
-  }
-}
+export const deleteNotification: any = createAsyncThunk('notifications/deleteNotification', async (id: string) => {
+  const response = await axios.delete(`${API_URL}/${NOTIFICATIONS_PATH}/${id}`);
+  return response.data;
+});
 
-export const editNotification: any = (notificationData: any) => {
-  return async (dispatch: Dispatch<NotificationAction>) => {
-    try {
-      dispatch({ type: NotificationActionTypes.START_NOTIFICATIONS })
-      await axios.put(`${API_URL}/${NOTIFICATIONS_PATH}/${notificationData.id}`, notificationData)
-      dispatch({
-        type: NotificationActionTypes.EDIT_NOTIFICATION_SUCCESS,
-        payload: notificationData
-      })
-    } catch (e) {
-      dispatch({
-        type: NotificationActionTypes.EDIT_NOTIFICATION_ERROR,
-        payload: 'Notification wasn`t marked'
-      })
-    }
-  }
-}
+export const editNotification: any = createAsyncThunk('notifications/editNotification', async (notificationData: any) => {
+  const response = await axios.put(`${API_URL}/${NOTIFICATIONS_PATH}/${notificationData.id}`, notificationData);
+  return response.data;
+});

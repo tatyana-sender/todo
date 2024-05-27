@@ -1,15 +1,14 @@
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
+import { hideModal } from '@/store/reducers/modalReducer';
 import PlusIcon from '@/components/icons/PlusIcon';
 import { ModalWrapper, CloseButton } from '@/components/core/Modal/Modal.styles';
 
 const Modal = () => {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const { hideModal } = useActions();
-  const { showModal, modalContent } = useTypedSelector(state => state.modal);
   const dispatch = useDispatch();
+  const modalRef = useRef<HTMLDivElement>(null);
+  const { showModal, modalContent } = useTypedSelector(state => state.modal);
 
   const closeModal = () => {
     dispatch(hideModal());

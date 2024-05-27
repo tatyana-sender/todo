@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 
-import { useActions } from '@/hooks/useActions';
 import { useTypedSelector } from '@/hooks/useTypedSelector';
 import { validationSchema } from '@/helpers/validationShema';
 import { FILTER_NAMES } from '@/constants/filters';
+import { AppDispatch } from '@/store/index';
+import { hideModal } from '@/store/reducers/modalReducer';
+import { editTask } from '@/store/actions/taskAction';
 import Button from '@/components/core/Button';
 import SelectField from '@/components/core/SelectField';
 import DateField from '@/components/core/DateField';
@@ -15,9 +18,9 @@ interface EditTaskProps {
 }
 
 const EditTask:FC<EditTaskProps> = ({currentTask}) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { tasks } = useTypedSelector(state => state.task);
   const { projects } = useTypedSelector(state => state.project);
-  const { editTask, hideModal } = useActions();
   const defaultDeadlineDate = new Date()
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7)
   const currentTaskData = tasks.filter(task => currentTask === task.id)[0];
@@ -28,7 +31,7 @@ const EditTask:FC<EditTaskProps> = ({currentTask}) => {
     description: currentTaskData?.description ?? '',
     deadline: new Date(currentTaskData?.deadline) ?? defaultDeadlineDate,
     status: currentTaskData?.status ?? 'To do',
-    project: currentTaskData?.project ?? ''
+    project: currentTaskData?.project ? currentTaskData?.project : projects.length > 0 ? projects[0].id : ''
   };
 
   return (
@@ -42,15 +45,15 @@ const EditTask:FC<EditTaskProps> = ({currentTask}) => {
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        editTask({
+        dispatch(editTask({
           ...newTaskData,
           title: values.title,
           description: values.description,
           status: values.status,
           project: values.project,
           deadline: values.deadline
-        });
-        hideModal();
+        }));
+        dispatch(hideModal());
       }}
     >
       {() => (

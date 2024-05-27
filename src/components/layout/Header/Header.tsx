@@ -10,7 +10,7 @@ import Popover from '@/components/core/Popover';
 import { BoxRight, CalendarBox, NotificationBox } from '@/components/layout/Header/Header.styles';
 
 const Header:FC = () => {
-  const { notifications } = useTypedSelector(state => state.notificationWS);
+  const { notificationsWS } = useTypedSelector(state => state.notificationWS);
   const { connectWebSocket } = useActions();
   const [currentDay, setCurrentDay] = useState<string>('');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -35,7 +35,7 @@ const Header:FC = () => {
     <BoxRight>
       <NotificationBox>
         <Button variant="text" onClick={() => setIsPopoverOpen(!isPopoverOpen)}>
-          {notifications?.length > 0 ? (
+          {notificationsWS?.length > 0 ? (
             <BellIconFill />
           ) : (
             <BellIcon />
@@ -44,7 +44,7 @@ const Header:FC = () => {
         {isPopoverOpen &&
         <Popover>
           <div>
-            {notifications.slice(-1)[0]}
+            {notificationsWS.slice(-1)[0]}
           </div>
           <NavLink to={`/notifications`}>
             View all

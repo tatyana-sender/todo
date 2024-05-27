@@ -1,8 +1,6 @@
-import { NotificationActionTypes, NotificationState, NotificationAction } from '@/types/notification';
-
-const initialWSState: { notifications: any[] } = {
-  notifications: [],
-};
+import { createSlice } from '@reduxjs/toolkit';
+import { NotificationState } from '@/types/notification';
+import { deleteNotification, editNotification, fetchNotifications } from '@/store/actions/notificationActions';
 
 const initialState: NotificationState = {
   notifications: [],
@@ -10,32 +8,47 @@ const initialState: NotificationState = {
   error: null
 };
 
-export const notificationWSReducer = (state = initialWSState, action: any) => {
-  switch (action.type) {
-    case NotificationActionTypes.SET_NOTIFICATION:
-      return {...state, notifications: [...state.notifications, action.payload]}
-    default:
-      return state;
-  }
-};
+const notificationSlice = createSlice({
+  name: 'notifications',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchNotifications.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchNotifications.fulfilled, (state, action) => {
+        state.loading = false;
+        state.notifications = action.payload;
+      })
+      .addCase(fetchNotifications.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? 'Something went wrong';
+      })
+      .addCase(deleteNotification.fulfilled, (state, action) => {
+        state.loading = false;
+        state.notifications = state.notifications.filter((notification) => notification.id !== action.meta.arg);
+      })
+      .addCase(deleteNotification.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? 'Something went wrong';
+      })
+      .addCase(editNotification.fulfilled, (state, action) => {
+        state.loading = false;
+        state.notifications = state.notifications.map((notification) => {
+          if (notification.id == action.payload.id) {
+            notification.status = 'read';
+            return notification;
+          } else {
+            return notification;
+          }
+        });
+      })
+      .addCase(editNotification.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? 'Something went wrong';
+      })
+  },
+});
 
-export const notificationReducer = (state = initialState, action: NotificationAction) => {
-  switch (action.type) {
-    case NotificationActionTypes.START_NOTIFICATIONS:
-      return { ...state, loading: true }
-    case NotificationActionTypes.FETCH_NOTIFICATIONS_SUCCESS:
-      return { ...state, notifications: action.payload, loading: false }
-    case NotificationActionTypes.FETCH_NOTIFICATIONS_ERROR:
-      return { ...state, loading: false, error: action.payload }
-    case NotificationActionTypes.DELETE_NOTIFICATION_SUCCESS:
-      return { ...state, notifications: state.notifications.filter((notification) => notification.id !== action.payload), loading: false }
-    case NotificationActionTypes.DELETE_NOTIFICATION_ERROR:
-      return { ...state, loading: false, error: action.payload }
-    case NotificationActionTypes.EDIT_NOTIFICATION_SUCCESS:
-      return { ...state, notifications: [...state.notifications.filter((notification) => notification.id !== action.payload.id), action.payload], loading: false }
-    case NotificationActionTypes.EDIT_NOTIFICATION_ERROR:
-      return { ...state, loading: false, error: action.payload }
-    default:
-      return state;
-  }
-};
+export default notificationSlice.reducer;

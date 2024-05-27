@@ -1,23 +1,26 @@
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 
-import { useActions } from '@/hooks/useActions';
 import { getRandomInt } from '@/helpers/getRandomInt';
 import { validationSchema } from '@/helpers/validationShema';
+import { AppDispatch } from '@/store/index';
+import { hideModal } from '@/store/reducers/modalReducer';
+import { addProject } from '@/store/actions/projectAction';
 import Button from '@/components/core/Button';
 import DateField from '@/components/core/DateField';
 import TextareaField from '@/components/core/TextareaField';
 
 const AddProject:FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const today = new Date();
   const defaultDeadlineDate = new Date();
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
-  const { addProject, hideModal } = useActions();
   const id = getRandomInt(1000, 10000);
 
   const projectData = {
     id: `project-${id}`,
-    createDate: today.toLocaleString('ru-RU', { year: 'numeric', month: 'numeric', day: 'numeric' }),
+    createDate: today,
     tasks: [],
   };
 
@@ -30,8 +33,13 @@ const AddProject:FC = () => {
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        addProject({...projectData, title: values.title, description: values.description, deadline: values.deadline});
-        hideModal();
+        dispatch(addProject({
+          ...projectData,
+          title: values.title,
+          description: values.description,
+          deadline: values.deadline
+        }));
+        dispatch(hideModal());
       }}
     >
       {() => (

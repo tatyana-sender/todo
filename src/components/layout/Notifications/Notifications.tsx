@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { useActions } from '@/hooks/useActions';
-import { editNotification } from '@/store/actions/notificationActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/store/index';
+import { deleteNotification, editNotification } from '@/store/actions/notificationActions';
 import { NotificationProps } from '@/types/types';
 import DeleteIcon from '@/components/icons/DeleteIcon';
 import Header from '@/components/layout/Header';
@@ -20,13 +21,13 @@ interface NotificationsProps {
 }
 
 const Notifications: FC<NotificationsProps> = ({ notifications, currentFilter }) => {
-  const { editNotification, deleteNotification } = useActions();
+  const dispatch = useDispatch<AppDispatch>();
 
   const changeNotificationStatus = (id: string) => {
-    editNotification({
+    dispatch(editNotification({
       id: id,
       status: 'read'
-    })
+    }));
   }
 
   return (
@@ -46,7 +47,7 @@ const Notifications: FC<NotificationsProps> = ({ notifications, currentFilter })
             return (
               <Notification key={notification.id}>
                 <div>{notification.message}</div>
-                <DeleteButton onClick={()=>deleteNotification(notification.id)}>
+                <DeleteButton onClick={()=>dispatch(deleteNotification(notification.id))}>
                   <DeleteIcon />
                 </DeleteButton>
                 {notification.status === 'new' &&
